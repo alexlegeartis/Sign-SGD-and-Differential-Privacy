@@ -1,4 +1,13 @@
 # Sign-SGD, Heavy-Tailed Noise and Differential Privacy
+**Author:** Alexey Kravatsky (the maintainer of the repo and a participant of m1p)
+**Co-researcher:** Anton Plusnin (sophomore)
+
+**Consultant & Expert:** Savelii Chezhegov
+
+
+## Problem statement
+It will be rigorously formulated only after the completion of the draft abstract.
+
 ## Expected results of the development
 Modification of Sign-SGD that ensures differential privacy and the proof of its convergence with high probability under heavy-tailed noise.
 
@@ -13,3 +22,9 @@ The project must meet the following requirements. First, the accuracy and comple
 
 ## Feasibility of the project
 The main risk is the possibility of flaws in the proofs, although it could be mitigated by rigorous tests (what is false does not tend to work). Another one is the unacceptable complexity of the algorithm. Indeed, no one can guarantee that the algorithm we seek exists. Provided that the mentioned risks are eliminated, the algorithm must be feasible by its design, especially when applied to the tasks of LLMs.
+
+## How to launch the algorithm
+A pipeline will be presented after the experiments are completed and the demo data is published.
+
+## Cite this as:
+When we form a preprint out of this work, we will post a link to it.
