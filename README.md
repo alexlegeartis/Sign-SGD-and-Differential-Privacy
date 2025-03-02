@@ -1,5 +1,6 @@
 # Sign-SGD, Heavy-Tailed Noise and Differential Privacy
 **Author:** Alexey Kravatsky (the maintainer of the repo and a participant of m1p)
+
 **Co-researcher:** Anton Plusnin (sophomore)
 
 **Consultant & Expert:** Savelii Chezhegov
@@ -27,4 +28,4 @@ The main risk is the possibility of flaws in the proofs, although it could be mi
 A pipeline will be presented after the experiments are completed and the demo data is published.
 
 ## Cite this as:
-When we form a preprint out of this work, we will post a link to it.
+We will post a link to the preprint when we finalize the work.
