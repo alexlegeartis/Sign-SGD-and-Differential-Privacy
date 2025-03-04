@@ -1,0 +1,118 @@
+@Misc{Kornilov2025,
+  author    = {Kornilov, Nikita and Zmushko, Philip and Semenov, Andrei and Gasnikov, Alexander and Beznosikov, Alexander},
+  title     = {Sign Operator for Coping with Heavy-Tailed Noise: High Probability Convergence Bounds with Extensions to Distributed Optimization and Comparison Oracle},
+  year      = {2025},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  doi       = {10.48550/ARXIV.2502.07923},
+  groups    = {Key articles},
+  keywords  = {Optimization and Control (math.OC), Machine Learning (cs.LG), FOS: Mathematics, FOS: Mathematics, FOS: Computer and information sciences, FOS: Computer and information sciences},
+  publisher = {arXiv},
+}
+
+@Article{Jin2020,
+  author        = {Jin, Richeng and Huang, Yufan and He, Xiaofan and Dai, Huaiyu and Wu, Tianfu},
+  journal       = {Part of this work is published in IEEE Transactions on Neural Networks and Learning Systems, 2024},
+  title         = {Stochastic-Sign SGD for Federated Learning with Theoretical Guarantees},
+  year          = {2020},
+  issn          = {2162-2388},
+  month         = feb,
+  number        = {2},
+  pages         = {3834--3846},
+  volume        = {36},
+  abstract      = {Federated learning (FL) has emerged as a prominent distributed learning paradigm. FL entails some pressing needs for developing novel parameter estimation approaches with theoretical guarantees of convergence, which are also communication efficient, differentially private and Byzantine resilient in the heterogeneous data distribution settings. Quantization-based SGD solvers have been widely adopted in FL and the recently proposed SIGNSGD with majority vote shows a promising direction. However, no existing methods enjoy all the aforementioned properties. In this paper, we propose an intuitively-simple yet theoretically-sound method based on SIGNSGD to bridge the gap. We present Stochastic-Sign SGD which utilizes novel stochastic-sign based gradient compressors enabling the aforementioned properties in a unified framework. We also present an error-feedback variant of the proposed Stochastic-Sign SGD which further improves the learning performance in FL. We test the proposed method with extensive experiments using deep neural networks on the MNIST dataset and the CIFAR-10 dataset. The experimental results corroborate the effectiveness of the proposed method.},
+  archiveprefix = {arXiv},
+  copyright     = {arXiv.org perpetual, non-exclusive license},
+  date          = {2020-02-25},
+  doi           = {10.1109/tnnls.2023.3345367},
+  eprint        = {2002.10940},
+  file          = {:Jin2020 - Stochastic Sign SGD for Federated Learning with Theoretical Guarantees.pdf:PDF:http\://arxiv.org/pdf/2002.10940v5},
+  groups        = {Key articles},
+  keywords      = {Machine Learning (cs.LG), Machine Learning (stat.ML), FOS: Computer and information sciences},
+  primaryclass  = {cs.LG},
+  publisher     = {Institute of Electrical and Electronics Engineers (IEEE)},
+}
+
+@Article{Richtarik2021,
+  author        = {Richtárik, Peter and Sokolov, Igor and Fatkhullin, Ilyas},
+  title         = {EF21: A New, Simpler, Theoretically Better, and Practically Faster Error Feedback},
+  year          = {2021},
+  month         = jun,
+  abstract      = {Error feedback (EF), also known as error compensation, is an immensely popular convergence stabilization mechanism in the context of distributed training of supervised machine learning models enhanced by the use of contractive communication compression mechanisms, such as Top-$k$. First proposed by Seide et al (2014) as a heuristic, EF resisted any theoretical understanding until recently [Stich et al., 2018, Alistarh et al., 2018]. However, all existing analyses either i) apply to the single node setting only, ii) rely on very strong and often unreasonable assumptions, such global boundedness of the gradients, or iterate-dependent assumptions that cannot be checked a-priori and may not hold in practice, or iii) circumvent these issues via the introduction of additional unbiased compressors, which increase the communication cost. In this work we fix all these deficiencies by proposing and analyzing a new EF mechanism, which we call EF21, which consistently and substantially outperforms EF in practice. Our theoretical analysis relies on standard assumptions only, works in the distributed heterogeneous data setting, and leads to better and more meaningful rates. In particular, we prove that EF21 enjoys a fast $O(1/T)$ convergence rate for smooth nonconvex problems, beating the previous bound of $O(1/T^{2/3})$, which was shown a bounded gradients assumption. We further improve this to a fast linear rate for PL functions, which is the first linear convergence result for an EF-type method not relying on unbiased compressors. Since EF has a large number of applications where it reigns supreme, we believe that our 2021 variant, EF21, can a large impact on the practice of communication efficient distributed learning.},
+  archiveprefix = {arXiv},
+  copyright     = {arXiv.org perpetual, non-exclusive license},
+  doi           = {10.48550/ARXIV.2106.05203},
+  eprint        = {2106.05203},
+  file          = {:Richtarik2021 - EF21_ a New, Simpler, Theoretically Better, and Practically Faster Error Feedback.pdf:PDF:http\://arxiv.org/pdf/2106.05203v1},
+  groups        = {Theory},
+  keywords      = {Machine Learning (cs.LG), Optimization and Control (math.OC), Machine Learning (stat.ML), FOS: Computer and information sciences, FOS: Mathematics},
+  primaryclass  = {cs.LG},
+  publisher     = {arXiv},
+}
+
+@Article{Li2020,
+  author        = {Li, Xiaoyu and Orabona, Francesco},
+  title         = {A High Probability Analysis of Adaptive SGD with Momentum},
+  year          = {2020},
+  month         = jul,
+  abstract      = {Stochastic Gradient Descent (SGD) and its variants are the most used algorithms in machine learning applications. In particular, SGD with adaptive learning rates and momentum is the industry standard to train deep networks. Despite the enormous success of these methods, our theoretical understanding of these variants in the nonconvex setting is not complete, with most of the results only proving convergence in expectation and with strong assumptions on the stochastic gradients. In this paper, we present a high probability analysis for adaptive and momentum algorithms, under weak assumptions on the function, stochastic gradients, and learning rates. We use it to prove for the first time the convergence of the gradients to zero in high probability in the smooth nonconvex setting for Delayed AdaGrad with momentum.},
+  archiveprefix = {arXiv},
+  copyright     = {arXiv.org perpetual, non-exclusive license},
+  doi           = {10.48550/ARXIV.2007.14294},
+  eprint        = {2007.14294},
+  file          = {:Li2020 - A High Probability Analysis of Adaptive SGD with Momentum.pdf:PDF:http\://arxiv.org/pdf/2007.14294v1},
+  groups        = {Theory},
+  keywords      = {Machine Learning (stat.ML), Machine Learning (cs.LG), FOS: Computer and information sciences},
+  primaryclass  = {stat.ML},
+  publisher     = {arXiv},
+}
+
+@Article{Zhang2019,
+  author        = {Zhang, Jingzhao and Karimireddy, Sai Praneeth and Veit, Andreas and Kim, Seungyeon and Reddi, Sashank J and Kumar, Sanjiv and Sra, Suvrit},
+  title         = {Why are Adaptive Methods Good for Attention Models?},
+  year          = {2019},
+  month         = dec,
+  abstract      = {While stochastic gradient descent (SGD) is still the \emph{de facto} algorithm in deep learning, adaptive methods like Clipped SGD/Adam have been observed to outperform SGD across important tasks, such as attention models. The settings under which SGD performs poorly in comparison to adaptive methods are not well understood yet. In this paper, we provide empirical and theoretical evidence that a heavy-tailed distribution of the noise in stochastic gradients is one cause of SGD's poor performance. We provide the first tight upper and lower convergence bounds for adaptive gradient methods under heavy-tailed noise. Further, we demonstrate how gradient clipping plays a key role in addressing heavy-tailed gradient noise. Subsequently, we show how clipping can be applied in practice by developing an \emph{adaptive} coordinate-wise clipping algorithm (ACClip) and demonstrate its superior performance on BERT pretraining and finetuning tasks.},
+  archiveprefix = {arXiv},
+  copyright     = {arXiv.org perpetual, non-exclusive license},
+  doi           = {10.48550/ARXIV.1912.03194},
+  eprint        = {1912.03194},
+  file          = {:Zhang2019 - Why Are Adaptive Methods Good for Attention Models_.pdf:PDF:http\://arxiv.org/pdf/1912.03194v2},
+  groups        = {Experiments},
+  keywords      = {Optimization and Control (math.OC), Machine Learning (cs.LG), FOS: Mathematics, FOS: Computer and information sciences},
+  primaryclass  = {math.OC},
+  publisher     = {arXiv},
+}
+
+@Article{Huebler2024,
+  author        = {Hübler, Florian and Fatkhullin, Ilyas and He, Niao},
+  title         = {From Gradient Clipping to Normalization for Heavy Tailed SGD},
+  year          = {2024},
+  month         = oct,
+  abstract      = {Recent empirical evidence indicates that many machine learning applications involve heavy-tailed gradient noise, which challenges the standard assumptions of bounded variance in stochastic optimization. Gradient clipping has emerged as a popular tool to handle this heavy-tailed noise, as it achieves good performance in this setting both theoretically and practically. However, our current theoretical understanding of non-convex gradient clipping has three main shortcomings. First, the theory hinges on large, increasing clipping thresholds, which are in stark contrast to the small constant clipping thresholds employed in practice. Second, clipping thresholds require knowledge of problem-dependent parameters to guarantee convergence. Lastly, even with this knowledge, current sampling complexity upper bounds for the method are sub-optimal in nearly all parameters. To address these issues, we study convergence of Normalized SGD (NSGD). First, we establish a parameter-free sample complexity for NSGD of $\mathcal{O}\left(\varepsilon^{-\frac{2p}{p-1}}\right)$ to find an $\varepsilon$-stationary point. Furthermore, we prove tightness of this result, by providing a matching algorithm-specific lower bound. In the setting where all problem parameters are known, we show this complexity is improved to $\mathcal{O}\left(\varepsilon^{-\frac{3p-2}{p-1}}\right)$, matching the previously known lower bound for all first-order methods in all problem dependent parameters. Finally, we establish high-probability convergence of NSGD with a mild logarithmic dependence on the failure probability. Our work complements the studies of gradient clipping under heavy tailed noise improving the sample complexities of existing algorithms and offering an alternative mechanism to achieve high probability convergence.},
+  archiveprefix = {arXiv},
+  copyright     = {arXiv.org perpetual, non-exclusive license},
+  doi           = {10.48550/ARXIV.2410.13849},
+  eprint        = {2410.13849},
+  file          = {:Huebler2024 - From Gradient Clipping to Normalization for Heavy Tailed SGD.pdf:PDF:http\://arxiv.org/pdf/2410.13849v1},
+  groups        = {Competitos},
+  keywords      = {Optimization and Control (math.OC), Machine Learning (cs.LG), Machine Learning (stat.ML), FOS: Mathematics, FOS: Computer and information sciences},
+  primaryclass  = {math.OC},
+  publisher     = {arXiv},
+}
+
+@Book{Boyd2004,
+  author  = {Boyd, Stephen},
+  title   = {Convex optimization},
+  year    = {2004},
+  journal = {Cambridge UP},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
+
+@Comment{jabref-meta: grouping:
+0 AllEntriesGroup:;
+1 StaticGroup:Key articles\;0\;1\;\;RRRRRRr\;They are central to our research\;;
+1 StaticGroup:Theory\;0\;1\;\;T\;\;;
+1 StaticGroup:Competitos\;0\;1\;\;C\;Other methods we'd better outdo\;;
+1 StaticGroup:Experiments\;0\;0\;\;\;What to do to test an algorithm\;;
+}
