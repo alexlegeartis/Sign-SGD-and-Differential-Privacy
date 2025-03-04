@@ -2373,7 +2373,7 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">draft_lib.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">kornilov2025</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">Kornilov2025</bcf:citekey>
     <bcf:citekey order="2" intorder="1">Jin2021</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
