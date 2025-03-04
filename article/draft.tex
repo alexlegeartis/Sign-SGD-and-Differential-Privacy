@@ -4,8 +4,8 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{lmodern}
 \usepackage{hyperref}       % hyperlinks
-\usepackage{cleveref}
 \usepackage{url}            % simple URL typesetting
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{amsfonts}       % blackboard math symbols
@@ -16,13 +16,18 @@
 \usepackage{enumitem}
 \usepackage{subcaption}
 \usepackage{graphicx}
+\usepackage{amsthm}
 
-% my fixes for scaling
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
+% Compatibility for biblatex
+\usepackage{csquotes}
+
+% Load biblatex before cleveref
+\usepackage{biblatex}
+\bibliography{draft_lib.bib}
+
+\usepackage{cleveref}
 
 % Theorem environments
-\usepackage{amsthm}
 \newtheorem{assumption}{Assumption}
 \newtheorem{lemma}{Lemma}
 \newtheorem{proposition}{Proposition}
@@ -32,37 +37,34 @@
 \newtheorem{remark}{Remark}
 
 % Comments for co-authors (optional)
-\newcommand{\comment}[2]{{\color{#1} \textbf{#2}}}
+\newcommand{\coauthorcomment}[2]{{\color{#1} \textbf{#2}}}
 
 % Title and author information
 \title{Sign SGD with Heavy-Tailed Noise and Differential Privacy}
 
 \author{
-Alexey Kravatskiy
-\texttt{kravtskii.aiu@phystech.edu}
-\and
-Anton Plusnin
-\texttt{plusnin.aa@phystech.edu}
-\and
-Savelii Chezhegov
-\texttt{chezhegov.sa@phystech.edu}
+  Alexey Kravatskiy\\
+  \texttt{kravtskii.aiu@phystech.edu}
+  \and
+  Anton Plusnin\\
+  \texttt{plusnin.aa@phystech.edu}
+  \and
+  Savelii Chezhegov\\
+  \texttt{chezhegov.sa@phystech.edu}
 }
 
 \date{\today}
-
-\usepackage[backend=biber, style=authoryear]{biblatex}
-\addbibresource{draft_lib.bib}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-For now, see separate file for it.
+For now, see a separate file for it.
 \end{abstract}
 
 \section{Introduction}
-In the recent work \cite{Kornilov2025}, the authors have shown that Sign-SGD with heavy-tailed noise achieves optimal convergence rates under certain assumptions. Additionally, \cite{Jin2021} demonstrated that Sign-SGD can be made differentially private while maintaining good convergence properties.
+In the recent work \parencite{Kornilov2025}, the authors have shown that Sign-SGD with heavy-tailed noise achieves optimal convergence rates under certain assumptions. Additionally, \parencite{Jin2020} demonstrated that Sign-SGD can be made differentially private while maintaining good convergence properties.
 
 \section{Theory}
 Present your theoretical framework, definitions, lemmas, and proofs.
@@ -76,11 +78,10 @@ Summarize your findings and discuss future work.
 \section*{Acknowledgments}
 Optional acknowledgments section.
 
-
 \appendix
 \section{Additional Proofs and Results}
 Include detailed proofs and supplementary materials here.
 
 \printbibliography
 
-\end{document} 
+\end{document}
