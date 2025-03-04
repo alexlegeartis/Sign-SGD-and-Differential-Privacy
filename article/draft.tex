@@ -60,8 +60,10 @@
 \maketitle
 
 \begin{abstract}
-For now, see a separate file for it.
+Federated learning faces the dual challenge of ensuring fast communication and maintaining data privacy. This paper addresses these challenges by proposing a novel modification of the Sign-SGD algorithm, designed to be both communication-efficient and differentially private. Our approach is particularly suited for real-world data characterized by noise distributions with infinite variance and bounded k-th moments, where \( k \) ranges from 1 to 2. We demonstrate that our modified Sign-SGD algorithm achieves differential privacy and converges with high probability, even when the noise is heavy-tailed, asymmetric, or non-unimodal. Additionally, we show that the algorithm's speed is comparable to existing methods. The effectiveness of our approach is validated through improved training quality and speed in Large Language Models.
 \end{abstract}
+
+\noindent \textbf{Keywords:} Sign SGD, differential privacy, high-probability convergence, federated learning, heavy-tailed noise.
 
 \section{Introduction}
 In the recent work \parencite{Kornilov2025}, the authors have shown that Sign-SGD with heavy-tailed noise achieves optimal convergence rates under certain assumptions. Additionally, \parencite{Jin2020} demonstrated that Sign-SGD can be made differentially private while maintaining good convergence properties.

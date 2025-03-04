@@ -1,15 +1,15 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'draft.blg'
-[242] biber-MSWIN64:340> INFO - === 
-[339] Biber.pm:420> INFO - Reading 'draft.bcf'
-[595] Biber.pm:994> INFO - Found 2 citekeys in bib section 0
-[627] Biber.pm:4463> INFO - Processing section 0
-[653] Biber.pm:4654> INFO - Looking for bibtex file 'draft_lib.bib' for section 0
-[796] bibtex.pm:1713> INFO - LaTeX decoding ...
-[833] bibtex.pm:1519> INFO - Found BibTeX data source 'draft_lib.bib'
-[935] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[935] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[935] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[935] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[944] bbl.pm:676> INFO - Writing 'draft.bbl' with encoding 'UTF-8'
-[950] bbl.pm:779> INFO - Output to draft.bbl
+[263] biber-MSWIN64:340> INFO - === 
+[367] Biber.pm:420> INFO - Reading 'draft.bcf'
+[623] Biber.pm:994> INFO - Found 2 citekeys in bib section 0
+[652] Biber.pm:4463> INFO - Processing section 0
+[677] Biber.pm:4654> INFO - Looking for bibtex file 'draft_lib.bib' for section 0
+[823] bibtex.pm:1713> INFO - LaTeX decoding ...
+[866] bibtex.pm:1519> INFO - Found BibTeX data source 'draft_lib.bib'
+[960] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[960] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[960] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[960] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[967] bbl.pm:676> INFO - Writing 'draft.bbl' with encoding 'UTF-8'
+[972] bbl.pm:779> INFO - Output to draft.bbl
