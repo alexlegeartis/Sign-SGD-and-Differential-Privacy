@@ -19,124 +19,108 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global/global}
-    \entry{Jin2020}{article}{}{}
-      \name{author}{5}{}{%
-        {{hash=621e41cecf70774b96857f08dc038a3a}{%
-           family={Jin},
-           familyi={J\bibinitperiod},
-           given={Richeng},
-           giveni={R\bibinitperiod}}}%
-        {{hash=2c0fd5cf468ccbb2d86a96fb7770e661}{%
-           family={Huang},
-           familyi={H\bibinitperiod},
-           given={Yufan},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=5aa58a2bca6c4e324c9c427263692fe8}{%
-           family={He},
-           familyi={H\bibinitperiod},
-           given={Xiaofan},
-           giveni={X\bibinitperiod}}}%
-        {{hash=bae62e9da1bbdeaeac1386cd29233049}{%
-           family={Dai},
+    \entry{Dwork2014}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{2}{}{%
+        {{hash=1d79c93f659e7cef838330312ac1a89b}{%
+           family={Dwork},
            familyi={D\bibinitperiod},
-           given={Huaiyu},
-           giveni={H\bibinitperiod}}}%
-        {{hash=7f5d113814fdd02c4b961e34288e1ed4}{%
-           family={Wu},
-           familyi={W\bibinitperiod},
-           given={Tianfu},
-           giveni={T\bibinitperiod}}}%
-      }
-      \list{publisher}{2}{%
-        {Institute of Electrical}%
-        {Electronics Engineers (IEEE)}%
-      }
-      \strng{namehash}{9ae2faf73760ca0b97ae8f528fc56eda}
-      \strng{fullhash}{f16a828954dc1accec71576aa6720749}
-      \strng{fullhashraw}{f16a828954dc1accec71576aa6720749}
-      \strng{bibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
-      \strng{authorbibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
-      \strng{authornamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
-      \strng{authorfullhash}{f16a828954dc1accec71576aa6720749}
-      \strng{authorfullhashraw}{f16a828954dc1accec71576aa6720749}
-      \field{sortinit}{J}
-      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Federated learning (FL) has emerged as a prominent distributed learning paradigm. FL entails some pressing needs for developing novel parameter estimation approaches with theoretical guarantees of convergence, which are also communication efficient, differentially private and Byzantine resilient in the heterogeneous data distribution settings. Quantization-based SGD solvers have been widely adopted in FL and the recently proposed SIGNSGD with majority vote shows a promising direction. However, no existing methods enjoy all the aforementioned properties. In this paper, we propose an intuitively-simple yet theoretically-sound method based on SIGNSGD to bridge the gap. We present Stochastic-Sign SGD which utilizes novel stochastic-sign based gradient compressors enabling the aforementioned properties in a unified framework. We also present an error-feedback variant of the proposed Stochastic-Sign SGD which further improves the learning performance in FL. We test the proposed method with extensive experiments using deep neural networks on the MNIST dataset and the CIFAR-10 dataset. The experimental results corroborate the effectiveness of the proposed method.}
-      \field{day}{25}
-      \field{eprintclass}{cs.LG}
-      \field{eprinttype}{arXiv}
-      \field{issn}{2162-2388}
-      \field{journaltitle}{Part of this work is published in IEEE Transactions on Neural Networks and Learning Systems, 2024}
-      \field{month}{2}
-      \field{number}{2}
-      \field{title}{Stochastic-Sign SGD for Federated Learning with Theoretical Guarantees}
-      \field{volume}{36}
-      \field{year}{2020}
-      \field{dateera}{ce}
-      \field{pages}{3834\bibrangedash 3846}
-      \range{pages}{13}
-      \verb{doi}
-      \verb 10.1109/tnnls.2023.3345367
-      \endverb
-      \verb{eprint}
-      \verb 2002.10940
-      \endverb
-      \verb{file}
-      \verb :Jin2020 - Stochastic Sign SGD for Federated Learning with Theoretical Guarantees.pdf:PDF:http\://arxiv.org/pdf/2002.10940v5
-      \endverb
-      \keyw{Machine Learning (cs.LG),Machine Learning (stat.ML),FOS: Computer and information sciences}
-    \endentry
-    \entry{Kornilov2025}{misc}{}{}
-      \name{author}{5}{}{%
-        {{hash=4fca3396a2e89c21dc75f24b1217b0c8}{%
-           family={Kornilov},
-           familyi={K\bibinitperiod},
-           given={Nikita},
-           giveni={N\bibinitperiod}}}%
-        {{hash=3422b04c2a5f9f553069e203f693eec0}{%
-           family={Zmushko},
-           familyi={Z\bibinitperiod},
-           given={Philip},
-           giveni={P\bibinitperiod}}}%
-        {{hash=2899d75fe53e38ceacbc55a0885e31a2}{%
-           family={Semenov},
-           familyi={S\bibinitperiod},
-           given={Andrei},
-           giveni={A\bibinitperiod}}}%
-        {{hash=d67c5bf3b7cc0ec3f084a82a52a3c802}{%
-           family={Gasnikov},
-           familyi={G\bibinitperiod},
-           given={Alexander},
-           giveni={A\bibinitperiod}}}%
-        {{hash=938d7f93d04a3d2c386625c94c07b568}{%
-           family={Beznosikov},
-           familyi={B\bibinitperiod},
-           given={Alexander},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=fb63548009f9e40044faf83118db1dda}{%
+           family={Roth},
+           familyi={R\bibinitperiod},
+           given={A.},
            giveni={A\bibinitperiod}}}%
       }
       \list{publisher}{1}{%
-        {arXiv}%
+        {Now Publishers, Inc.}%
       }
-      \strng{namehash}{114df967ba8a1fe5e0b90947e809d775}
-      \strng{fullhash}{ce63be81986543d26a03adb74de4c07b}
-      \strng{fullhashraw}{ce63be81986543d26a03adb74de4c07b}
-      \strng{bibnamehash}{114df967ba8a1fe5e0b90947e809d775}
-      \strng{authorbibnamehash}{114df967ba8a1fe5e0b90947e809d775}
-      \strng{authornamehash}{114df967ba8a1fe5e0b90947e809d775}
-      \strng{authorfullhash}{ce63be81986543d26a03adb74de4c07b}
-      \strng{authorfullhashraw}{ce63be81986543d26a03adb74de4c07b}
-      \field{sortinit}{K}
-      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \strng{namehash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{fullhash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{fullhashraw}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{bibnamehash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{authorbibnamehash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{authornamehash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{authorfullhash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{authorfullhashraw}{a45b315b988c45f0a6f8667f1cd92b40}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Sign Operator for Coping with Heavy-Tailed Noise: High Probability Convergence Bounds with Extensions to Distributed Optimization and Comparison Oracle}
-      \field{year}{2025}
-      \verb{doi}
-      \verb 10.48550/ARXIV.2502.07923
-      \endverb
-      \keyw{Optimization and Control (math.OC),Machine Learning (cs.LG),FOS: Mathematics,FOS: Mathematics,FOS: Computer and information sciences,FOS: Computer and information sciences}
+      \field{journaltitle}{Foundations and Trends{®} in Theoretical Computer Science}
+      \field{number}{3--4}
+      \field{title}{The algorithmic foundations of differential privacy}
+      \field{volume}{9}
+      \field{year}{2014}
+      \field{pages}{211\bibrangedash 407}
+      \range{pages}{197}
+    \endentry
+    \entry{Robbins1951}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=163566b92b332258782e61e3d217a2bb}{%
+           family={Robbins},
+           familyi={R\bibinitperiod},
+           given={Herbert},
+           giveni={H\bibinitperiod}}}%
+        {{hash=95751f7f614bc2af42f1a078b3e2ba61}{%
+           family={Monro},
+           familyi={M\bibinitperiod},
+           given={Sutton},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {JSTOR}%
+      }
+      \strng{namehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{fullhash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{fullhashraw}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{bibnamehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{authorbibnamehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{authornamehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{authorfullhash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{authorfullhashraw}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The annals of mathematical statistics}
+      \field{title}{A stochastic approximation method}
+      \field{year}{1951}
+      \field{pages}{400\bibrangedash 407}
+      \range{pages}{8}
+    \endentry
+    \entry{ShalevShwartz2014}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=a6c5827676b0a2058e5b904c3dd7f878}{%
+           family={Shalev-Shwartz},
+           familyi={S\bibinithyphendelim S\bibinitperiod},
+           given={Shai},
+           giveni={S\bibinitperiod}}}%
+        {{hash=509866d90ae18bfca30c6f4cdc846529}{%
+           family={Ben-David},
+           familyi={B\bibinithyphendelim D\bibinitperiod},
+           given={Shai},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge university press}%
+      }
+      \strng{namehash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{fullhash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{fullhashraw}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{bibnamehash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{authorbibnamehash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{authornamehash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{authorfullhash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{authorfullhashraw}{38fabf8438a7aae182a9d192e7aa2d98}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Understanding machine learning: From theory to algorithms}
+      \field{year}{2014}
     \endentry
   \enddatalist
 \endrefsection

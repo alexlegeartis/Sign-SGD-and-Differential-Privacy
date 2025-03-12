@@ -21,14 +21,21 @@
 \usepackage{graphicx}
 \usepackage{amsthm}
 
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+
+
 % Compatibility for biblatex
 \usepackage{csquotes}
 
 % Load biblatex before cleveref
 \usepackage{biblatex}
-\bibliography{draft_lib.bib}
+\addbibresource{draft_lib.bib}
 
 \usepackage{cleveref}
+
+% Define custom commands if not already defined
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
 
 % Theorem environments
 \newtheorem{assumption}{Assumption}
@@ -41,6 +48,10 @@
 
 % Comments for co-authors (optional)
 \newcommand{\coauthorcomment}[2]{{\color{#1} \textbf{#2}}}
+
+\usepackage{xspace}
+\newcommand{\algname}[1]{{\sf  #1}\xspace}
+\newcommand{\algnamex}[1]{{\sf #1}\xspace}
 
 % Title and author information
 \title{Sign SGD with Heavy-Tailed Noise and Differential Privacy}
@@ -63,7 +74,8 @@
 \maketitle
 
 \begin{abstract}
-Federated learning faces the dual challenge of ensuring fast communication and maintaining data privacy. This paper addresses these challenges by proposing a novel modification of the Sign-SGD algorithm, designed to be both communication-efficient and differentially private. Our approach is particularly suited for real-world data characterized by noise distributions with infinite variance and bounded k-th moments, where \( k \) ranges from 1 to 2. We demonstrate that our modified Sign-SGD algorithm achieves differential privacy and converges with high probability, even when the noise is heavy-tailed, asymmetric, or non-unimodal. Additionally, we show that the algorithm's speed is comparable to existing methods. The effectiveness of our approach is validated through improved training quality and speed in Large Language Models.
+In the era of large models, federated learning has become indispensable like never before. Sound modern federated learning must meet three key requirements. First, the method must process correctly real-world data, which, in case of Large Language Models, means the algorithm must tolerate noise with unbounded variance. Second, to ensure applicability, the algorithm must converge under these conditions with high probability, not only in expectation. Third, the whole procedure must not jeopardize user data. To address these natural requirements, we have constructed a novel modification of Sign version of Stochastic Gradient Descent. In this paper, we demonstrate that it meets all three earlier stated requisites. We start with proving algorithm's high-probability convergence on data with heavy-tailed noise. Then, we prove its differential privacy. Finally, we show the superior performance of the algorithm in training Large Language Models.
+
 \end{abstract}
 
 \paragraph{Keywords:} Sign SGD, differential privacy, high-probability convergence, federated learning, heavy-tailed noise.
@@ -76,7 +88,43 @@ Federated learning faces the dual challenge of ensuring fast communication and m
 \end{enumerate}
 
 \section{Introduction}
-In the recent work \parencite{Kornilov2025}, the authors have shown that Sign-SGD with heavy-tailed noise achieves optimal convergence rates under certain assumptions. Additionally, \parencite{Jin2020} demonstrated that Sign-SGD can be made differentially private while maintaining good convergence properties.
+We start with formal statement of the problem
+\section{Problem statement.}
+\paragraph{Federated optimization problem.}
+We consider the federated optimization problem in machine learning. $I = X \times Y$ is a sample space, where $X$ is a space of feature vectors and $Y$ is a label space. For the hypothesis space $\mathcal{W} \subseteq \R^d$, a loss function is defined as $l: \mathcal{W}\times I \rightarrow \R$ which measures the loss of the prediction on the data point $(x,y) \in I$ based on the hypothesis $w \in \mathcal{W}$. For a dataset $D \subset I$, the global loss function $F:\mathcal{W}\to \R$ is defined as
+\begin{equation}
+F(w) = \frac{1}{|D|}\sum_{(x,y)\in D}l(w;(x,y)).
+\end{equation}
+
+In case of distributed optimization, the dataset is split between $M$ workers. Each worker $m$ has a local dataset $D_m \subset I$ and a local function $f_m:\R^d \to \R$ defined as
+\begin{equation}
+f_m(w)=\frac{1}{|D_m|}\sum_{(x_n,y_n)\in D_m}l(w;(x_n,y_n)),
+\end{equation}
+where $|D_m|$ is the size of worker $m$'s local dataset $D_m$.
+
+Thus, our goal is to solve the following federated optimization problem:
+\begin{equation}
+\min_{w\in \R^d}F(w)~~~~ \text{where}~~~~ F(w) \overset{\mathrm{def}}{=} \frac{1}{M}\sum_{m=1}^{M}f_{m}(w).
+\end{equation}
+
+We assume that the data are distributed over the workers uniformly, consequently, $\EE[f_{m}(w)]=F(w)$ for workers' data distribution.
+  
+\paragraph{Stochastic optimization problem.} The stochastic optimization problem for a smooth non-convex function $f:\R^d \to \R$ is:
+\begin{eqnarray}
+    \min\limits_{x \in \R^d} f(x) := \EE_{\xi \sim \mathcal{S}} [f(x, \xi)],\label{eq: min problem}
+\end{eqnarray}
+where random variable $\xi$ is sampled from an unknown distribution $\mathcal{S}.$ The gradient oracle returns unbiased gradient estimate $\nabla f (x, \xi) \in \R^d$. In machine learning, for instance, $f(x, \xi)$ is a loss function on a sample $\xi$ \parencite{ShalevShwartz2014}.
+
+The most popular algorithm to solve \eqref{eq: min problem} is Stochastic Gradient Descent (\algname{SGD}) 
+ \parencite{Robbins1951}:
+\begin{equation}
+    x^{k+1} = x^k - \gamma_k \cdot  g^k, \quad g^k := \nabla f (x^k, \xi^k). \notag \label{eq: sgd intro}
+\end{equation}
+For non-convex functions, the algorithm must stop at the point with sufficiently small gradient norm.
+
+
+\paragraph{Differential privacy.}
+Additionally, the algorithm must be private, which means it must satisfy $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}.
 
 \section{Theory}
 Present your theoretical framework, definitions, lemmas, and proofs.
@@ -87,7 +135,7 @@ Describe your experimental setup, methodology, and results.
 \section{Conclusion}
 Summarize your findings and discuss future work.
 
-\section*{Acknowledgments}
+\section{Acknowledgments}
 Optional acknowledgments section.
 
 \appendix
