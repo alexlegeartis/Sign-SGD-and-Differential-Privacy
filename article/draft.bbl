@@ -19,6 +19,81 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global/global}
+    \entry{Bernstein2018}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=ace0098662f7a6b41db48aa2d2bf2584}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Jeremy},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ee8c94532b654eef549c5252a0eab051}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Yu-Xiang},
+           giveni={Y\bibinithyphendelim X\bibinitperiod}}}%
+        {{hash=3648b51d63e1ae389e46f87296d4c89a}{%
+           family={Azizzadenesheli},
+           familyi={A\bibinitperiod},
+           given={Kamyar},
+           giveni={K\bibinitperiod}}}%
+        {{hash=d759f492243bb3ad5b49139f1d2f99c4}{%
+           family={Anandkumar},
+           familyi={A\bibinitperiod},
+           given={Animashree},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
+      \strng{fullhash}{8ac88e8c7c517ca6c674ffabf9fb371a}
+      \strng{fullhashraw}{8ac88e8c7c517ca6c674ffabf9fb371a}
+      \strng{bibnamehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
+      \strng{authorbibnamehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
+      \strng{authornamehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
+      \strng{authorfullhash}{8ac88e8c7c517ca6c674ffabf9fb371a}
+      \strng{authorfullhashraw}{8ac88e8c7c517ca6c674ffabf9fb371a}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Conference on Machine Learning}
+      \field{title}{sign{SGD}: Compressed Optimisation for Non-Convex Problems}
+      \field{year}{2018}
+      \field{pages}{560\bibrangedash 569}
+      \range{pages}{10}
+    \endentry
+    \entry{Cutkosky2020}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=9f6de2954fa25c1680954735ef34c8c3}{%
+           family={Cutkosky},
+           familyi={C\bibinitperiod},
+           given={Ashok},
+           giveni={A\bibinitperiod}}}%
+        {{hash=57e6032aa3341211a8e9b9130c8f4d09}{%
+           family={Mehta},
+           familyi={M\bibinitperiod},
+           given={Harsh},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{fullhash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{fullhashraw}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{bibnamehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{authorbibnamehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{authornamehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{authorfullhash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{authorfullhashraw}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{Momentum improves normalized sgd}
+      \field{year}{2020}
+      \field{pages}{2260\bibrangedash 2268}
+      \range{pages}{9}
+    \endentry
     \entry{Dwork2014}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -57,6 +132,315 @@
       \field{pages}{211\bibrangedash 407}
       \range{pages}{197}
     \endentry
+    \entry{Goodfellow2016}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
+           family={Goodfellow},
+           familyi={G\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=40a8e4774982146adc2688546f54efb2}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={Yoshua},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ccec1ccd2e1aa86960eb2e872c6b7020}{%
+           family={Courville},
+           familyi={C\bibinitperiod},
+           given={Aaron},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT press}%
+      }
+      \strng{namehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{fullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{fullhashraw}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{bibnamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorbibnamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authornamehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorfullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorfullhashraw}{3ae53fe582e8a815b118d26947eaa326}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Deep learning}
+      \field{year}{2016}
+    \endentry
+    \entry{Hazan2015}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=0b3d32703edd2b7248e8e8f33c5893db}{%
+           family={Hazan},
+           familyi={H\bibinitperiod},
+           given={Elad},
+           giveni={E\bibinitperiod}}}%
+        {{hash=85d72c0071697d8aa14a3f4ba334631a}{%
+           family={Levy},
+           familyi={L\bibinitperiod},
+           given={Kfir},
+           giveni={K\bibinitperiod}}}%
+        {{hash=a6c5827676b0a2058e5b904c3dd7f878}{%
+           family={Shalev-Shwartz},
+           familyi={S\bibinithyphendelim S\bibinitperiod},
+           given={Shai},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{fullhash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{fullhashraw}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{bibnamehash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{authorbibnamehash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{authornamehash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{authorfullhash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{authorfullhashraw}{fa7bec267c541f30e8ccf39217ad7683}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Beyond convexity: Stochastic quasi-convex optimization}
+      \field{year}{2015}
+      \field{pages}{1594\bibrangedash 1602}
+      \range{pages}{9}
+    \endentry
+    \entry{Jin2020}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=621e41cecf70774b96857f08dc038a3a}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Richeng},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2c0fd5cf468ccbb2d86a96fb7770e661}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yufan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=5aa58a2bca6c4e324c9c427263692fe8}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Xiaofan},
+           giveni={X\bibinitperiod}}}%
+        {{hash=bae62e9da1bbdeaeac1386cd29233049}{%
+           family={Dai},
+           familyi={D\bibinitperiod},
+           given={Huaiyu},
+           giveni={H\bibinitperiod}}}%
+        {{hash=7f5d113814fdd02c4b961e34288e1ed4}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Tianfu},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Institute of Electrical}%
+        {Electronics Engineers (IEEE)}%
+      }
+      \strng{namehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{fullhash}{f16a828954dc1accec71576aa6720749}
+      \strng{fullhashraw}{f16a828954dc1accec71576aa6720749}
+      \strng{bibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authorbibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authornamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authorfullhash}{f16a828954dc1accec71576aa6720749}
+      \strng{authorfullhashraw}{f16a828954dc1accec71576aa6720749}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Federated learning (FL) has emerged as a prominent distributed learning paradigm. FL entails some pressing needs for developing novel parameter estimation approaches with theoretical guarantees of convergence, which are also communication efficient, differentially private and Byzantine resilient in the heterogeneous data distribution settings. Quantization-based SGD solvers have been widely adopted in FL and the recently proposed SIGNSGD with majority vote shows a promising direction. However, no existing methods enjoy all the aforementioned properties. In this paper, we propose an intuitively-simple yet theoretically-sound method based on SIGNSGD to bridge the gap. We present Stochastic-Sign SGD which utilizes novel stochastic-sign based gradient compressors enabling the aforementioned properties in a unified framework. We also present an error-feedback variant of the proposed Stochastic-Sign SGD which further improves the learning performance in FL. We test the proposed method with extensive experiments using deep neural networks on the MNIST dataset and the CIFAR-10 dataset. The experimental results corroborate the effectiveness of the proposed method.}
+      \field{day}{25}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{issn}{2162-2388}
+      \field{journaltitle}{Part of this work is published in IEEE Transactions on Neural Networks and Learning Systems, 2024}
+      \field{month}{2}
+      \field{number}{2}
+      \field{title}{Stochastic-Sign SGD for Federated Learning with Theoretical Guarantees}
+      \field{volume}{36}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{pages}{3834\bibrangedash 3846}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/tnnls.2023.3345367
+      \endverb
+      \verb{eprint}
+      \verb 2002.10940
+      \endverb
+      \verb{file}
+      \verb :Jin2020 - Stochastic Sign SGD for Federated Learning with Theoretical Guarantees.pdf:PDF:http\://arxiv.org/pdf/2002.10940v5
+      \endverb
+      \keyw{Machine Learning (cs.LG),Machine Learning (stat.ML),FOS: Computer and information sciences}
+    \endentry
+    \entry{Kornilov2025}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=4fca3396a2e89c21dc75f24b1217b0c8}{%
+           family={Kornilov},
+           familyi={K\bibinitperiod},
+           given={Nikita},
+           giveni={N\bibinitperiod}}}%
+        {{hash=3422b04c2a5f9f553069e203f693eec0}{%
+           family={Zmushko},
+           familyi={Z\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+        {{hash=2899d75fe53e38ceacbc55a0885e31a2}{%
+           family={Semenov},
+           familyi={S\bibinitperiod},
+           given={Andrei},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d67c5bf3b7cc0ec3f084a82a52a3c802}{%
+           family={Gasnikov},
+           familyi={G\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=938d7f93d04a3d2c386625c94c07b568}{%
+           family={Beznosikov},
+           familyi={B\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{114df967ba8a1fe5e0b90947e809d775}
+      \strng{fullhash}{ce63be81986543d26a03adb74de4c07b}
+      \strng{fullhashraw}{ce63be81986543d26a03adb74de4c07b}
+      \strng{bibnamehash}{114df967ba8a1fe5e0b90947e809d775}
+      \strng{authorbibnamehash}{114df967ba8a1fe5e0b90947e809d775}
+      \strng{authornamehash}{114df967ba8a1fe5e0b90947e809d775}
+      \strng{authorfullhash}{ce63be81986543d26a03adb74de4c07b}
+      \strng{authorfullhashraw}{ce63be81986543d26a03adb74de4c07b}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sign Operator for Coping with Heavy-Tailed Noise: High Probability Convergence Bounds with Extensions to Distributed Optimization and Comparison Oracle}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/ARXIV.2502.07923
+      \endverb
+      \keyw{Optimization and Control (math.OC),Machine Learning (cs.LG),FOS: Mathematics,FOS: Mathematics,FOS: Computer and information sciences,FOS: Computer and information sciences}
+    \endentry
+    \entry{McMahan2017}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=be349ac63090285fa87303a55d511957}{%
+           family={McMahan},
+           familyi={M\bibinitperiod},
+           given={Brendan},
+           giveni={B\bibinitperiod}}}%
+        {{hash=4720b7685b2c38f8a5f238d67aac6c45}{%
+           family={Moore},
+           familyi={M\bibinitperiod},
+           given={Eider},
+           giveni={E\bibinitperiod}}}%
+        {{hash=86066638fba5b4dc33bcee0bcba473cf}{%
+           family={Ramage},
+           familyi={R\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=bd7751169aeb03f0e8ce6fd2a06822d3}{%
+           family={Hampson},
+           familyi={H\bibinitperiod},
+           given={Seth},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f055a5e7ef3fad90289ae0061819e058}{%
+           family={Arcas},
+           familyi={A\bibinitperiod},
+           given={Blaise\bibnamedelima Aguera},
+           giveni={B\bibinitperiod\bibinitdelim A\bibinitperiod},
+           prefix={y},
+           prefixi={y\bibinitperiod}}}%
+      }
+      \strng{namehash}{d09630a633644c2d6bfe26906672e7a7}
+      \strng{fullhash}{6b8be53c02a59438baf3c27c0b389e79}
+      \strng{fullhashraw}{6b8be53c02a59438baf3c27c0b389e79}
+      \strng{bibnamehash}{d09630a633644c2d6bfe26906672e7a7}
+      \strng{authorbibnamehash}{d09630a633644c2d6bfe26906672e7a7}
+      \strng{authornamehash}{d09630a633644c2d6bfe26906672e7a7}
+      \strng{authorfullhash}{6b8be53c02a59438baf3c27c0b389e79}
+      \strng{authorfullhashraw}{6b8be53c02a59438baf3c27c0b389e79}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Artificial Intelligence and Statistics}
+      \field{title}{Communication-Efficient Learning of Deep Networks from Decentralized Data}
+      \field{year}{2017}
+      \field{pages}{1273\bibrangedash 1282}
+      \range{pages}{10}
+    \endentry
+    \entry{Merity2017}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=2bcb1b2c74f1dd53259ace692fc64b56}{%
+           family={Merity},
+           familyi={M\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod}}}%
+        {{hash=15ea9bc75db0deb69067396346fde185}{%
+           family={Keskar},
+           familyi={K\bibinitperiod},
+           given={Nitish\bibnamedelima Shirish},
+           giveni={N\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=d5670b2600fea169724521e252d9d09d}{%
+           family={Socher},
+           familyi={S\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{b892a97147b503f13252288dd61eceaa}
+      \strng{fullhash}{b892a97147b503f13252288dd61eceaa}
+      \strng{fullhashraw}{b892a97147b503f13252288dd61eceaa}
+      \strng{bibnamehash}{b892a97147b503f13252288dd61eceaa}
+      \strng{authorbibnamehash}{b892a97147b503f13252288dd61eceaa}
+      \strng{authornamehash}{b892a97147b503f13252288dd61eceaa}
+      \strng{authorfullhash}{b892a97147b503f13252288dd61eceaa}
+      \strng{authorfullhashraw}{b892a97147b503f13252288dd61eceaa}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1708.02182}
+      \field{title}{Regularizing and optimizing LSTM language models}
+      \field{year}{2017}
+    \endentry
+    \entry{Pascanu2013}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=7045b009b04d57bd2e19b5dfa0864d4f}{%
+           family={Pascanu},
+           familyi={P\bibinitperiod},
+           given={Razvan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a2d359b12ca2fadf0b40136a73f021bb}{%
+           family={Mikolov},
+           familyi={M\bibinitperiod},
+           given={Tomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=40a8e4774982146adc2688546f54efb2}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={Yoshua},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{fullhash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{fullhashraw}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{bibnamehash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{authorbibnamehash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{authornamehash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{authorfullhash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{authorfullhashraw}{219d705befe0e5043ea8e48c4048f89a}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{On the difficulty of training recurrent neural networks}
+      \field{year}{2013}
+      \field{pages}{1310\bibrangedash 1318}
+      \range{pages}{9}
+    \endentry
     \entry{Robbins1951}{article}{}{}
       \name{author}{2}{}{%
         {{hash=163566b92b332258782e61e3d217a2bb}{%
@@ -90,6 +474,65 @@
       \field{year}{1951}
       \field{pages}{400\bibrangedash 407}
       \range{pages}{8}
+    \endentry
+    \entry{Sadiev2023}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=b46d0f3631527a57c0c24037af74d9f4}{%
+           family={Sadiev},
+           familyi={S\bibinitperiod},
+           given={Abdurakhmon},
+           giveni={A\bibinitperiod}}}%
+        {{hash=60f701e1d2220af3500b0377b4473361}{%
+           family={Danilova},
+           familyi={D\bibinitperiod},
+           given={Marina},
+           giveni={M\bibinitperiod}}}%
+        {{hash=983af898a6993185abbf175c968b8cc1}{%
+           family={Gorbunov},
+           familyi={G\bibinitperiod},
+           given={Eduard},
+           giveni={E\bibinitperiod}}}%
+        {{hash=e5161090884f0b715e0e77d9ca691f44}{%
+           family={Horváth},
+           familyi={H\bibinitperiod},
+           given={Samuel},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9bf237a59d859c698045c3e46e4abc83}{%
+           family={Gidel},
+           familyi={G\bibinitperiod},
+           given={Gauthier},
+           giveni={G\bibinitperiod}}}%
+        {{hash=61ac864dbbd67311582368939f9aeb25}{%
+           family={Dvurechensky},
+           familyi={D\bibinitperiod},
+           given={Pavel},
+           giveni={P\bibinitperiod}}}%
+        {{hash=d67c5bf3b7cc0ec3f084a82a52a3c802}{%
+           family={Gasnikov},
+           familyi={G\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=972f2a6c228c82719a54368d49838fd7}{%
+           family={Richtárik},
+           familyi={R\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{4bf830ca64684627bdec4bdf1deb5561}
+      \strng{fullhash}{dce0b0c75803db040a0899a997e61585}
+      \strng{fullhashraw}{dce0b0c75803db040a0899a997e61585}
+      \strng{bibnamehash}{4bf830ca64684627bdec4bdf1deb5561}
+      \strng{authorbibnamehash}{4bf830ca64684627bdec4bdf1deb5561}
+      \strng{authornamehash}{4bf830ca64684627bdec4bdf1deb5561}
+      \strng{authorfullhash}{dce0b0c75803db040a0899a997e61585}
+      \strng{authorfullhashraw}{dce0b0c75803db040a0899a997e61585}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2302.00999}
+      \field{title}{High-Probability Bounds for Stochastic Optimization and Variational Inequalities: the Case of Unbounded Variance}
+      \field{year}{2023}
     \endentry
     \entry{ShalevShwartz2014}{book}{}{}
       \name{author}{2}{}{%

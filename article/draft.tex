@@ -65,6 +65,9 @@
   \and
   Savelii Chezhegov\\
   \texttt{chezhegov.sa@phystech.edu}
+  \and
+  Alexander Beznosikov\\
+  \texttt{beznosikov.an@phystech.edu}
 }
 
 \date{\today}
@@ -88,10 +91,36 @@ In the era of large models, federated learning has become indispensable like nev
 \end{enumerate}
 
 \section{Introduction}
-We start with formal statement of the problem
+Federated Learning is a useful method to train models that require large amounts of data. Indeed, it is often the case that the data is distributed across multiple devices, like mobile phones \parencite{McMahan2017}, and it is not only costly to collect all the data in one place, but often also unacceptable due to the requirements of privacy. On the other hand, training the model only on the local data for a particular user is impossible, as the model is large. Hence, a need for a joint training procedure arises. We come to a setting with a server and a number of workers, where each worker has a local dataset. The goal is to train a model on the data from all the workers, without sharing the data between the workers or with the server.
+
+The most obvious way to train a model in a federated setting is to use Stochastic Gradient Descent (\algname{SGD}) \parencite{Robbins1951} by passing the gradient to the server (add citation). However, when trasmitting the gradient itself, the communication cost is unaffordably high and the privacy of the data is compromised. To address this issue, one can use the Sign Stochastic Gradient Descent algorithm \parencite{Bernstein2018}. This algorithm transmits only the signs of the coordinates of the gradients, which is much cheaper in terms of communication.
+
+Clipping the norm of gradient estimate before \algname{SGD} step, which comprises the method called \algname{ClipSGD}, is another great idea that demonstrates great empirical results \parencite{Pascanu2013, Goodfellow2016}. However, the clipping requires meticulous tuning of the clipping threshold, which was shown to depend on not only iteration number but also the objective function and the noise \parencite[Theorem $3.1$]{Sadiev2023}. In case of federative learning, the search of the threshold is even more complicated, as the data is distributed across the workers and cannot be used for tuning, and the objective function is more complex due to sophistication and size of the model.
+
+The natural simplification of the clipping is normalization of the gradient, which lies at the core of \algname{NSGD} \parencite{Hazan2015}. \algname{NSGD} outperformed \algname{ClipSGD} on the task of sequence labeling via LSTM Language Models \cite{Merity2017}. However, \algname{NSGD}, unlike \algname{ClipSGD} requires larged batch sizes for convergence, which can be mended by applying momentum \cite{Cutkosky2020}. The major drawback of \algname{NSGD} is the absence of proofs of convergence with high probability. Moreover, the method seems to be not private.
+
+As to guarantee the privacy is our priority, we opted to base our algorithm on \algname{SignSGD}. The convergence with high probability of \algname{SignSGD} for the heavy-tailed noise was recently proved \parencite{Kornilov2025}, which makes \algname{SignSGD} a perfect candidate for federated learning. Simultaneously, \algname{SignSGD} was already used as a base to create a differentially private algorithm \parencite{Jin2020}. However, in both cases, no proofs for the convergence of the algorithm in the modern federated learning setting were provided.
+
+In this paper, we propose a modification of \algname{SignSGD} that can be used to train LLMs on real data. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise, and does not require tuning. We also show that our algorithm is differentially private. Finally, we test the algorithm on the training of LLMs.
+
 \section{Problem statement.}
+First, we need to state that we work with stochastic optimization.
+\paragraph{Stochastic optimization problem.} The stochastic optimization problem for a smooth non-convex function $f:\R^d \to \R$ is:
+\begin{eqnarray}
+    \min\limits_{x \in \R^d} f(x) := \EE_{\xi \sim \mathcal{S}} [f(x, \xi)],\label{eq: min problem}
+\end{eqnarray}
+where random variable $\xi$ is sampled from an unknown distribution $\mathcal{S}.$ The gradient oracle returns unbiased gradient estimate $\nabla f (x, \xi) \in \R^d$. In machine learning, for instance, $f(x, \xi)$ is a loss function on a sample $\xi$ \parencite{ShalevShwartz2014}.
+
+The most popular algorithm to solve \eqref{eq: min problem} is Stochastic Gradient Descent (\algname{SGD}) 
+ \parencite{Robbins1951}:
+\begin{equation}
+    x^{k+1} = x^k - \gamma_k \cdot  g^k, \quad g^k := \nabla f (x^k, \xi^k). \notag \label{eq: sgd intro}
+\end{equation}
+For non-convex functions, the algorithm must stop at the point with sufficiently small gradient norm.
+We will apply the algorithm to the federated optimization problem.
+
 \paragraph{Federated optimization problem.}
-We consider the federated optimization problem in machine learning. $I = X \times Y$ is a sample space, where $X$ is a space of feature vectors and $Y$ is a label space. For the hypothesis space $\mathcal{W} \subseteq \R^d$, a loss function is defined as $l: \mathcal{W}\times I \rightarrow \R$ which measures the loss of the prediction on the data point $(x,y) \in I$ based on the hypothesis $w \in \mathcal{W}$. For a dataset $D \subset I$, the global loss function $F:\mathcal{W}\to \R$ is defined as
+Let $I = X \times Y$ be a sample space, where $X$ is a space of feature vectors and $Y$ is a label space. For the hypothesis space $\mathcal{W} \subseteq \R^d$, a loss function is defined as $l: \mathcal{W}\times I \rightarrow \R$ which measures the loss of the prediction on the data point $(x,y) \in I$ based on the hypothesis $w \in \mathcal{W}$. For a dataset $D \subset I$, the global loss function $F:\mathcal{W}\to \R$ is defined as
 \begin{equation}
 F(w) = \frac{1}{|D|}\sum_{(x,y)\in D}l(w;(x,y)).
 \end{equation}
@@ -108,23 +137,16 @@ Thus, our goal is to solve the following federated optimization problem:
 \end{equation}
 
 We assume that the data are distributed over the workers uniformly, consequently, $\EE[f_{m}(w)]=F(w)$ for workers' data distribution.
-  
-\paragraph{Stochastic optimization problem.} The stochastic optimization problem for a smooth non-convex function $f:\R^d \to \R$ is:
-\begin{eqnarray}
-    \min\limits_{x \in \R^d} f(x) := \EE_{\xi \sim \mathcal{S}} [f(x, \xi)],\label{eq: min problem}
-\end{eqnarray}
-where random variable $\xi$ is sampled from an unknown distribution $\mathcal{S}.$ The gradient oracle returns unbiased gradient estimate $\nabla f (x, \xi) \in \R^d$. In machine learning, for instance, $f(x, \xi)$ is a loss function on a sample $\xi$ \parencite{ShalevShwartz2014}.
 
-The most popular algorithm to solve \eqref{eq: min problem} is Stochastic Gradient Descent (\algname{SGD}) 
- \parencite{Robbins1951}:
-\begin{equation}
-    x^{k+1} = x^k - \gamma_k \cdot  g^k, \quad g^k := \nabla f (x^k, \xi^k). \notag \label{eq: sgd intro}
-\end{equation}
-For non-convex functions, the algorithm must stop at the point with sufficiently small gradient norm.
-
+Now, let us introduce the requirements for the algorithm to solve the federated optimization problem.
+\paragraph{Heavy-tailed noise.}
+Noise has bounded $\kappa$-th moment for some $\kappa \in (1,2]$, i.e. $\EE_\xi[\| \nabla f (x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$. In particular, the noise can have unbounded variance, i.e. $\kappa < 2$.
 
 \paragraph{Differential privacy.}
 Additionally, the algorithm must be private, which means it must satisfy $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}.
+
+\paragraph{High-probability convergence.}
+The algorithm must have convergence guarantees which hold true with probability at least $1 - \delta, \delta \in (0,1)$.
 
 \section{Theory}
 Present your theoretical framework, definitions, lemmas, and proofs.
