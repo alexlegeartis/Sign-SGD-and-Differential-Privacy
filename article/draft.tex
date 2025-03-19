@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 
 % More detailed margin control
 \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
@@ -26,6 +26,11 @@
 
 % Compatibility for biblatex
 \usepackage{csquotes}
+
+% added for Strijov to increase baseline stretch
+\usepackage{setspace}
+\setstretch{1.35}
+
 
 % Load biblatex before cleveref
 \usepackage{biblatex}
@@ -104,7 +109,7 @@ As to guarantee the privacy is our priority, we opted to base our algorithm on \
 In this paper, we propose a modification of \algname{SignSGD} that can be used to train LLMs on real data. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise, and does not require tuning. We also show that our algorithm is differentially private. Finally, we test the algorithm on the training of LLMs.
 
 \section{Problem statement.}
-To-do: what kind of distribution $S$ is. Increase fontsize from 10pt to 12pt. Change baseline stretch to 1.35. Change the abstract. It should start with narrow problem. Remove "can" and variants from the paper altogether!
+To-do: what kind of distribution $S$ is. Change the abstract. It should start with narrow problem. Remove "can" and variants from the paper altogether!
 
 First, we need to state that we work with stochastic optimization.
 \paragraph{Stochastic optimization problem.} The stochastic optimization problem for a smooth non-convex function $f:\R^d \to \R$ is:
@@ -154,7 +159,23 @@ The algorithm must have convergence guarantees which hold true with probability 
 Present your theoretical framework, definitions, lemmas, and proofs.
 
 \section{Experiments}
-Describe your experimental setup, methodology, and results.
+In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
+
+\subsection{Synthetic noise.}
+We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has 112 features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise and when the noise is normal (to-do: when we add Student's distribution, we'll have a heavy-tailed noise). The learning rate $\gamma = 0.02$, and there are 1000 iterations for each algorithm. The results are presented in \cref{fig:logreg}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{sign_sgd_dp.png}
+    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of GD, SignGD with majority voting, SGD, and SignSGD with majority voting.}
+    \label{fig:logreg}
+\end{figure}
+
+As we see, Sign-SGD with majority voting has run correctly. It took about four times as many iterations as the standard SGD to converge. Nevertheless, it is only a moderate constant, so the algorithm proved to be applicable in practiceS as we estimated.
+
+Sidenote: I haven't created a draft of the plot or error analysis. The case of training LLMs is for now beyond my competence, and is not essential to the theoretical problem I'm solving. Hence, I start only with training on data with synthetic heavy-tailed noise. There, I already got the computer plot I planned to obtain, so there is no need in draft again.
+
+\subsection{Large models Pre-Training.}
+To-do: training LLMs, using torch etc.
 
 \section{Conclusion}
 Summarize your findings and discuss future work.
