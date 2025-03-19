@@ -1,5 +1,0 @@
-[0] Config.pm:308> INFO - This is Biber 2.20
-[0] Config.pm:311> INFO - Logfile is 'draft_lib.bib.blg'
-[116] biber-MSWIN64:340> INFO - === 
-[529] Utils.pm:410> ERROR - Cannot find 'draft_lib.bib.bcf'!
-[529] Biber.pm:136> INFO - ERRORS: 1

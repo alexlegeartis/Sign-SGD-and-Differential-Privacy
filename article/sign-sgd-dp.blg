@@ -1,0 +1,15 @@
+[0] Config.pm:308> INFO - This is Biber 2.20
+[0] Config.pm:311> INFO - Logfile is 'sign-sgd-dp.blg'
+[115] biber-MSWIN64:340> INFO - === 
+[168] Biber.pm:420> INFO - Reading 'sign-sgd-dp.bcf'
+[281] Biber.pm:994> INFO - Found 13 citekeys in bib section 0
+[295] Biber.pm:4463> INFO - Processing section 0
+[306] Biber.pm:4654> INFO - Looking for bibtex file 'draft_lib.bib' for section 0
+[385] bibtex.pm:1713> INFO - LaTeX decoding ...
+[407] bibtex.pm:1519> INFO - Found BibTeX data source 'draft_lib.bib'
+[504] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[505] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[505] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[505] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[518] bbl.pm:676> INFO - Writing 'sign-sgd-dp.bbl' with encoding 'UTF-8'
+[526] bbl.pm:779> INFO - Output to sign-sgd-dp.bbl

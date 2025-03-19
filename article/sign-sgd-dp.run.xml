@@ -41,13 +41,13 @@
   >
 ]>
 <requests version="1.0">
-  <internal package="biblatex" priority="9" active="0">
+  <internal package="biblatex" priority="9" active="1">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>draft.bcf</file>
+      <file>sign-sgd-dp.bcf</file>
     </provides>
     <requires type="dynamic">
-      <file>draft.bbl</file>
+      <file>sign-sgd-dp.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -64,19 +64,19 @@
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
-      <infile>draft</infile>
+      <infile>sign-sgd-dp</infile>
     </cmdline>
     <input>
-      <file>draft.bcf</file>
+      <file>sign-sgd-dp.bcf</file>
     </input>
     <output>
-      <file>draft.bbl</file>
+      <file>sign-sgd-dp.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>draft.bbl</file>
+      <file>sign-sgd-dp.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>draft.bcf</file>
+      <file>sign-sgd-dp.bcf</file>
     </requires>
     <requires type="editable">
       <file>draft_lib.bib</file>

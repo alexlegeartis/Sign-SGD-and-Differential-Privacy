@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  20 MAR 2025 00:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  20 MAR 2025 00:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./draft.tex
-(draft.tex
+**./sign-sgd-dp.tex
+(sign-sgd-dp.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (C:\Users\Alex\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -753,8 +753,9 @@ LaTeX Font Info:    Trying to load font information for T1+lmr on input line 80
 
 (C:\Users\Alex\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) (draft.aux)
-\openout1 = `draft.aux'.
+)
+(sign-sgd-dp.aux)
+\openout1 = `sign-sgd-dp.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
 LaTeX Font Info:    ... okay on input line 80.
@@ -774,6 +775,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 80.
 LaTeX Font Info:    ... okay on input line 80.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 80.
 LaTeX Font Info:    ... okay on input line 80.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -809,9 +811,9 @@ LaTeX Font Info:    ... okay on input line 80.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring OFF on input line 80.
-(draft.out) (draft.out)
+(sign-sgd-dp.out) (sign-sgd-dp.out)
 \@outlinefile=\write5
-\openout5 = `draft.out'.
+\openout5 = `sign-sgd-dp.out'.
 
 LaTeX Info: Redefining \microtypecontext on input line 80.
 Package microtype Info: Applying patch `item' on input line 80.
@@ -873,11 +875,11 @@ File: english.lbx 2024/03/21 v3.20 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout4 = `draft.bcf'.
+\openout4 = `sign-sgd-dp.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'draft.bbl' found.
- (draft.bbl)
+Package biblatex Info: ... file 'sign-sgd-dp.bbl' found.
+ (sign-sgd-dp.bbl)
 Package biblatex Info: Reference section=0 on input line 80.
 Package biblatex Info: Reference segment=0 on input line 80.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 8
@@ -1004,7 +1006,7 @@ m/m/it/12 x; ^^X\OT1/lmr/m/n/12 (-20) ) \OMS/lmsy/m/n/12 ^^@
 
 [4{C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc
 }]
-<sign_sgd_dp.png, id=107, 867.24pt x 578.16pt>
+<sign_sgd_dp.png, id=115, 867.24pt x 578.16pt>
 File: sign_sgd_dp.png Graphic file (type png)
 <use sign_sgd_dp.png>
 Package pdftex.def Info: sign_sgd_dp.png  used on input line 168.
@@ -1025,59 +1027,52 @@ Package microtype Info: Character `029' is missing
 (microtype)             Ignoring protrusion settings for this character.
 
 
-[7] (draft.aux)
+[7] (sign-sgd-dp.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were undefined references.
 
+Package rerunfilecheck Info: File `sign-sgd-dp.out' has not changed.
+(rerunfilecheck)             Checksum: 6EFBA8029A40C655DE49D8236D460543;1152.
 
-Package rerunfilecheck Warning: File `draft.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+Package biblatex Warning: Please rerun LaTeX.
 
-Package rerunfilecheck Info: Checksums for `draft.out':
-(rerunfilecheck)             Before: 2D75DDA99A2A9A28E15E014822DC9D5D;819
-(rerunfilecheck)             After:  6EFBA8029A40C655DE49D8236D460543;1152.
-Package logreq Info: Writing requests to 'draft.run.xml'.
-\openout1 = `draft.run.xml'.
+Package logreq Info: Writing requests to 'sign-sgd-dp.run.xml'.
+\openout1 = `sign-sgd-dp.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 24516 strings out of 473522
- 442304 string characters out of 5715094
- 1288112 words of memory out of 5000000
- 47224 multiletter control sequences out of 15000+600000
+ 24517 strings out of 473522
+ 442482 string characters out of 5715094
+ 1287771 words of memory out of 5000000
+ 47226 multiletter control sequences out of 15000+600000
  636744 words of font info for 176 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,81p,1280b,1571s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{figure.caption.9} has been referenced but does not 
-exist, replaced by a fixed one
-
-<C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><
-C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C
-:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C
-:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:
-/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/
-Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Us
-ers/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/User
-s/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/
-Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Al
-ex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/Alex
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Alex/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Alex/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Alex/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Alex/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Alex/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/Alex/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on draft.pdf (7 pages, 439918 bytes).
+ 75i,11n,81p,1286b,1571s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb
+><C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb>
+<C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb>
+<C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><
+C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C
+:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/
+Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Us
+ers/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/User
+s/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/
+Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/Al
+ex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Alex/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Alex/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Alex/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Alex/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Alex/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/Alex/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on sign-sgd-dp.pdf (7 pages, 440533 bytes).
 PDF statistics:
- 227 PDF objects out of 1000 (max. 8388607)
- 47 named destinations out of 1000 (max. 500000)
- 44094 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 232 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
+ 44110 words of extra memory for PDF output out of 51595 (max. 10000000)
 
