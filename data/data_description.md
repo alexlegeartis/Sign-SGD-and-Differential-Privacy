@@ -1,1 +1,1 @@
-In this folder, there will be stored demo data to verify theoretical results of the project.
+For now, data is stored with the code. Someday, I will move it here.
