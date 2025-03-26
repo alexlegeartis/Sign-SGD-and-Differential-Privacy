@@ -162,15 +162,15 @@ Present your theoretical framework, definitions, lemmas, and proofs.
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
 
 \subsection{Synthetic noise.}
-We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has 112 features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise and when the noise is normal (to-do: when we add Student's distribution, we'll have a heavy-tailed noise). The learning rate $\gamma = 0.02$, and there are 1000 iterations for each algorithm. The results are presented in \cref{fig:logreg}.
+We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has 112 features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run on 20 workers, with training data distributed between the workers equally. We compare the cases when there is no noise and when the noise is normal with $\sigma^2 = 1/2$ (to-do: when we add Student's distribution, we'll have a heavy-tailed noise). We set the learning rate $\gamma = 0.05$ for \algname{SGD} and 0.02 for \algname{SignSGD}, and there are 2000 iterations for each algorithm. Additionally, we model the time spent on sending the data to the server by ascribing 0.5 ms spent time to each sent bit. The results are presented in \cref{fig:logreg}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.9\textwidth]{sign_sgd_dp.png}
-    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of GD, SignGD with majority voting, SGD, and SignSGD with majority voting.}
+    \includegraphics[width=0.98\textwidth]{../figs/sgd_vs_sign_sgd.pdf}
+    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of SGD and SignSGD with majority voting.}
     \label{fig:logreg}
 \end{figure}
 
-As we see, Sign-SGD with majority voting has run correctly. It took about four times as many iterations as the standard SGD to converge. Nevertheless, it is only a moderate constant, so the algorithm proved to be applicable in practiceS as we estimated.
+As we see, Sign-SGD with majority voting has run correctly. It not only has run faster than SGD, but also has delivered the same test accuracy as SGD did. The algorithm has also been more robust to the noise, as it was able to converge even with the heavy-tailed noise. Crucially, the algorithm has been differentially private, as it has run with dp-sign compressor with parameters $\epsilon = 1$ and $\delta = 10^{-5}$ (this is a TO-DO).
 
 Sidenote: I haven't created a draft of the plot or error analysis. The case of training LLMs is for now beyond my competence, and is not essential to the theoretical problem I'm solving. Hence, I start only with training on data with synthetic heavy-tailed noise. There, I already got the computer plot I planned to obtain, so there is no need in draft again.
 

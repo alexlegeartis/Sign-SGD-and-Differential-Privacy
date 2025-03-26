@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  20 MAR 2025 00:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  27 MAR 2025 00:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1006,14 +1006,14 @@ m/m/it/12 x; ^^X\OT1/lmr/m/n/12 (-20) ) \OMS/lmsy/m/n/12 ^^@
 
 [4{C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc
 }]
-<sign_sgd_dp.png, id=115, 867.24pt x 578.16pt>
-File: sign_sgd_dp.png Graphic file (type png)
-<use sign_sgd_dp.png>
-Package pdftex.def Info: sign_sgd_dp.png  used on input line 168.
-(pdftex.def)             Requested size: 422.77664pt x 281.85406pt.
+<../figs/sgd_vs_sign_sgd.pdf, id=115, 794.97pt x 361.35pt>
+File: ../figs/sgd_vs_sign_sgd.pdf Graphic file (type pdf)
+<use ../figs/sgd_vs_sign_sgd.pdf>
+Package pdftex.def Info: ../figs/sgd_vs_sign_sgd.pdf  used on input line 168.
+(pdftex.def)             Requested size: 460.35791pt x 209.25783pt.
 
 
-[5 <./sign_sgd_dp.png>]
+[5 <../figs/sgd_vs_sign_sgd.pdf>]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 90.
 
@@ -1032,25 +1032,18 @@ Package microtype Info: Character `029' is missing
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `sign-sgd-dp.out' has not changed.
 (rerunfilecheck)             Checksum: 6EFBA8029A40C655DE49D8236D460543;1152.
-
-Package biblatex Warning: Please rerun LaTeX.
-
 Package logreq Info: Writing requests to 'sign-sgd-dp.run.xml'.
 \openout1 = `sign-sgd-dp.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 24517 strings out of 473522
- 442482 string characters out of 5715094
- 1287771 words of memory out of 5000000
+ 24521 strings out of 473522
+ 442632 string characters out of 5715094
+ 1288205 words of memory out of 5000000
  47226 multiletter control sequences out of 15000+600000
- 636744 words of font info for 176 fonts, out of 8000000 for 9000
+ 636951 words of font info for 178 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,11n,81p,1286b,1571s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb
@@ -1070,9 +1063,9 @@ pData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Alex/App
 Data/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Alex/AppDa
 ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/Alex/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on sign-sgd-dp.pdf (7 pages, 440533 bytes).
+Output written on sign-sgd-dp.pdf (7 pages, 455636 bytes).
 PDF statistics:
- 232 PDF objects out of 1000 (max. 8388607)
+ 287 PDF objects out of 1000 (max. 8388607)
  46 named destinations out of 1000 (max. 500000)
  44110 words of extra memory for PDF output out of 51595 (max. 10000000)
 
