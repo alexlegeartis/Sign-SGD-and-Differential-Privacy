@@ -194,6 +194,62 @@
       \field{pages}{1594\bibrangedash 1602}
       \range{pages}{9}
     \endentry
+    \entry{Jin2024}{article}{}
+      \name{author}{6}{}{%
+        {{hash=621e41cecf70774b96857f08dc038a3a}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Richeng},
+           giveni={R\bibinitperiod}}}%
+        {{hash=971013cb1ee3840de7cdd209a4eb8f2d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yuding},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=2c0fd5cf468ccbb2d86a96fb7770e661}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yufan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=5aa58a2bca6c4e324c9c427263692fe8}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Xiaofan},
+           giveni={X\bibinitperiod}}}%
+        {{hash=7f5d113814fdd02c4b961e34288e1ed4}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Tianfu},
+           giveni={T\bibinitperiod}}}%
+        {{hash=bae62e9da1bbdeaeac1386cd29233049}{%
+           family={Dai},
+           familyi={D\bibinitperiod},
+           given={Huaiyu},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{fullhash}{7a02ee6739c2f9b0ccb4d8bd70b2b3c9}
+      \strng{bibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authorbibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authornamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authorfullhash}{7a02ee6739c2f9b0ccb4d8bd70b2b3c9}
+      \field{extraname}{1}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Neural Networks and Learning Systems}
+      \field{number}{2}
+      \field{title}{Sign-Based Gradient Descent With Heterogeneous Data: Convergence and Byzantine Resilience}
+      \field{volume}{36}
+      \field{year}{2025}
+      \field{pages}{3834\bibrangedash 3846}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/TNNLS.2023.3345367
+      \endverb
+      \keyw{Convergence;Resilience;Quantization (signal);Stochastic processes;Servers;Training;Distributed databases;Byzantine resilience;communication efficiency;data heterogeneity;federated learning (FL);sign-based gradient descent}
+    \endentry
     \entry{Jin2020}{article}{}
       \name{author}{5}{}{%
         {{hash=621e41cecf70774b96857f08dc038a3a}{%
@@ -232,6 +288,7 @@
       \strng{authorbibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authornamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authorfullhash}{f16a828954dc1accec71576aa6720749}
+      \field{extraname}{2}
       \field{sortinit}{J}
       \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
       \field{labelnamesource}{author}
