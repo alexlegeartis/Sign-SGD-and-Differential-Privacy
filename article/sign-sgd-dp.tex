@@ -156,7 +156,43 @@ Additionally, the algorithm must be private, which means it must satisfy $(\epsi
 The algorithm must have convergence guarantees which hold true with probability at least $1 - \delta, \delta \in (0,1)$.
 
 \section{Theory}
-Present your theoretical framework, definitions, lemmas, and proofs.
+\subsection{The Algorithm and the compressor}
+The algorithm we are working with can be defined generally as follows:
+\begin{algorithm}[H]
+    \caption{Stochastic-Sign SGD with Majority Vote}
+    \label{alg:stochastic-sign-sgd}
+    \textbf{Input:} Learning rate $\eta$, current hypothesis vector $w^{(t)}$, $M$ workers each with an independent gradient $g_m^{(t)}$, the 1-bit compressor $q(\cdot)$.\\
+    \textbf{On server:}
+    \begin{algorithmic}[1]
+    \STATE Pull $q(g_m^{(t)})$ from each worker $m$.
+    \STATE Compute $\tilde{g}^{(t)} = \text{sign}\left(\frac{1}{M} \sum_{m=1}^M q(g_m^{(t)})\right)$.
+    \STATE Push $\tilde{g}^{(t)}$ to all the workers.
+    \end{algorithmic}
+    \textbf{On each worker:}
+    \begin{algorithmic}[1]
+    \STATE Update $w^{(t+1)} = w^{(t)} - \eta \tilde{g}^{(t)}$.
+    \end{algorithmic}
+    \end{algorithm}
+    
+
+As the algorithm must be differentially private, we use as a 1-bit compressor dp-sign compressor \cite{Jin2020}:
+
+\begin{definition}
+For any given gradient $g_m^{(t)}$, the compressor $\text{dp-sign}$ outputs $\text{dp-sign}(g_m^{(t)}, \epsilon, \delta)$. The $i$-th entry of $\text{dp-sign}(g_m^{(t)}, \epsilon, \delta)$ is given by:
+\[
+\text{dp-sign}(g_m^{(t)}, \epsilon, \delta)_i =
+\begin{cases} y
+1, & \text{with probability } \Phi\left(\frac{(g_m^{(t)})_i}{\sigma}\right), \\
+-1, & \text{with probability } 1 - \Phi\left(\frac{(g_m^{(t)})_i}{\sigma}\right),
+\end{cases}
+\]
+where $\Phi$ is the cumulative distribution function (CDF) of the standard normal distribution; 
+\[
+\sigma = \frac{\Delta_2}{\epsilon \sqrt{2 \ln\left(\frac{1.25}{\delta}\right)}},
+\]
+where $\epsilon$ and $\delta$ are the differential privacy parameters, and $\Delta_2$ is the sensitivity measure.
+\end{definition}
+
 
 \section{Experiments}
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
