@@ -4,6 +4,8 @@
 \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
 
 % Essential packages
+\usepackage{algorithmic}
+\usepackage{algorithm}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -158,41 +160,57 @@ The algorithm must have convergence guarantees which hold true with probability 
 \section{Theory}
 \subsection{The Algorithm and the compressor}
 The algorithm we are working with can be defined generally as follows:
-\begin{algorithm}[H]
-    \caption{Stochastic-Sign SGD with Majority Vote}
-    \label{alg:stochastic-sign-sgd}
-    \textbf{Input:} Learning rate $\eta$, current hypothesis vector $w^{(t)}$, $M$ workers each with an independent gradient $g_m^{(t)}$, the 1-bit compressor $q(\cdot)$.\\
-    \textbf{On server:}
-    \begin{algorithmic}[1]
-    \STATE Pull $q(g_m^{(t)})$ from each worker $m$.
-    \STATE Compute $\tilde{g}^{(t)} = \text{sign}\left(\frac{1}{M} \sum_{m=1}^M q(g_m^{(t)})\right)$.
-    \STATE Push $\tilde{g}^{(t)}$ to all the workers.
+\begin{algorithm}
+    \caption{Stochastic-Sign SGD with majority vote}
+    \label{QuantizedSIGNSGD}
+    \begin{algorithmic}
+        \STATE \textbf{Input}: learning rate $\eta$, current hypothesis vector $w^{(t)}$, $M$ workers each with an independent gradient $\boldsymbol{g}_{m}^{(t)}$, the 1-bit compressor $q(\cdot)$.
+        \STATE \textbf{on server:}
+        \STATE ~~\textbf{pull} $q(\boldsymbol{g}_{m}^{(t)})$ \textbf{from} worker $m$.
+        \STATE ~~\textbf{push} $\tilde{\boldsymbol{g}}^{(t)}= sign\big(\frac{1}{M}\sum_{m=1}^{M}q(\boldsymbol{g}_{m}^{(t)})\big)$ \textbf{to} all the workers.
+        \STATE \textbf{on each worker:}
+        \STATE ~~\textbf{update} $w^{(t+1)} = w^{(t)} - \eta\tilde{\boldsymbol{g}}^{(t)}$.
     \end{algorithmic}
-    \textbf{On each worker:}
-    \begin{algorithmic}[1]
-    \STATE Update $w^{(t+1)} = w^{(t)} - \eta \tilde{g}^{(t)}$.
-    \end{algorithmic}
-    \end{algorithm}
-    
+\end{algorithm}    
 
 As the algorithm must be differentially private, we use as a 1-bit compressor dp-sign compressor \cite{Jin2020}:
 
 \begin{definition}
-For any given gradient $g_m^{(t)}$, the compressor $\text{dp-sign}$ outputs $\text{dp-sign}(g_m^{(t)}, \epsilon, \delta)$. The $i$-th entry of $\text{dp-sign}(g_m^{(t)}, \epsilon, \delta)$ is given by:
-\[
-\text{dp-sign}(g_m^{(t)}, \epsilon, \delta)_i =
-\begin{cases} y
-1, & \text{with probability } \Phi\left(\frac{(g_m^{(t)})_i}{\sigma}\right), \\
--1, & \text{with probability } 1 - \Phi\left(\frac{(g_m^{(t)})_i}{\sigma}\right),
-\end{cases}
-\]
-where $\Phi$ is the cumulative distribution function (CDF) of the standard normal distribution; 
-\[
-\sigma = \frac{\Delta_2}{\epsilon \sqrt{2 \ln\left(\frac{1.25}{\delta}\right)}},
-\]
-where $\epsilon$ and $\delta$ are the differential privacy parameters, and $\Delta_2$ is the sensitivity measure.
+    For any given gradient $\boldsymbol{g}_{m}^{(t)}$, the compressor $dp\text{-}sign$ outputs $dp\text{-}sign(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$. The $i$-th entry of $dp\text{-}sign(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$ is given by
+    \begin{equation}\label{dpsignsgd}
+    \begin{split}
+    &dp\text{-}sign(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)_{i} =
+    \begin{cases}
+    1, ~~~~~~~~~ \text{with probability $\Phi\big(\frac{(\boldsymbol{g}_{m}^{(t)})_{i}}{\sigma}\big)$} \\
+    -1,  ~~~~~~\text{with probability $1-\Phi\big(\frac{(\boldsymbol{g}_{m}^{(t)})_{i}}{\sigma}\big)$}\\
+    \end{cases}
+    \end{split}
+    \end{equation}
+    where $\Phi(\cdot)$ is the cumulative distribution function of the normalized Gaussian distribution; $\sigma = \frac{\Delta_{2}}{\epsilon}\sqrt{2\ln(\frac{1.25}{\delta})}$, where $\epsilon$ and $\delta$ are the differential privacy parameters and $\Delta_2$ is the sensitivity measure.
 \end{definition}
+As stated in Theorem 5 from \cite{Jin2020}, the $dp\text{-}sign$ mechanism is $(\epsilon, \delta)$-differentially private for any $\epsilon$ and $\delta \in (0, 1)$.
 
+\subsection{Convergence for dp-sign}
+Theorem 6 from \cite{Jin2020} should establish probability of the dissimilarity of majority sign of the gradients and majority sign of the dp-signs:   
+\begin{theorem}\label{dp-sign-probabilities}
+    Let $u_{1},u_{2},\cdots,u_{M}$ be $M$ known and fixed real numbers. Further define random variables $\hat{u}_{i}=dp\text{-}sign(u_{i},\epsilon,\delta), \forall 1\leq i \leq M$. Then there always exist a constant $\sigma_{0}$ such that when $\sigma \geq \sigma_{0}$, $P(sign(\frac{1}{M}\sum_{m=1}^{M}\hat{u}_{i})\neq sign(\frac{1}{M}\sum_{m=1}^{M}u_{i})) <\big(1-x^2\big)^{\frac{M}{2}}$,
+    where $x = \frac{|\sum_{m=1}^{M}u_{m}|}{2\sigma M}$.
+\end{theorem}
+However, as we recently found out, the theorem is fundamentally flawed, as it makes $\sigma$ a parameter, while it follow from the definition of the $dp\text{-}sign$ compressor that $\sigma$ is a function of $\epsilon$ and $\delta$. 
+
+Let us suppose that there exist $\epsilon$ and $\delta$ such that for $\sigma(\epsilon, \delta)$, the inequality on probability from the theorem holds true. Then, let us walk through the proof to find a precise lower bound for $\sigma$. If this bound is lower than $\sigma(\epsilon, \delta)$, the theorem is indeed correct.
+
+In the proof of Theorem 6, the authors needed to find the lower bound for the following expression:
+$$\frac{1}{\sqrt{2\pi}\sigma}\bigg[\bigg|\sum_{m=1}^{M}u_{m}\bigg|e^{-\frac{u_{1}^2}{2\sigma^2}}+\bigg|\sum_{m=2}^{M}u_{m}\bigg|\bigg[e^{-\frac{(\sum_{m=2}^{M}u_{m})^2}{2\sigma^2}}-1\bigg]\bigg]$$
+
+Instead of taking limit $\sigma \to \infty$ as they did, we will use the well known relation $e^{-x^2} \geq 1 - x^2$. After applying it to the earlier mentioned expression and making some trivial transformations, we get the following:
+$$\sigma^2 \geq
+\frac{7}{5} \left(u_1^2 + \left|\sum_{m=1}^M u_m\right|^2 + \frac{|u_1|^3}{\left|\sum_{m=1}^M u_m\right|}\right).
+$$
+
+It is a sufficient condition, not a necessary one. However, it reflects the key features of the condition on $\sigma$. $\frac{|u_1|^3}{\left|\sum_{m=1}^M u_m\right|}$ is an extremely unreliable term, as $|u1|$ may be high, especially for heavy-tailed noise, while $\left|\sum_{m=1}^M u_m\right|$ may be small (it is easy to construct an appropriate example, with 3 workers). Hence, the bound on $\sigma$ is not only high, but also unstable. Consequently, we have no proofs whatsoever of the convergence of the algorithm.
+
+Moreover, our misgivings are supported by the fact that in an updated version \cite{Jin2024} of the article \cite{Jin2020}, the authors have removed all mentions of dp-sign. Right now, we are facing the problem that the algorithm for which we sought proofs for more general type of noise, might not make sense at all. This Friday, we are going to discuss the results and update this section.
 
 \section{Experiments}
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
