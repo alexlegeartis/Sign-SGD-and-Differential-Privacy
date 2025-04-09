@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.2 $
+% $ biblatex bbl format version 3.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -18,8 +18,8 @@
 
 
 \refsection{0}
-  \datalist[entry]{nty/global//global/global}
-    \entry{Bernstein2018}{inproceedings}{}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{Bernstein2018}{inproceedings}{}{}
       \name{author}{4}{}{%
         {{hash=ace0098662f7a6b41db48aa2d2bf2584}{%
            family={Bernstein},
@@ -44,10 +44,12 @@
       }
       \strng{namehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
       \strng{fullhash}{8ac88e8c7c517ca6c674ffabf9fb371a}
+      \strng{fullhashraw}{8ac88e8c7c517ca6c674ffabf9fb371a}
       \strng{bibnamehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
       \strng{authorbibnamehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
       \strng{authornamehash}{e68fa2c3292ad6bb9d16fc88dc160f32}
       \strng{authorfullhash}{8ac88e8c7c517ca6c674ffabf9fb371a}
+      \strng{authorfullhashraw}{8ac88e8c7c517ca6c674ffabf9fb371a}
       \field{sortinit}{B}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{labelnamesource}{author}
@@ -58,7 +60,7 @@
       \field{pages}{560\bibrangedash 569}
       \range{pages}{10}
     \endentry
-    \entry{Cutkosky2020}{inproceedings}{}
+    \entry{Cutkosky2020}{inproceedings}{}{}
       \name{author}{2}{}{%
         {{hash=9f6de2954fa25c1680954735ef34c8c3}{%
            family={Cutkosky},
@@ -76,10 +78,12 @@
       }
       \strng{namehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
       \strng{fullhash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{fullhashraw}{d833a87f0a2cad4308e14d5c24a1a7c3}
       \strng{bibnamehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
       \strng{authorbibnamehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
       \strng{authornamehash}{d833a87f0a2cad4308e14d5c24a1a7c3}
       \strng{authorfullhash}{d833a87f0a2cad4308e14d5c24a1a7c3}
+      \strng{authorfullhashraw}{d833a87f0a2cad4308e14d5c24a1a7c3}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
       \field{labelnamesource}{author}
@@ -90,7 +94,7 @@
       \field{pages}{2260\bibrangedash 2268}
       \range{pages}{9}
     \endentry
-    \entry{Dwork2014}{article}{}
+    \entry{Dwork2014}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
       \name{author}{2}{}{%
@@ -110,10 +114,12 @@
       }
       \strng{namehash}{a45b315b988c45f0a6f8667f1cd92b40}
       \strng{fullhash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{fullhashraw}{a45b315b988c45f0a6f8667f1cd92b40}
       \strng{bibnamehash}{a45b315b988c45f0a6f8667f1cd92b40}
       \strng{authorbibnamehash}{a45b315b988c45f0a6f8667f1cd92b40}
       \strng{authornamehash}{a45b315b988c45f0a6f8667f1cd92b40}
       \strng{authorfullhash}{a45b315b988c45f0a6f8667f1cd92b40}
+      \strng{authorfullhashraw}{a45b315b988c45f0a6f8667f1cd92b40}
       \field{sortinit}{D}
       \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
       \field{labelnamesource}{author}
@@ -126,7 +132,7 @@
       \field{pages}{211\bibrangedash 407}
       \range{pages}{197}
     \endentry
-    \entry{Goodfellow2016}{book}{}
+    \entry{Goodfellow2016}{book}{}{}
       \name{author}{3}{}{%
         {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
            family={Goodfellow},
@@ -149,10 +155,12 @@
       }
       \strng{namehash}{3ae53fe582e8a815b118d26947eaa326}
       \strng{fullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{fullhashraw}{3ae53fe582e8a815b118d26947eaa326}
       \strng{bibnamehash}{3ae53fe582e8a815b118d26947eaa326}
       \strng{authorbibnamehash}{3ae53fe582e8a815b118d26947eaa326}
       \strng{authornamehash}{3ae53fe582e8a815b118d26947eaa326}
       \strng{authorfullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{authorfullhashraw}{3ae53fe582e8a815b118d26947eaa326}
       \field{sortinit}{G}
       \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
       \field{labelnamesource}{author}
@@ -160,7 +168,7 @@
       \field{title}{Deep learning}
       \field{year}{2016}
     \endentry
-    \entry{Hazan2015}{inproceedings}{}
+    \entry{Hazan2015}{inproceedings}{}{}
       \name{author}{3}{}{%
         {{hash=0b3d32703edd2b7248e8e8f33c5893db}{%
            family={Hazan},
@@ -180,10 +188,12 @@
       }
       \strng{namehash}{fa7bec267c541f30e8ccf39217ad7683}
       \strng{fullhash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{fullhashraw}{fa7bec267c541f30e8ccf39217ad7683}
       \strng{bibnamehash}{fa7bec267c541f30e8ccf39217ad7683}
       \strng{authorbibnamehash}{fa7bec267c541f30e8ccf39217ad7683}
       \strng{authornamehash}{fa7bec267c541f30e8ccf39217ad7683}
       \strng{authorfullhash}{fa7bec267c541f30e8ccf39217ad7683}
+      \strng{authorfullhashraw}{fa7bec267c541f30e8ccf39217ad7683}
       \field{sortinit}{H}
       \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
       \field{labelnamesource}{author}
@@ -194,7 +204,7 @@
       \field{pages}{1594\bibrangedash 1602}
       \range{pages}{9}
     \endentry
-    \entry{Jin2024}{article}{}
+    \entry{Jin2024}{article}{}{}
       \name{author}{6}{}{%
         {{hash=621e41cecf70774b96857f08dc038a3a}{%
            family={Jin},
@@ -229,10 +239,12 @@
       }
       \strng{namehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{fullhash}{7a02ee6739c2f9b0ccb4d8bd70b2b3c9}
+      \strng{fullhashraw}{7a02ee6739c2f9b0ccb4d8bd70b2b3c9}
       \strng{bibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authorbibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authornamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authorfullhash}{7a02ee6739c2f9b0ccb4d8bd70b2b3c9}
+      \strng{authorfullhashraw}{7a02ee6739c2f9b0ccb4d8bd70b2b3c9}
       \field{extraname}{1}
       \field{sortinit}{J}
       \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
@@ -250,7 +262,7 @@
       \endverb
       \keyw{Convergence;Resilience;Quantization (signal);Stochastic processes;Servers;Training;Distributed databases;Byzantine resilience;communication efficiency;data heterogeneity;federated learning (FL);sign-based gradient descent}
     \endentry
-    \entry{Jin2020}{article}{}
+    \entry{Jin2020}{article}{}{}
       \name{author}{5}{}{%
         {{hash=621e41cecf70774b96857f08dc038a3a}{%
            family={Jin},
@@ -284,10 +296,12 @@
       }
       \strng{namehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{fullhash}{f16a828954dc1accec71576aa6720749}
+      \strng{fullhashraw}{f16a828954dc1accec71576aa6720749}
       \strng{bibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authorbibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authornamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
       \strng{authorfullhash}{f16a828954dc1accec71576aa6720749}
+      \strng{authorfullhashraw}{f16a828954dc1accec71576aa6720749}
       \field{extraname}{2}
       \field{sortinit}{J}
       \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
@@ -318,7 +332,7 @@
       \endverb
       \keyw{Machine Learning (cs.LG),Machine Learning (stat.ML),FOS: Computer and information sciences}
     \endentry
-    \entry{Kornilov2025}{misc}{}
+    \entry{Kornilov2025}{misc}{}{}
       \name{author}{5}{}{%
         {{hash=4fca3396a2e89c21dc75f24b1217b0c8}{%
            family={Kornilov},
@@ -351,10 +365,12 @@
       }
       \strng{namehash}{114df967ba8a1fe5e0b90947e809d775}
       \strng{fullhash}{ce63be81986543d26a03adb74de4c07b}
+      \strng{fullhashraw}{ce63be81986543d26a03adb74de4c07b}
       \strng{bibnamehash}{114df967ba8a1fe5e0b90947e809d775}
       \strng{authorbibnamehash}{114df967ba8a1fe5e0b90947e809d775}
       \strng{authornamehash}{114df967ba8a1fe5e0b90947e809d775}
       \strng{authorfullhash}{ce63be81986543d26a03adb74de4c07b}
+      \strng{authorfullhashraw}{ce63be81986543d26a03adb74de4c07b}
       \field{sortinit}{K}
       \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
       \field{labelnamesource}{author}
@@ -366,7 +382,7 @@
       \endverb
       \keyw{Optimization and Control (math.OC),Machine Learning (cs.LG),FOS: Mathematics,FOS: Mathematics,FOS: Computer and information sciences,FOS: Computer and information sciences}
     \endentry
-    \entry{McMahan2017}{inproceedings}{}
+    \entry{McMahan2017}{inproceedings}{}{}
       \name{author}{5}{}{%
         {{hash=be349ac63090285fa87303a55d511957}{%
            family={McMahan},
@@ -398,10 +414,12 @@
       }
       \strng{namehash}{d09630a633644c2d6bfe26906672e7a7}
       \strng{fullhash}{6b8be53c02a59438baf3c27c0b389e79}
+      \strng{fullhashraw}{6b8be53c02a59438baf3c27c0b389e79}
       \strng{bibnamehash}{d09630a633644c2d6bfe26906672e7a7}
       \strng{authorbibnamehash}{d09630a633644c2d6bfe26906672e7a7}
       \strng{authornamehash}{d09630a633644c2d6bfe26906672e7a7}
       \strng{authorfullhash}{6b8be53c02a59438baf3c27c0b389e79}
+      \strng{authorfullhashraw}{6b8be53c02a59438baf3c27c0b389e79}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -412,7 +430,7 @@
       \field{pages}{1273\bibrangedash 1282}
       \range{pages}{10}
     \endentry
-    \entry{Merity2017}{article}{}
+    \entry{Merity2017}{article}{}{}
       \name{author}{3}{}{%
         {{hash=2bcb1b2c74f1dd53259ace692fc64b56}{%
            family={Merity},
@@ -432,10 +450,12 @@
       }
       \strng{namehash}{b892a97147b503f13252288dd61eceaa}
       \strng{fullhash}{b892a97147b503f13252288dd61eceaa}
+      \strng{fullhashraw}{b892a97147b503f13252288dd61eceaa}
       \strng{bibnamehash}{b892a97147b503f13252288dd61eceaa}
       \strng{authorbibnamehash}{b892a97147b503f13252288dd61eceaa}
       \strng{authornamehash}{b892a97147b503f13252288dd61eceaa}
       \strng{authorfullhash}{b892a97147b503f13252288dd61eceaa}
+      \strng{authorfullhashraw}{b892a97147b503f13252288dd61eceaa}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -444,7 +464,7 @@
       \field{title}{Regularizing and optimizing LSTM language models}
       \field{year}{2017}
     \endentry
-    \entry{Pascanu2013}{inproceedings}{}
+    \entry{Pascanu2013}{inproceedings}{}{}
       \name{author}{3}{}{%
         {{hash=7045b009b04d57bd2e19b5dfa0864d4f}{%
            family={Pascanu},
@@ -464,10 +484,12 @@
       }
       \strng{namehash}{219d705befe0e5043ea8e48c4048f89a}
       \strng{fullhash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{fullhashraw}{219d705befe0e5043ea8e48c4048f89a}
       \strng{bibnamehash}{219d705befe0e5043ea8e48c4048f89a}
       \strng{authorbibnamehash}{219d705befe0e5043ea8e48c4048f89a}
       \strng{authornamehash}{219d705befe0e5043ea8e48c4048f89a}
       \strng{authorfullhash}{219d705befe0e5043ea8e48c4048f89a}
+      \strng{authorfullhashraw}{219d705befe0e5043ea8e48c4048f89a}
       \field{sortinit}{P}
       \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
       \field{labelnamesource}{author}
@@ -478,7 +500,96 @@
       \field{pages}{1310\bibrangedash 1318}
       \range{pages}{9}
     \endentry
-    \entry{Robbins1951}{article}{}
+    \entry{Ponomareva2023}{article}{}{}
+      \name{author}{9}{}{%
+        {{hash=851c35705e68f11fb1b03b2e804aa50d}{%
+           family={Ponomareva},
+           familyi={P\bibinitperiod},
+           given={Natalia},
+           giveni={N\bibinitperiod}}}%
+        {{hash=3cab40be71b4595cab58925baf049287}{%
+           family={Hazimeh},
+           familyi={H\bibinitperiod},
+           given={Hussein},
+           giveni={H\bibinitperiod}}}%
+        {{hash=e132f83947468a31a3caafd88b2659c5}{%
+           family={Kurakin},
+           familyi={K\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=05cfd0bcb3bc857f515fc6e69d6ca277}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Zheng},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=b9b679eec7bd902ffeab061da66a7307}{%
+           family={Denison},
+           familyi={D\bibinitperiod},
+           given={Carson},
+           giveni={C\bibinitperiod}}}%
+        {{hash=707fa44f08f047ab822f84fe38c69dfb}{%
+           family={McMahan},
+           familyi={M\bibinitperiod},
+           given={H.\bibnamedelimi Brendan},
+           giveni={H\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=b6fa64c3195f752823d0759db3cbca91}{%
+           family={Vassilvitskii},
+           familyi={V\bibinitperiod},
+           given={Sergei},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e1c13b75205f1834db07168d13c39231}{%
+           family={Chien},
+           familyi={C\bibinitperiod},
+           given={Steve},
+           giveni={S\bibinitperiod}}}%
+        {{hash=caaaf78e4ea5134f14ec5cc490265c9e}{%
+           family={Thakurta},
+           familyi={T\bibinitperiod},
+           given={Abhradeep},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{b896b0d82c2a49f658141f510575f918}
+      \strng{fullhash}{e227da10d3dea26ce4f75adc838b47a9}
+      \strng{fullhashraw}{e227da10d3dea26ce4f75adc838b47a9}
+      \strng{bibnamehash}{b896b0d82c2a49f658141f510575f918}
+      \strng{authorbibnamehash}{b896b0d82c2a49f658141f510575f918}
+      \strng{authornamehash}{b896b0d82c2a49f658141f510575f918}
+      \strng{authorfullhash}{e227da10d3dea26ce4f75adc838b47a9}
+      \strng{authorfullhashraw}{e227da10d3dea26ce4f75adc838b47a9}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{ML models are ubiquitous in real world applications and are a constant focus of research. At the same time, the community has started to realize the importance of protecting the privacy of ML training data. Differential Privacy (DP) has become a gold standard for making formal statements about data anonymization. However, while some adoption of DP has happened in industry, attempts to apply DP to real world complex ML models are still few and far between. The adoption of DP is hindered by limited practical guidance of what DP protection entails, what privacy guarantees to aim for, and the difficulty of achieving good privacy-utility-computation trade-offs for ML models. Tricks for tuning and maximizing performance are scattered among papers or stored in the heads of practitioners. Furthermore, the literature seems to present conflicting evidence on how and whether to apply architectural adjustments and which components are "safe" to use with DP. This work is a self-contained guide that gives an in-depth overview of the field of DP ML and presents information about achieving the best possible DP ML model with rigorous privacy guarantees. Our target audience is both researchers and practitioners. Researchers interested in DP for ML will benefit from a clear overview of current advances and areas for improvement. We include theory-focused sections that highlight important topics such as privacy accounting and its assumptions, and convergence. For a practitioner, we provide a background in DP theory and a clear step-by-step guide for choosing an appropriate privacy definition and approach, implementing DP training, potentially updating the model architecture, and tuning hyperparameters. For both researchers and practitioners, consistently and fully reporting privacy guarantees is critical, and so we propose a set of specific best practices for stating guarantees.}
+      \field{issn}{1076-9757}
+      \field{journaltitle}{Journal of Artificial Intelligence Research}
+      \field{month}{7}
+      \field{note}{arXiv:2303.00654 [cs]}
+      \field{shorttitle}{How to {DP}-fy {ML}}
+      \field{title}{How to {DP}-fy {ML}: {A} {Practical} {Guide} to {Machine} {Learning} with {Differential} {Privacy}}
+      \field{urlday}{9}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{volume}{77}
+      \field{year}{2023}
+      \field{urldateera}{ce}
+      \field{pages}{1113\bibrangedash 1201}
+      \range{pages}{89}
+      \verb{doi}
+      \verb 10.1613/jair.1.14649
+      \endverb
+      \verb{file}
+      \verb Preprint PDF:Ponomareva2023 - How to DP Fy ML_ a Practical Guide to Machine Learning with Differential Privacy.pdf:PDF:http\://arxiv.org/pdf/2303.00654v3
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2303.00654
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2303.00654
+      \endverb
+      \keyw{Computer Science - Machine Learning,Computer Science - Cryptography and Security,Statistics - Machine Learning}
+    \endentry
+    \entry{Robbins1951}{article}{}{}
       \name{author}{2}{}{%
         {{hash=163566b92b332258782e61e3d217a2bb}{%
            family={Robbins},
@@ -496,10 +607,12 @@
       }
       \strng{namehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
       \strng{fullhash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{fullhashraw}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
       \strng{bibnamehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
       \strng{authorbibnamehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
       \strng{authornamehash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
       \strng{authorfullhash}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
+      \strng{authorfullhashraw}{5d85b58c5cbfcc8fc266cf4f5f6fbdbb}
       \field{sortinit}{R}
       \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
       \field{labelnamesource}{author}
@@ -510,7 +623,7 @@
       \field{pages}{400\bibrangedash 407}
       \range{pages}{8}
     \endentry
-    \entry{Sadiev2023}{article}{}
+    \entry{Sadiev2023}{article}{}{}
       \name{author}{8}{}{%
         {{hash=b46d0f3631527a57c0c24037af74d9f4}{%
            family={Sadiev},
@@ -555,10 +668,12 @@
       }
       \strng{namehash}{4bf830ca64684627bdec4bdf1deb5561}
       \strng{fullhash}{dce0b0c75803db040a0899a997e61585}
+      \strng{fullhashraw}{dce0b0c75803db040a0899a997e61585}
       \strng{bibnamehash}{4bf830ca64684627bdec4bdf1deb5561}
       \strng{authorbibnamehash}{4bf830ca64684627bdec4bdf1deb5561}
       \strng{authornamehash}{4bf830ca64684627bdec4bdf1deb5561}
       \strng{authorfullhash}{dce0b0c75803db040a0899a997e61585}
+      \strng{authorfullhashraw}{dce0b0c75803db040a0899a997e61585}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}
@@ -567,7 +682,7 @@
       \field{title}{High-Probability Bounds for Stochastic Optimization and Variational Inequalities: the Case of Unbounded Variance}
       \field{year}{2023}
     \endentry
-    \entry{ShalevShwartz2014}{book}{}
+    \entry{ShalevShwartz2014}{book}{}{}
       \name{author}{2}{}{%
         {{hash=a6c5827676b0a2058e5b904c3dd7f878}{%
            family={Shalev-Shwartz},
@@ -585,10 +700,12 @@
       }
       \strng{namehash}{38fabf8438a7aae182a9d192e7aa2d98}
       \strng{fullhash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{fullhashraw}{38fabf8438a7aae182a9d192e7aa2d98}
       \strng{bibnamehash}{38fabf8438a7aae182a9d192e7aa2d98}
       \strng{authorbibnamehash}{38fabf8438a7aae182a9d192e7aa2d98}
       \strng{authornamehash}{38fabf8438a7aae182a9d192e7aa2d98}
       \strng{authorfullhash}{38fabf8438a7aae182a9d192e7aa2d98}
+      \strng{authorfullhashraw}{38fabf8438a7aae182a9d192e7aa2d98}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}

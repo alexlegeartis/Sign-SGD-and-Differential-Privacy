@@ -60,6 +60,14 @@
 \newcommand{\algname}[1]{{\sf  #1}\xspace}
 \newcommand{\algnamex}[1]{{\sf #1}\xspace}
 
+
+\usepackage[flushleft]{threeparttable} % http://ctan.org/pkg/threeparttable
+\usepackage{colortbl}
+\definecolor{bgcolor}{rgb}{0.8,1,1}
+\definecolor{bgcolor2}{rgb}{0.8,1,0.8}
+\definecolor{niceblue}{rgb}{0.0,0.19,0.56}
+
+
 % Title and author information
 \title{Sign SGD with Heavy-Tailed Noise and Differential Privacy}
 
@@ -210,7 +218,10 @@ $$
 
 It is a sufficient condition, not a necessary one. However, it reflects the key features of the condition on $\sigma$. $\frac{|u_1|^3}{\left|\sum_{m=1}^M u_m\right|}$ is an extremely unreliable term, as $|u1|$ may be high, especially for heavy-tailed noise, while $\left|\sum_{m=1}^M u_m\right|$ may be small (it is easy to construct an appropriate example, with 3 workers). Hence, the bound on $\sigma$ is not only high, but also unstable. Consequently, we have no proofs whatsoever of the convergence of the algorithm.
 
-Moreover, our misgivings are supported by the fact that in an updated version \cite{Jin2024} of the article \cite{Jin2020}, the authors have removed all mentions of dp-sign. Right now, we are facing the problem that the algorithm for which we sought proofs for more general type of noise, might not make sense at all. This Friday, we are going to discuss the results and update this section.
+Moreover, our misgivings are supported by the fact that in an updated version \cite{Jin2024} of the article \cite{Jin2020}, the authors have removed all mentions of dp-sign. Right now, we are facing the problem that the algorithm for which we sought proofs for more general type of noise, might not make sense at all. Currently we are focused on improving our understanding of differential privacy, which will help us construct our own 
+
+The problems with convergence of dp-sign are not limited by the incorrect Theorem 6. The authors have overlooked another issue of utmost importance. Proving the $(\epsilon, \delta)$ differential privacy of dp-sign, they did so for only one call of dp-sign operator. However, according to \cite{Dwork2014} (Theorem 3.16), the overall privacy of running dp-sign $T$ times is $(T \epsilon, T \delta)$. Consequently, when we set target $\epsilon \approx 10$, $\delta \approx 10^-5$, as is recommended for machine learning purposes \cite{Ponomareva2023}, for $T = 100$ we get 100 times lower $\epsilon$ and $\delta$ for dp-sign. Judging by our experiments, this destroys convergence. That is intuitive: high noise for low $(\epsilon, \delta)$ leads to poorer convergence, and this forces us to use still lower $(\epsilon, \delta)$ to preserve the required level of privacy during the run of the algorithm.
+
 
 \section{Experiments}
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
@@ -224,10 +235,46 @@ We test our algorithm on the method of logistic regression for UCI Mushroom Data
     \label{fig:logreg}
 \end{figure}
 
-As we see, Sign-SGD with majority voting has run correctly. It not only has run faster than SGD, but also has delivered the same test accuracy as SGD did. The algorithm has also been more robust to the noise, as it was able to converge even with the heavy-tailed noise. Crucially, the algorithm has been differentially private, as it has run with dp-sign compressor with parameters $\epsilon = 1$ and $\delta = 10^{-5}$ (this is a TO-DO).
+As we see, Sign-SGD with majority voting has run correctly. It not only has run faster than SGD, but also has delivered the same test accuracy as SGD did.
 
-Sidenote: I haven't created a draft of the plot or error analysis. The case of training LLMs is for now beyond my competence, and is not essential to the theoretical problem I'm solving. Hence, I start only with training on data with synthetic heavy-tailed noise. There, I already got the computer plot I planned to obtain, so there is no need in draft again.
+\subsection{DP-Sign}
+Having verified Sign-SGD, we test dp-sign on the same dataset. We present three variants of the dp-sign:
+\begin{enumerate}
+    \item DP-SignSGD from \cite{Jin2020} with unrectified $(\epsilon, \delta)$. The algorithm converges, but is not sufficiently private, as we highlighted earlier.
+    \item DP-SignSGD from \cite{Jin2020} with rectified $(\epsilon / T, \delta /T)$, where $T$ is 1000. The algorithm is now private, but does not converge.
+    \item Our modification of DP-SignSGD. We used Rényi differential privacy \cite{Dwork2014}. This type of privacy can be easily converted to classical differential privacy, but has a more temperate deterioration of privacy during the sequential composition: the noise $\sigma \sim \sqrt{T}$ instead of $\sigma \sim T$. We will expand Theory and introduce there this algorithm, when it will be ready. For now, it as dp-sign does not converge.
+\end{enumerate}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.98\textwidth]{../figs/dps_diverge.pdf}
+    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of SGD, SignSGD and different variants of DP-SignSGD with majority voting.}
+    \label{fig:dp-diverges}
+\end{figure}
 
+Currently, we have the following table:
+\begin{table*}[t]
+    \centering
+        \small
+% 		\scriptsize
+    \caption{\small DP-Sign SGD methods}
+
+\label{tab:dpsign_methods}    
+		\begin{threeparttable}
+			\begin{tabular}{|c|c c c|}
+			\hline
+				Method & Citation & Is $(\epsilon, \delta)$ private & Converges \\
+                \hline
+                \hline
+				\algname{ChineseDP-SignSGD-cheat} & \parencite{Jin2020} & No & Yes\\
+                \hline
+                \algname{ChineseDP-SignSGD rectified} & \parencite{Jin2020} & Yes & No\\
+                \hline
+				\rowcolor{bgcolor2}\algname{Rényi DP-SignSGD} & \textbf{This paper} & Yes & Yet no\\
+			    \hline
+			\end{tabular}
+		\end{threeparttable}
+\vspace{-2mm}
+\end{table*}
 \subsection{Large models Pre-Training.}
 To-do: training LLMs, using torch etc.
 
