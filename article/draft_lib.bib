@@ -1,3 +1,17 @@
+ 
+@InProceedings{Feldman2018,
+  author    = {Feldman, Vitaly and Mironov, Ilya and Talwar, Kunal and Thakurta, Abhradeep},
+  booktitle = {2018 {IEEE} 59th {Annual} {Symposium} on {Foundations} of {Computer} {Science} ({FOCS})},
+  title     = {Privacy amplification by iteration},
+  year      = {2018},
+  pages     = {521--532},
+  publisher = {IEEE},
+  file      = {Available Version (via Google Scholar):Feldman2018 - Privacy Amplification by Iteration.pdf:PDF:https\://arxiv.org/pdf/1808.06651},
+  groups    = {Differential Privacy},
+  url       = {https://ieeexplore.ieee.org/abstract/document/8555134/},
+  urldate   = {2025-04-09},
+}
+
 @Misc{Kornilov2025,
   author    = {Kornilov, Nikita and Zmushko, Philip and Semenov, Andrei and Gasnikov, Alexander and Beznosikov, Alexander},
   title     = {Sign Operator for Coping with Heavy-Tailed Noise: High Probability Convergence Bounds with Extensions to Distributed Optimization and Comparison Oracle},
@@ -143,6 +157,7 @@
   number    = {3--4},
   pages     = {211--407},
   volume    = {9},
+  groups    = {Differential Privacy},
   publisher = {Now Publishers, Inc.},
 }
 
@@ -208,6 +223,62 @@
   pages        = {2260--2268},
 }
 
+ 
+@Article{Ponomareva2023,
+  author     = {Ponomareva, Natalia and Hazimeh, Hussein and Kurakin, Alex and Xu, Zheng and Denison, Carson and McMahan, H. Brendan and Vassilvitskii, Sergei and Chien, Steve and Thakurta, Abhradeep},
+  journal    = {Journal of Artificial Intelligence Research},
+  title      = {How to {DP}-fy {ML}: {A} {Practical} {Guide} to {Machine} {Learning} with {Differential} {Privacy}},
+  year       = {2023},
+  issn       = {1076-9757},
+  month      = jul,
+  note       = {arXiv:2303.00654 [cs]},
+  pages      = {1113--1201},
+  volume     = {77},
+  abstract   = {ML models are ubiquitous in real world applications and are a constant focus of research. At the same time, the community has started to realize the importance of protecting the privacy of ML training data. Differential Privacy (DP) has become a gold standard for making formal statements about data anonymization. However, while some adoption of DP has happened in industry, attempts to apply DP to real world complex ML models are still few and far between. The adoption of DP is hindered by limited practical guidance of what DP protection entails, what privacy guarantees to aim for, and the difficulty of achieving good privacy-utility-computation trade-offs for ML models. Tricks for tuning and maximizing performance are scattered among papers or stored in the heads of practitioners. Furthermore, the literature seems to present conflicting evidence on how and whether to apply architectural adjustments and which components are "safe" to use with DP. This work is a self-contained guide that gives an in-depth overview of the field of DP ML and presents information about achieving the best possible DP ML model with rigorous privacy guarantees. Our target audience is both researchers and practitioners. Researchers interested in DP for ML will benefit from a clear overview of current advances and areas for improvement. We include theory-focused sections that highlight important topics such as privacy accounting and its assumptions, and convergence. For a practitioner, we provide a background in DP theory and a clear step-by-step guide for choosing an appropriate privacy definition and approach, implementing DP training, potentially updating the model architecture, and tuning hyperparameters. For both researchers and practitioners, consistently and fully reporting privacy guarantees is critical, and so we propose a set of specific best practices for stating guarantees.},
+  doi        = {10.1613/jair.1.14649},
+  file       = {Preprint PDF:Ponomareva2023 - How to DP Fy ML_ a Practical Guide to Machine Learning with Differential Privacy.pdf:PDF:http\://arxiv.org/pdf/2303.00654v3},
+  groups     = {Differential Privacy},
+  keywords   = {Computer Science - Machine Learning, Computer Science - Cryptography and Security, Statistics - Machine Learning},
+  shorttitle = {How to {DP}-fy {ML}},
+  url        = {http://arxiv.org/abs/2303.00654},
+  urldate    = {2025-04-09},
+}
+
+@Misc{2019,
+  month        = mar,
+  note         = {arXiv:1812.06210 [cs]},
+  title        = {A {General} {Approach} to {Adding} {Differential} {Privacy} to {Iterative} {Training} {Procedures}},
+  year         = {2019},
+  abstract     = {In this work we address the practical challenges of training machine learning models on privacy-sensitive datasets by introducing a modular approach that minimizes changes to training algorithms, provides a variety of configuration strategies for the privacy mechanism, and then isolates and simplifies the critical logic that computes the final privacy guarantees. A key challenge is that training algorithms often require estimating many different quantities (vectors) from the same set of examples --- for example, gradients of different layers in a deep learning architecture, as well as metrics and batch normalization parameters. Each of these may have different properties like dimensionality, magnitude, and tolerance to noise. By extending previous work on the Moments Accountant for the subsampled Gaussian mechanism, we can provide privacy for such heterogeneous sets of vectors, while also structuring the approach to minimize software engineering challenges.},
+  annote       = {Comment: Presented at NeurIPS 2018 workshop on Privacy Preserving Machine Learning; Companion paper to TensorFlow Privacy OSS Library},
+  collaborator = {McMahan, H. Brendan and Andrew, Galen and Erlingsson, Ulfar and Chien, Steve and Mironov, Ilya and Papernot, Nicolas and Kairouz, Peter},
+  doi          = {10.48550/arXiv.1812.06210},
+  file         = {Preprint PDF:2019 - A General Approach to Adding Differential Privacy to Iterative Training Procedures.pdf:PDF:http\://arxiv.org/pdf/1812.06210v2},
+  groups       = {Differential Privacy},
+  keywords     = {Computer Science - Machine Learning, Statistics - Machine Learning},
+  publisher    = {arXiv},
+  url          = {http://arxiv.org/abs/1812.06210},
+  urldate      = {2025-04-09},
+}
+
+ 
+@Misc{2023,
+  month        = aug,
+  note         = {arXiv:2209.15596 [cs]},
+  title        = {Individual {Privacy} {Accounting} with {Gaussian} {Differential} {Privacy}},
+  year         = {2023},
+  abstract     = {Individual privacy accounting enables bounding differential privacy (DP) loss individually for each participant involved in the analysis. This can be informative as often the individual privacy losses are considerably smaller than those indicated by the DP bounds that are based on considering worst-case bounds at each data access. In order to account for the individual privacy losses in a principled manner, we need a privacy accountant for adaptive compositions of randomised mechanisms, where the loss incurred at a given data access is allowed to be smaller than the worst-case loss. This kind of analysis has been carried out for the R{\textbackslash}'enyi differential privacy (RDP) by Feldman and Zrnic (2021), however not yet for the so-called optimal privacy accountants. We make first steps in this direction by providing a careful analysis using the Gaussian differential privacy which gives optimal bounds for the Gaussian mechanism, one of the most versatile DP mechanisms. This approach is based on determining a certain supermartingale for the hockey-stick divergence and on extending the R{\textbackslash}'enyi divergence-based fully adaptive composition results by Feldman and Zrnic. We also consider measuring the individual \$({\textbackslash}varepsilon,{\textbackslash}delta)\$-privacy losses using the so-called privacy loss distributions. With the help of the Blackwell theorem, we can then make use of the RDP analysis to construct an approximative individual \$({\textbackslash}varepsilon,{\textbackslash}delta)\$-accountant.},
+  annote       = {Comment: 31 pages, 10 figures},
+  collaborator = {Koskela, Antti and Tobaben, Marlon and Honkela, Antti},
+  doi          = {10.48550/arXiv.2209.15596},
+  file         = {Preprint PDF:2023 - Individual Privacy Accounting with Gaussian Differential Privacy.pdf:PDF:http\://arxiv.org/pdf/2209.15596v2},
+  groups       = {Differential Privacy},
+  keywords     = {Computer Science - Cryptography and Security, Computer Science - Machine Learning, Statistics - Machine Learning},
+  publisher    = {arXiv},
+  url          = {http://arxiv.org/abs/2209.15596},
+  urldate      = {2025-04-09},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
 
 @Comment{jabref-meta: grouping:
@@ -216,4 +287,5 @@
 1 StaticGroup:Theory\;0\;1\;\;T\;\;;
 1 StaticGroup:Competitos\;0\;1\;\;C\;Other methods we'd better outdo\;;
 1 StaticGroup:Experiments\;0\;0\;\;\;What to do to test an algorithm\;;
+1 StaticGroup:Differential Privacy\;0\;0\;\;\;All that might help us prove DP-sign\;;
 }
