@@ -224,27 +224,14 @@ Moreover, our misgivings are supported by the fact that in an updated version \c
 The problems with convergence of dp-sign are not limited by the incorrect Theorem 6. The authors have overlooked another issue of utmost importance. Proving the $(\epsilon, \delta)$ differential privacy of dp-sign, they did so for only one call of dp-sign operator. However, according to \cite{Dwork2014} (Theorem 3.16), the overall privacy of running dp-sign $T$ times is $(T \epsilon, T \delta)$. Consequently, when we set target $\epsilon \approx 10$, $\delta \approx 10^-5$, as is recommended for machine learning purposes \cite{Ponomareva2023}, for $T = 100$ we get 100 times lower $\epsilon$ and $\delta$ for dp-sign. Judging by our experiments, this destroys convergence. That is intuitive: high noise for low $(\epsilon, \delta)$ leads to poorer convergence, and this forces us to use still lower $(\epsilon, \delta)$ to preserve the required level of privacy during the run of the algorithm.
 
 \subsection{Rényi Differntial privacy}
-\begin{theorem}[Theorem 11 from \cite{mironov2019renyidifferentialprivacysampled}]
-    If $q \leq \frac{1}{5}$, $\sigma \geq 4$, and $\alpha$ satisfy  
-    $$
-    1 < \alpha \leq \frac{1}{2}\sigma^2 L - 2 \ln \sigma, \quad \text{and} \quad
-    \alpha \leq \frac{\frac{1}{2}\sigma^2 L^2 - \ln 5 - 2 \ln \sigma}{L + \ln(q\alpha) + \frac{1}{2\sigma^2}},
-    $$
-    where  
-    $$
-    L = \ln\left(1 + \frac{1}{q(\alpha - 1)}\right),
-    $$
-    then SGM applied to a function of 2-sensitivity 1 satisfies $(\alpha, \varepsilon)$-RDP where  
-    $$
-    \varepsilon \triangleq \frac{2q^2 \alpha}{\sigma^2}.
-    $$
-\end{theorem}
+% definition from Mironov
+% defintion of 
 
 \section{Experiments}
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
 
 \subsection{Synthetic noise.}
-We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has 112 features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run on 20 workers, with training data distributed between the workers equally. We compare the cases when there is no noise and when the noise is normal with $\sigma^2 = 1/2$ (to-do: when we add Student's distribution, we'll have a heavy-tailed noise). We set the learning rate $\gamma = 0.05$ for \algname{SGD} and 0.02 for \algname{SignSGD}, and there are 2000 iterations for each algorithm. Additionally, we model the time spent on sending the data to the server by ascribing 0.5 ms spent time to each sent bit. The results are presented in \cref{fig:logreg}.
+We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run on 20 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma^2 = 1/4$, and when the noise is Levy stable with standard deviation = 1/4. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and dp-signSGD, and there are 2000 iterations for each algorithm. The results are presented in \cref{fig:logreg}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.98\textwidth]{../figs/sgd_vs_sign_sgd.pdf}
@@ -252,7 +239,7 @@ We test our algorithm on the method of logistic regression for UCI Mushroom Data
     \label{fig:logreg}
 \end{figure}
 
-As we see, Sign-SGD with majority voting has run correctly. It not only has run faster than SGD, but also has delivered the same test accuracy as SGD did.
+As we see, dp-signSGD does converge, even under heavy-tailed noise.
 
 \subsection{DP-Sign}
 Having verified Sign-SGD, we test dp-sign on the same dataset. We present three variants of the dp-sign:
@@ -292,18 +279,16 @@ Currently, we have the following table:
 		\end{threeparttable}
 \vspace{-2mm}
 \end{table*}
-\subsection{Large models Pre-Training.}
-To-do: training LLMs, using torch etc.
 
 \section{Conclusion}
-Summarize your findings and discuss future work.
+We have highlighted the deficiencies of the previous approach of working with dp-sign-SGD. With a use of Rényi differential privacy and advanced numerically-produced bounds for Sampled Gaussian Mechanism, we have consturcted a privacy accountant that makes dp-sign-SGD converge and private, which, to the best of our knowledge, has never been done before. 
 
 \section{Acknowledgments}
-Optional acknowledgments section.
+We will fill this section when we are done with the article.
 
 \appendix
-\section{Additional Proofs and Results}
-Include detailed proofs and supplementary materials here.
+\section{Additional Proofs}
+We will present them after we complete the tests and fix the algorithm.
 
 \printbibliography
 
