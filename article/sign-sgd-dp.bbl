@@ -464,6 +464,50 @@
       \field{title}{Regularizing and optimizing LSTM language models}
       \field{year}{2017}
     \endentry
+    \entry{mironov2019renyidifferentialprivacysampled}{misc}{}{}
+      \name{author}{3}{}{%
+        {{hash=2eea0075441c4e9acfc378c1345323f2}{%
+           family={Mironov},
+           familyi={M\bibinitperiod},
+           given={Ilya},
+           giveni={I\bibinitperiod}}}%
+        {{hash=1754a40f9d600dea756c1dd1047ce170}{%
+           family={Talwar},
+           familyi={T\bibinitperiod},
+           given={Kunal},
+           giveni={K\bibinitperiod}}}%
+        {{hash=32a08717e0d6dcde59bc98b96800ed6c}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{fullhash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{fullhashraw}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{bibnamehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authorbibnamehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authornamehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authorfullhash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authorfullhashraw}{e12129204d9e80047cc44dc9eb7dceb3}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Rényi Differential Privacy of the Sampled Gaussian Mechanism}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1908.10530
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1908.10530
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1908.10530
+      \endverb
+    \endentry
     \entry{Pascanu2013}{inproceedings}{}{}
       \name{author}{3}{}{%
         {{hash=7045b009b04d57bd2e19b5dfa0864d4f}{%
