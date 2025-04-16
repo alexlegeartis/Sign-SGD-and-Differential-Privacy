@@ -61,6 +61,17 @@
 \newcommand{\algname}[1]{{\sf  #1}\xspace}
 \newcommand{\algnamex}[1]{{\sf #1}\xspace}
 
+% from Mironov
+\newcommand{\eqdef}{\stackrel{\Delta}{=}}
+\newcommand{\SG}{\mathrm{SG}}
+\newcommand{\rd}[3]{\mathrm{D}_{#1}\infdivx*{#2}{#3}}
+\newcommand{\rdalpha}[2]{\mathrm{D}_{\alpha}\infdivx*{#1}{#2}}
+\newcommand{\renyi}{R\'enyi}
+\newcommand{\erfc}{\mathrm{erfc}}
+\newcommand{\eps}{\varepsilon}
+\usepackage{mathtools}
+\DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{#1\;\delimsize\|\;#2}
+
 
 \usepackage[flushleft]{threeparttable} % http://ctan.org/pkg/threeparttable
 \usepackage{colortbl}
@@ -224,9 +235,36 @@ Moreover, our misgivings are supported by the fact that in an updated version \c
 The problems with convergence of dp-sign are not limited by the incorrect Theorem 6. The authors have overlooked another issue of utmost importance. Proving the $(\epsilon, \delta)$ differential privacy of dp-sign, they did so for only one call of dp-sign operator. However, according to \cite{Dwork2014} (Theorem 3.16), the overall privacy of running dp-sign $T$ times is $(T \epsilon, T \delta)$. Consequently, when we set target $\epsilon \approx 10$, $\delta \approx 10^-5$, as is recommended for machine learning purposes \cite{Ponomareva2023}, for $T = 100$ we get 100 times lower $\epsilon$ and $\delta$ for dp-sign. Judging by our experiments, this destroys convergence. That is intuitive: high noise for low $(\epsilon, \delta)$ leads to poorer convergence, and this forces us to use still lower $(\epsilon, \delta)$ to preserve the required level of privacy during the run of the algorithm.
 
 \subsection{Rényi Differntial privacy}
-% definition from Mironov
-% defintion of 
+\begin{definition}[\renyi\ divergence \cite{mironov2019SGM}] Let $P$ and $Q$ be two distributions on $\mathcal{X}$ defined over the same probability space, and let $p$ and $q$ be their respective densities. The \renyi\ divergence of a finite order $\alpha\neq 1$ between $P$ and $Q$ is defined as
+    \[
+    \rdalpha{P}{Q}\eqdef \frac1{\alpha-1}\ln \int_{\mathcal{X}} q(x)\left(\frac{p(x)}{q(x)}\right)^{\alpha}\,\mathrm{d}x.
+    \]
+    \renyi\ divergence at orders $\alpha=1,\infty$ are defined by continuity.
+    \end{definition}
+    
+    
+    \begin{definition}[\renyi\ differential privacy (RDP)] We say that a randomized mechanism $\mathcal{M}\colon \mathcal{S}\to\mathcal{R}$ satisfies $(\alpha,\eps)$-\renyi\ differential privacy (RDP) if for any two \emph{adjacent} inputs $S,S'\in \mathcal{S}$ it holds that
+    \[
+    \rdalpha{\mathcal{M}(S)}{\mathcal{M}(S')}\leq \eps.
+    \]
+    \end{definition}
+    The notion of adjacency between input datasets is domain-specific and is usually taken to mean that the inputs differ in contributions of a single individual. In this work, we will use this definition and call two datasets $S, S'$ to be adjacent if $S' = S \cup \{x\}$ for some $x$ (or vice versa).
+    
+    \begin{definition}[Sampled Gaussian Mechanism (SGM)] Let $f$ be a function mapping subsets of $\mathcal{S}$ to $\mathbb{R}^d$. We define the Sampled Gaussian mechanism (SGM) parameterized with the sampling rate $0<q\leq 1$ and the noise $\sigma>0$ as
+        \[
+        \SG_{q,\sigma}(S)\eqdef f(\{x\colon x\in S \textrm{ is sampled with probability } q\})+\mathcal{N}(0,\sigma^2\mathbb{I}^d),
+        \]
+    where each element of $S$ is sampled independently at random with probability $q$ without replacement, and $\mathcal{N}(0,\sigma^2\mathbb{I}^d)$ is spherical $d$-dimensional Gaussian noise with per-coordinate variance $\sigma^2$.
+    \end{definition}
+    
+From \cite{mironov2019SGM}, we get the guarantee for integer $\alpha$:
+$$\eps_R \leq \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)$$
 
+From \cite{Mironov2017}, we relate $\eps_R$ with $\eps, \delta$ for the whole process with $T$ iterations. If this relation is satisfied, the algorithm is $(\eps, \delta)$-private:
+
+$$ \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}$$.
+
+This is all theory we need to conduct experiments.
 \section{Experiments}
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
 
@@ -273,7 +311,7 @@ Currently, we have the following table:
                 \hline
                 \algname{ChineseDP-SignSGD rectified} & \parencite{Jin2020} & Yes & No\\
                 \hline
-				\rowcolor{bgcolor2}\algname{Rényi DP-SignSGD} & \textbf{This paper} & Yes & Yet no\\
+				\rowcolor{bgcolor2}\algname{Rényi DP-SignSGD} & \textbf{This paper} & Yes & Yes\\
 			    \hline
 			\end{tabular}
 		\end{threeparttable}

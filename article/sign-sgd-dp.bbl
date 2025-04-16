@@ -464,7 +464,46 @@
       \field{title}{Regularizing and optimizing LSTM language models}
       \field{year}{2017}
     \endentry
-    \entry{mironov2019renyidifferentialprivacysampled}{misc}{}{}
+    \entry{Mironov2017}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=2eea0075441c4e9acfc378c1345323f2}{%
+           family={Mironov},
+           familyi={M\bibinitperiod},
+           given={Ilya},
+           giveni={I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{fullhash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{fullhashraw}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{bibnamehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authorbibnamehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authornamehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authorfullhash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authorfullhashraw}{2eea0075441c4e9acfc378c1345323f2}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2017 IEEE 30th Computer Security Foundations Symposium (CSF)}
+      \field{month}{8}
+      \field{title}{Rényi Differential Privacy}
+      \field{year}{2017}
+      \field{pages}{263\bibrangedash 275}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/csf.2017.11
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1109/CSF.2017.11
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1109/CSF.2017.11
+      \endverb
+    \endentry
+    \entry{mironov2019SGM}{misc}{}{}
       \name{author}{3}{}{%
         {{hash=2eea0075441c4e9acfc378c1345323f2}{%
            family={Mironov},

@@ -1,0 +1,195 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{Jin2020}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=621e41cecf70774b96857f08dc038a3a}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Richeng},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2c0fd5cf468ccbb2d86a96fb7770e661}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yufan},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5aa58a2bca6c4e324c9c427263692fe8}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Xiaofan},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bae62e9da1bbdeaeac1386cd29233049}{%
+           family={Dai},
+           familyi={D\bibinitperiod},
+           given={Huaiyu},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f5d113814fdd02c4b961e34288e1ed4}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Tianfu},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{2}{%
+        {Institute of Electrical}%
+        {Electronics Engineers (IEEE)}%
+      }
+      \strng{namehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{fullhash}{f16a828954dc1accec71576aa6720749}
+      \strng{fullhashraw}{f16a828954dc1accec71576aa6720749}
+      \strng{bibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authorbibnamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authornamehash}{9ae2faf73760ca0b97ae8f528fc56eda}
+      \strng{authorfullhash}{f16a828954dc1accec71576aa6720749}
+      \strng{authorfullhashraw}{f16a828954dc1accec71576aa6720749}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Federated learning (FL) has emerged as a prominent distributed learning paradigm. FL entails some pressing needs for developing novel parameter estimation approaches with theoretical guarantees of convergence, which are also communication efficient, differentially private and Byzantine resilient in the heterogeneous data distribution settings. Quantization-based SGD solvers have been widely adopted in FL and the recently proposed SIGNSGD with majority vote shows a promising direction. However, no existing methods enjoy all the aforementioned properties. In this paper, we propose an intuitively-simple yet theoretically-sound method based on SIGNSGD to bridge the gap. We present Stochastic-Sign SGD which utilizes novel stochastic-sign based gradient compressors enabling the aforementioned properties in a unified framework. We also present an error-feedback variant of the proposed Stochastic-Sign SGD which further improves the learning performance in FL. We test the proposed method with extensive experiments using deep neural networks on the MNIST dataset and the CIFAR-10 dataset. The experimental results corroborate the effectiveness of the proposed method.}
+      \field{day}{25}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{issn}{2162-2388}
+      \field{journaltitle}{Part of this work is published in IEEE Transactions on Neural Networks and Learning Systems, 2024}
+      \field{month}{2}
+      \field{number}{2}
+      \field{title}{Stochastic-Sign SGD for Federated Learning with Theoretical Guarantees}
+      \field{volume}{36}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \true{nocite}
+      \field{pages}{3834\bibrangedash 3846}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/tnnls.2023.3345367
+      \endverb
+      \verb{eprint}
+      \verb 2002.10940
+      \endverb
+      \verb{file}
+      \verb :Jin2020 - Stochastic Sign SGD for Federated Learning with Theoretical Guarantees.pdf:PDF:http\://arxiv.org/pdf/2002.10940v5
+      \endverb
+      \keyw{Machine Learning (cs.LG),Machine Learning (stat.ML),FOS: Computer and information sciences}
+    \endentry
+    \entry{Mironov2017}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2eea0075441c4e9acfc378c1345323f2}{%
+           family={Mironov},
+           familyi={M\bibinitperiod},
+           given={Ilya},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{fullhash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{fullhashraw}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{bibnamehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authorbibnamehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authornamehash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authorfullhash}{2eea0075441c4e9acfc378c1345323f2}
+      \strng{authorfullhashraw}{2eea0075441c4e9acfc378c1345323f2}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2017 IEEE 30th Computer Security Foundations Symposium (CSF)}
+      \field{month}{8}
+      \field{title}{Rényi Differential Privacy}
+      \field{year}{2017}
+      \true{nocite}
+      \field{pages}{263\bibrangedash 275}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/csf.2017.11
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1109/CSF.2017.11
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1109/CSF.2017.11
+      \endverb
+    \endentry
+    \entry{mironov2019SGM}{misc}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=2eea0075441c4e9acfc378c1345323f2}{%
+           family={Mironov},
+           familyi={M\bibinitperiod},
+           given={Ilya},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1754a40f9d600dea756c1dd1047ce170}{%
+           family={Talwar},
+           familyi={T\bibinitperiod},
+           given={Kunal},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32a08717e0d6dcde59bc98b96800ed6c}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{fullhash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{fullhashraw}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{bibnamehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authorbibnamehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authornamehash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authorfullhash}{e12129204d9e80047cc44dc9eb7dceb3}
+      \strng{authorfullhashraw}{e12129204d9e80047cc44dc9eb7dceb3}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Rényi Differential Privacy of the Sampled Gaussian Mechanism}
+      \field{year}{2019}
+      \true{nocite}
+      \verb{eprint}
+      \verb 1908.10530
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1908.10530
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1908.10530
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
