@@ -69,6 +69,7 @@
 \newcommand{\renyi}{R\'enyi}
 \newcommand{\erfc}{\mathrm{erfc}}
 \newcommand{\eps}{\varepsilon}
+
 \usepackage{mathtools}
 \DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{#1\;\delimsize\|\;#2}
 
@@ -109,7 +110,7 @@ In the era of large models, federated learning has become indispensable like nev
 \end{abstract}
 
 \paragraph{Keywords:} Sign SGD, differential privacy, high-probability convergence, federated learning, heavy-tailed noise.
-\paragraph{Idea:} We add Gaussian noise and privacy amplification by subsampling to make sign-SGD private.
+\paragraph{Idea:} We add Gaussian noise and use privacy amplification by subsampling to make sign-SGD private.
 
 \paragraph{Highlights:}
 \begin{enumerate}
@@ -203,7 +204,10 @@ The algorithm we are working with can be defined generally as follows:
     \end{algorithmic}
 \end{algorithm}    
 
-As the algorithm must be differentially private, we use as a 1-bit compressor dp-sign compressor \cite{Jin2020}:
+Our goal is to find such compressor $q(\cdot)$ that the algorithm is private.
+
+\subsection{Incorrectness of earlier proposed DP-SIGN}
+Some time ago there was proposed a 1-bit compressor dp-sign \cite{Jin2020}:
 
 \begin{definition}
     For any given gradient $\boldsymbol{g}_{m}^{(t)}$, the compressor $dp\text{-}sign$ outputs $dp\text{-}sign(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$. The $i$-th entry of $dp\text{-}sign(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$ is given by
@@ -220,7 +224,6 @@ As the algorithm must be differentially private, we use as a 1-bit compressor dp
 \end{definition}
 As stated in Theorem 5 from \cite{Jin2020}, the $dp\text{-}sign$ mechanism is $(\epsilon, \delta)$-differentially private for any $\epsilon$ and $\delta \in (0, 1)$.
 
-\subsection{Incorrectness of earlier proposed dp-sign}
 Theorem 6 from \cite{Jin2020} should establish probability of the dissimilarity of majority sign of the gradients and majority sign of the dp-signs:   
 \begin{theorem}\label{dp-sign-probabilities}
     Let $u_{1},u_{2},\cdots,u_{M}$ be $M$ known and fixed real numbers. Further define random variables $\hat{u}_{i}=dp\text{-}sign(u_{i},\epsilon,\delta), \forall 1\leq i \leq M$. Then there always exist a constant $\sigma_{0}$ such that when $\sigma \geq \sigma_{0}$, $P(sign(\frac{1}{M}\sum_{m=1}^{M}\hat{u}_{i})\neq sign(\frac{1}{M}\sum_{m=1}^{M}u_{i})) <\big(1-x^2\big)^{\frac{M}{2}}$,
@@ -247,7 +250,6 @@ The problems with convergence of dp-sign are not limited by the incorrect Theore
 To the best of our knowledge, there are no differentially private versions of sign-sgd reported except this incorrect dp-sign. As Gaussian noise is still the best mechanism to ensure differential privacy (Laplace noise and exponential mechanism complicate convergence), we preserve the idea of dp-sign. However, we drastically change the privacy analysis to make $\sigma$ small enough for the algorithm to converge.
 
 \subsection{Rényi Differntial privacy}
-According to ??? from \cite{Mironov2017}, advanced composition theorems for $(\eps, \delta)$-privacy are unlikely to yield strong bounds.
 To make an economical use of differential privacy, we have to introduce another type of differential privacy, which gives more tight bounds on composition.
     \begin{definition}[\renyi\ divergence \cite{Mironov2017}] Let $P$ and $Q$ be two distributions on $\mathcal{X}$ defined over the same probability space, and let $p$ and $q$ be their respective densities. The \renyi\ divergence of a finite order $\alpha\neq 1$ between $P$ and $Q$ is defined as
     \[
@@ -273,15 +275,19 @@ To make an economical use of differential privacy, we have to introduce another 
     \end{definition}
     
 From Section 3.3 (\textit{``Numerically stable computations``}) of \cite{mironov2019SGM}, for each integer $\alpha \geq 1$, SGM applied to a function with $\Delta_2\leq1$ is $(\alpha, \eps_R)$-RDP for the following $\eps_R$:
-$$\eps_R = \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)$$.
+\begin{equation}\label{eq:renyi_eps_guarantee}
+\eps_R = \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)
+\end{equation}
 
 Clearly, if $\Delta_2 > 1$ for a mechanism, $\sigma := \Delta_2 \sigma$ will deliver the same $(\alpha, \eps_R)$-RDP.
 
 If an $(\alpha, \eps_R)$-RPD mechanism is applied $T$ times, by adaptive sequential composition \cite{Mironov2017}, we get $(\alpha, T\eps_R)$-RDP of the procedure. From \textit{Proposition 3} from \cite{Mironov2017}, it follows that the procedure is also $(\eps_R + \frac{\log1/\delta}{\alpha - 1}, \delta)$-differentially private for any $0 \leq \delta \leq 1$. Thus, the procedure is $(\eps, \delta)$-differntial privacy, if $(\alpha, \eps_R)$ satisfy:
 
-$$ \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}$$.
+\begin{equation}\label{eq:renyi_eps_requirement}
+\eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}
+\end{equation}
 
-As convergence of the algorithm depends only on $\sigma$, while $\alpha$ is an internal parameter, we are interested in finding the minimal $\sigma$. This we achieve via grid search on integer $1\leq \alpha \leq 20$ and $0.5 \leq \sigma$. An example can be seen on \ref{fig:grid_sigma}.
+As convergence of the algorithm depends only on $\sigma$, while $\alpha$ is an internal parameter, we are interested in finding the minimal $\sigma$. This we achieve via grid search on integer $1\leq \alpha \leq 20$ and $0.5 \leq \sigma \leq 3$. An example can be seen in Figure~\ref{fig:grid_sigma}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.98\textwidth]{../figs/valid_sigma.pdf}
@@ -291,25 +297,46 @@ As convergence of the algorithm depends only on $\sigma$, while $\alpha$ is an i
 
 Judging by the chart, there is no need in searching among $\alpha \in \R$: \textit{Case II. Fractional $\alpha$} from \cite{mironov2019SGM} gives a series expression to obtain a bound for $\eps_R$, and the series is continuous on $\alpha$. Continuous borderline on \ref{fig:grid_sigma} implies that $\sigma$ we get by the grid search is close to the optimum.
 
-\subsection{Constructing \scriptsize{DP-SIGN}}
+\subsection{Constructing DP-SIGN}
+Let us define {\scriptsize DP-SIGN} \ref{dp-sign-precise}. From the previous section, $(\eps, \delta)$-privacy of {\scriptsize DP-SIGN} immediately follows.
+\newcommand{\gradg}{\boldsymbol{g}}
+\begin{algorithm}
+    \caption{DP-SIGN compressor}
+    \label{dp-sign-precise}
+    \begin{algorithmic}
+        \STATE \textbf{Input}: coordinate $w$, loss function $l$, user database $D$, $(\eps, \delta)$-privacy requirement, number of iterations $T$, sampling rate $q$, clipping level $C$.
+        \STATE Prepare subsample $S$: add each element $(x, y) \in D$ with probability $q$.
+        \STATE Compute the gradient $\gradg$ of the subsample: $\frac{1}{|S|}\sum_{(x,y)\in S}l(w;(x,y))$. If $S$ is empty, let $\gradg = 0$.
+        \STATE If $||\gradg||_2 > C$: $\gradg = \gradg / C$.
+        \STATE Grid search $\sigma(q, T, \eps, \delta)$ to satisfy \eqref{eq:renyi_eps_guarantee} and \eqref{eq:renyi_eps_requirement}.
+        \STATE $\gradg_{priv}$ = $\gradg + \mathcal{N}(0,(C\sigma)^2\mathbb{I}^d)$
+        \STATE \textbf{Output}: $sign(\gradg_{priv})$
+    \end{algorithmic}
+\end{algorithm}
 
+\begin{theorem}\label{prop:dp_guarantee}
+Let $l(\cdot;\cdot)$ be a loss function and let $\eps > 0$, $\delta \in (0,1)$. Then applying $T$ times dp-sign($w_i$, $l$, $D$, $(\eps, \delta)$, $T$, $q$, $C$) in different points $w_i$ on a user database $D$ with a fixed sampling rate $q$ and fixed clipping level $C > 0$ is $(\eps, \delta)$-differentially private.
+\end{theorem}
+\begin{proof}
+$\gradg_{priv}$ is private due to the satisfaction of \eqref{eq:renyi_eps_guarantee} and \eqref{eq:renyi_eps_requirement}. As RDP preserves under post-processing (\cite{Mironov2017}), $sign(\gradg_{priv})$ is also $(\alpha, \eps_R)$-RPD, which entails $(\eps, \delta)$-dp for all $T$ iterations.
+\end{proof}
 
 
 \section{Experiments}
-In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
+In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we appy the algorithms to a classic machine learning problem. Then, we test the algorithms on the training of Large Language Models.
 
 \subsection{Synthetic noise.}
-We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run for $T = 100000$ iterations on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma = 1/4$, and when the noise is Lévy stable with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and dp-signSGD. The results are presented in \ref{fig:logreg}.
+We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run for $T = 100000$ iterations on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma = 1/4$, and when the noise is Lévy stable with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$. For private algorithms, we set $\epsilon \approx 10$, $\delta \approx 1/n^{1.1}$, where $n$ is the size of local user database, as is recommended for machine learning purposes \cite{Ponomareva2023}. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and {\scriptsize DP-SIGN}SGD. The results are presented in \ref{fig:logreg}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.98\textwidth]{../figs/v17_10_workers_long.pdf}
-    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of SGD, SignSGD, and DP-SignSGD with majority voting.}
+    \includegraphics[width=1\textwidth]{../figs/v17_10_workers_long.pdf}
+    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of SGD, SignSGD, and {\scriptsize DP-SIGN}SGD with majority voting.}
     \label{fig:logreg}
 \end{figure}
 
-As we see, dp-signSGD does converge, even under heavy-tailed noise.
+As we see, {\scriptsize DP-SIGN}SGD does converge, even under heavy-tailed noise.
 
-\subsection{DP-Sign}
+\subsection{DP-Sign (outdated)}
 Having verified Sign-SGD, we test dp-sign on the same dataset. We present three variants of the dp-sign:
 \begin{enumerate}
     \item DP-SignSGD from \cite{Jin2020} with unrectified $(\epsilon, \delta)$. The algorithm converges, but is not sufficiently private, as we highlighted earlier.
@@ -323,8 +350,7 @@ Having verified Sign-SGD, we test dp-sign on the same dataset. We present three 
     \label{fig:dp-diverges}
 \end{figure}
 
-Currently, we have the following table:
-\begin{table*}[t]
+\begin{table}\label{compare-chinese}
     \centering
         \small
 % 		\scriptsize
@@ -346,7 +372,9 @@ Currently, we have the following table:
 			\end{tabular}
 		\end{threeparttable}
 \vspace{-2mm}
-\end{table*}
+\end{table}
+
+Thus, we have the following table \ref{tab:dpsign_methods}.
 
 \section{Conclusion}
 We have highlighted the deficiencies of the previous approach of working with dp-sign-SGD. With a use of Rényi differential privacy and advanced numerically-produced bounds for Sampled Gaussian Mechanism, we have consturcted a privacy accountant that makes dp-sign-SGD converge and private, which, to the best of our knowledge, has never been done before. 
@@ -356,7 +384,7 @@ We will fill this section when we are done with the article.
 
 \appendix
 \section{Additional Proofs}
-We will present them after we complete the tests and fix the algorithm.
+We will present them after we complete the tests and finalize the algorithm.
 
 \printbibliography
 
