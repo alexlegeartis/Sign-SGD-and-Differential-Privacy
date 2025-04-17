@@ -114,13 +114,13 @@ In the era of large models, federated learning has become indispensable like nev
 \begin{enumerate}
 \item Sign Stochastic Gradient Descent can be used to train LLMs on real data.
 \item Our modification of Sign Stochastic Gradient Descent keeps user data private.
-\item Our modification of Sign Stochastic Gradient Descent does not require tuning.
+\item Our modification of Sign Stochastic Gradient Descent is applicable to federated setting.
 \end{enumerate}
 
 \section{Introduction}
 Federated Learning is a useful method to train models that require large amounts of data. Indeed, it is often the case that the data is distributed across multiple devices, like mobile phones \parencite{McMahan2017}, and it is not only costly to collect all the data in one place, but often also unacceptable due to the requirements of privacy. On the other hand, training the model only on the local data for a particular user is impossible, as the model is large. Hence, a need for a joint training procedure arises. We come to a setting with a server and a number of workers, where each worker has a local dataset. The goal is to train a model on the data from all the workers, without sharing the data between the workers or with the server.
 
-The most obvious way to train a model in a federated setting is to use Stochastic Gradient Descent (\algname{SGD}) \parencite{Robbins1951} by passing the gradient to the server (add citation). However, when trasmitting the gradient itself, the communication cost is unaffordably high and the privacy of the data is compromised. To address this issue, one can use the Sign Stochastic Gradient Descent algorithm \parencite{Bernstein2018}. This algorithm transmits only the signs of the coordinates of the gradients, which is much cheaper in terms of communication.
+The most obvious way to train a model in a federated setting is to use Stochastic Gradient Descent (\algname{SGD}) \parencite{Robbins1951} by passing the gradient to the server. However, when trasmitting the gradient itself, the communication cost is unaffordably high. To address this issue, one can use the Sign Stochastic Gradient Descent algorithm \parencite{Bernstein2018}. This algorithm transmits only the signs of the coordinates of the gradients, which is much cheaper in terms of communication.
 
 Clipping the norm of gradient estimate before \algname{SGD} step, which comprises the method called \algname{ClipSGD}, is an another great idea that demonstrates positive empirical results \parencite{Pascanu2013, Goodfellow2016}. Nonetheless, the clipping requires meticulous tuning of the clipping threshold, which was shown to depend on not only iteration number but also the objective function and the noise \parencite[Theorem $3.1$]{Sadiev2023}. In case of federated learning, the search of the threshold is even more complicated, as the data is distributed across the workers and cannot be used for tuning, and the objective function is more complex due to sophistication and size of the model.
 
@@ -131,8 +131,6 @@ As to guarantee the privacy is our priority, we opted to base our algorithm on \
 In this paper, we propose a modification of \algname{SignSGD} that can be used to train LLMs on real data. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise, and does not require tuning. We also show that our algorithm is differentially private. Finally, we test the algorithm on the training of LLMs.
 
 \section{Problem statement.}
-To-do: what kind of distribution $S$ is. Change the abstract. It should start with narrow problem. Remove "can" and variants from the paper altogether!
-
 First, we need to state that we work with stochastic optimization.
 \paragraph{Stochastic optimization problem.} The stochastic optimization problem for a smooth non-convex function $f:\R^d \to \R$ is:
 \begin{eqnarray}
@@ -172,10 +170,21 @@ Now, let us introduce the requirements for the algorithm to solve the federated 
 Noise has bounded $\kappa$-th moment for some $\kappa \in (1,2]$, i.e. $\EE_\xi[\| \nabla f (x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$. In particular, the noise can have unbounded variance, i.e. $\kappa < 2$.
 
 \paragraph{Differential privacy.}
-Additionally, the algorithm must be private, which means it must satisfy $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}.
+Additionally, the algorithm must be private, which means it must satisfy $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}:
+\begin{definition}
+    Given a set of local datasets $\mathcal{D}$ provided with a notion of neighboring local datasets $\mathcal{N}_{\mathcal{D}}\subset \mathcal{D}\times \mathcal{D}$ that differ in only one data point. For a query function $f: \mathcal{D}\rightarrow \mathcal{X}$, a mechanism $\mathcal{M}:\mathcal{X}\rightarrow \mathcal{O}$ to release the answer of the query is defined to be $(\epsilon,\delta)$-locally differentially private if for any measurable subset $\mathcal{S}\subseteq\mathcal{O}$ and two neighboring local datasets $(D_1,D_2)\in \mathcal{N}_{\mathcal{D}}$,
+    \begin{equation}
+    P(\mathcal{M}(f(D_1))\in \mathcal{S}) \leq e^{\epsilon}P(\mathcal{M}(f(D_2))\in \mathcal{S}) + \delta.
+    \end{equation}
+\end{definition}
+    
+    A key quantity in characterizing local differential privacy for many mechanisms is the sensitivity of the query $f$ in a given norm $l_{r}$, which is defined as
+    \begin{equation}\label{sensitivity}
+    \Delta_{r} = \max_{(D_1,D_2)\in\mathcal{N}_{\mathcal{D}}}||f(D_1)-f(D_2)||_r.
+    \end{equation}
 
 \paragraph{High-probability convergence.}
-The algorithm must have convergence guarantees which hold true with probability at least $1 - \delta, \delta \in (0,1)$.
+The algorithm must have convergence guarantees which hold true with probability at least $1 - \delta_prob, \delta_prob \in (0,1)$.
 
 \section{Theory}
 \subsection{The Algorithm and the compressor}
@@ -210,7 +219,7 @@ As the algorithm must be differentially private, we use as a 1-bit compressor dp
 \end{definition}
 As stated in Theorem 5 from \cite{Jin2020}, the $dp\text{-}sign$ mechanism is $(\epsilon, \delta)$-differentially private for any $\epsilon$ and $\delta \in (0, 1)$.
 
-\subsection{Convergence for dp-sign}
+\subsection{Incorrectness of earlier proposed dp-sign}
 Theorem 6 from \cite{Jin2020} should establish probability of the dissimilarity of majority sign of the gradients and majority sign of the dp-signs:   
 \begin{theorem}\label{dp-sign-probabilities}
     Let $u_{1},u_{2},\cdots,u_{M}$ be $M$ known and fixed real numbers. Further define random variables $\hat{u}_{i}=dp\text{-}sign(u_{i},\epsilon,\delta), \forall 1\leq i \leq M$. Then there always exist a constant $\sigma_{0}$ such that when $\sigma \geq \sigma_{0}$, $P(sign(\frac{1}{M}\sum_{m=1}^{M}\hat{u}_{i})\neq sign(\frac{1}{M}\sum_{m=1}^{M}u_{i})) <\big(1-x^2\big)^{\frac{M}{2}}$,
@@ -228,13 +237,16 @@ $$\sigma^2 \geq
 \frac{7}{5} \left(u_1^2 + \left|\sum_{m=1}^M u_m\right|^2 + \frac{|u_1|^3}{\left|\sum_{m=1}^M u_m\right|}\right).
 $$
 
-It is a sufficient condition, not a necessary one. However, it reflects the key features of the condition on $\sigma$. $\frac{|u_1|^3}{\left|\sum_{m=1}^M u_m\right|}$ is an extremely unreliable term, as $|u1|$ may be high, especially for heavy-tailed noise, while $\left|\sum_{m=1}^M u_m\right|$ may be small (it is easy to construct an appropriate example, with 3 workers). Hence, the bound on $\sigma$ is not only high, but also unstable. Consequently, we have no proofs whatsoever of the convergence of the algorithm.
+It is a sufficient condition, not a necessary one. However, it reflects the key features of the condition on $\sigma$. $\frac{|u_1|^3}{\left|\sum_{m=1}^M u_m\right|}$ is an extremely unreliable term, as $|u_1|$ may be high, especially for heavy-tailed noise, while $\left|\sum_{m=1}^M u_m\right|$ may be small (it is easy to construct an appropriate example for the case of 3 workers). Hence, the bound on $\sigma$ is not only high, but also unstable. Consequently, we have no proofs whatsoever of the convergence of the algorithm.
 
-Moreover, our misgivings are supported by the fact that in an updated version \cite{Jin2024} of the article \cite{Jin2020}, the authors have removed all mentions of dp-sign. Right now, we are facing the problem that the algorithm for which we sought proofs for more general type of noise, might not make sense at all. Currently we are focused on improving our understanding of differential privacy, which will help us construct our own 
+Moreover, our misgivings are supported by the fact that in an updated version \cite{Jin2024} of the article \cite{Jin2020}, the authors have removed all mentions of dp-sign.
 
 The problems with convergence of dp-sign are not limited by the incorrect Theorem 6. The authors have overlooked another issue of utmost importance. Proving the $(\epsilon, \delta)$ differential privacy of dp-sign, they did so for only one call of dp-sign operator. However, according to \cite{Dwork2014} (Theorem 3.16), the overall privacy of running dp-sign $T$ times is $(T \epsilon, T \delta)$. Consequently, when we set target $\epsilon \approx 10$, $\delta \approx 10^-5$, as is recommended for machine learning purposes \cite{Ponomareva2023}, for $T = 100$ we get 100 times lower $\epsilon$ and $\delta$ for dp-sign. Judging by our experiments, this destroys convergence. That is intuitive: high noise for low $(\epsilon, \delta)$ leads to poorer convergence, and this forces us to use still lower $(\epsilon, \delta)$ to preserve the required level of privacy during the run of the algorithm.
 
+To the best of our knowledge, there are no differentially private versions of sign-sgd reported except this incorrect dp-sign. As Gaussian noise is still the best mechanism to ensure differential privacy (Laplace noise and exponential mechanism complicate convergence), we preserve the idea of dp-sign. However, we drastically change the privacy analysis to make $\sigma$ small enough for the algorithm to converge.
+
 \subsection{Rényi Differntial privacy}
+We will work with another type
 \begin{definition}[\renyi\ divergence \cite{mironov2019SGM}] Let $P$ and $Q$ be two distributions on $\mathcal{X}$ defined over the same probability space, and let $p$ and $q$ be their respective densities. The \renyi\ divergence of a finite order $\alpha\neq 1$ between $P$ and $Q$ is defined as
     \[
     \rdalpha{P}{Q}\eqdef \frac1{\alpha-1}\ln \int_{\mathcal{X}} q(x)\left(\frac{p(x)}{q(x)}\right)^{\alpha}\,\mathrm{d}x.
@@ -269,10 +281,10 @@ This is all theory we need to conduct experiments.
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
 
 \subsection{Synthetic noise.}
-We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run on 20 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma^2 = 1/4$, and when the noise is Levy stable with standard deviation = 1/4. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and dp-signSGD, and there are 2000 iterations for each algorithm. The results are presented in \cref{fig:logreg}.
+We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run for $T = 100000$ iterations on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma = 1/4$, and when the noise is Lévy stable with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and dp-signSGD. The results are presented in \cref{fig:logreg}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.98\textwidth]{../figs/sgd_vs_sign_sgd.pdf}
+    \includegraphics[width=0.98\textwidth]{../figs/v17_10_workers_long.pdf}
     \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of SGD and SignSGD with majority voting.}
     \label{fig:logreg}
 \end{figure}
