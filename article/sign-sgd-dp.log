@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  17 APR 2025 12:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  17 APR 2025 20:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1029,7 +1029,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 {C:/Users/Alex/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Alex/
 AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
 LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
-23.
+24.
 
 (C:\Users\Alex\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1039,26 +1039,43 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 125.
+(Font)              <12> on input line 126.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 125.
+(Font)              <8> on input line 126.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 125.
+(Font)              <6> on input line 126.
 
 
 [2{C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:
 /Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}]
 
 [3{C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc
-}
+}]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2}) 
 has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.156 \begin{equation}
-                      {C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dv
-ips/lm/lm-mathex.enc}]
-Overfull \hbox (3.25043pt too wide) in paragraph at lines 170--171
+<to be read again> 
+                   \relax 
+l.152 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2}) 
+has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.152 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2}) 
+has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.152 \begin{equation}
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2}) 
+has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.152 \begin{equation}
+                      
+Overfull \hbox (3.25043pt too wide) in paragraph at lines 171--172
  []\T1/lmr/bx/n/12 (-20) Heavy-tailed noise.[] \T1/lmr/m/n/12 (-20) Noise has b
 ounded $\OML/lmm/m/it/12 ^^T$\T1/lmr/m/n/12 (-20) -th mo-ment for some $\OML/lm
 m/m/it/12 ^^T \OMS/lmsy/m/n/12 2 \OT1/lmr/m/n/12 (-20) (1\OML/lmm/m/it/12 ; \OT
@@ -1067,28 +1084,40 @@ n/12 (-20) [\OMS/lmsy/m/n/12 kr\OML/lmm/m/it/12 f\OT1/lmr/m/n/12 (-20) (\OML/lm
 m/m/it/12 x; ^^X\OT1/lmr/m/n/12 (-20) ) \OMS/lmsy/m/n/12 ^^@
  []
 
+
+
+[4{C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc
+}]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 193.
+put line 194.
 
-
-[4]
 
 [5]
 
 [6]
 
+[7]
+
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 273.
+(amsmath)                 on input line 276.
+
+<../figs/valid_sigma.pdf, id=181, 722.7pt x 433.62pt>
+File: ../figs/valid_sigma.pdf Graphic file (type pdf)
+<use ../figs/valid_sigma.pdf>
+Package pdftex.def Info: ../figs/valid_sigma.pdf  used on input line 287.
+(pdftex.def)             Requested size: 460.35791pt x 276.2124pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[7]
-<../figs/v17_10_workers_long.pdf, id=173, 986.69568pt x 359.94476pt>
+[8]
+<../figs/v17_10_workers_long.pdf, id=192, 986.69568pt x 359.94476pt>
 File: ../figs/v17_10_workers_long.pdf Graphic file (type pdf)
 <use ../figs/v17_10_workers_long.pdf>
-Package pdftex.def Info: ../figs/v17_10_workers_long.pdf  used on input line 28
-7.
+Package pdftex.def Info: ../figs/v17_10_workers_long.pdf  used on input line 30
+5.
 (pdftex.def)             Requested size: 460.35791pt x 167.93828pt.
 
 
@@ -1096,81 +1125,92 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-[8]
-<../figs/dps_diverge.pdf, id=183, 794.97pt x 361.35pt>
+[9 <../figs/valid_sigma.pdf>]
+<../figs/dps_diverge.pdf, id=248, 794.97pt x 361.35pt>
 File: ../figs/dps_diverge.pdf Graphic file (type pdf)
 <use ../figs/dps_diverge.pdf>
-Package pdftex.def Info: ../figs/dps_diverge.pdf  used on input line 303.
+Package pdftex.def Info: ../figs/dps_diverge.pdf  used on input line 321.
 (pdftex.def)             Requested size: 460.35791pt x 209.25783pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 317.
+(Font)              <10.95> on input line 335.
 
 
-[9 <../figs/v17_10_workers_long.pdf>]
+[10 <../figs/v17_10_workers_long.pdf>]
+
+[11 <../figs/dps_diverge.pdf>]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 3
-43.
+61.
 
 (C:\Users\Alex\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-
-[10 <../figs/dps_diverge.pdf>]
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/12'.
 (microtype)             Ignoring protrusion settings for this character.
 
 
-[11{C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
+[12{C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
 
 
-[12] (sign-sgd-dp.aux)
+[13] (sign-sgd-dp.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-Package rerunfilecheck Info: File `sign-sgd-dp.out' has not changed.
-(rerunfilecheck)             Checksum: D7045AECD4B06E0EABDB383072BF190C;1682.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `sign-sgd-dp.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `sign-sgd-dp.out':
+(rerunfilecheck)             Before: D7045AECD4B06E0EABDB383072BF190C;1682
+(rerunfilecheck)             After:  BCBD1645E1E5BE63757D1B9715197B9C;1843.
 Package logreq Info: Writing requests to 'sign-sgd-dp.run.xml'.
 \openout1 = `sign-sgd-dp.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26339 strings out of 473522
- 471427 string characters out of 5715094
- 1318416 words of memory out of 5000000
- 48875 multiletter control sequences out of 15000+600000
- 674779 words of font info for 245 fonts, out of 8000000 for 9000
+ 26367 strings out of 473522
+ 471915 string characters out of 5715094
+ 1317590 words of memory out of 5000000
+ 48886 multiletter control sequences out of 15000+600000
+ 678310 words of font info for 252 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,31n,81p,2011b,1568s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,31n,81p,2011b,1569s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb
 ><C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb>
-<C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb>
-<C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><
-C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C
-:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:
-/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/U
-sers/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Use
-rs/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmib10.pfb><C:/Use
-rs/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users
-/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/A
-lex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/Ale
-x/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/Alex/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Alex/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Alex/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Users/Alex/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Alex/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Alex/AppData/
-Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Alex/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Alex/AppData/Loca
-l/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/Alex/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on sign-sgd-dp.pdf (12 pages, 799388 bytes).
+<C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx8.pfb><C
+:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C
+:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:
+/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/
+Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/U
+sers/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Use
+rs/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users
+/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmib10.pfb><C:/Users
+/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/A
+lex/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Ale
+x/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/Alex/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/Alex/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Alex/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Alex/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Users/Alex/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Alex/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Alex/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Alex/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Alex/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/Alex/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on sign-sgd-dp.pdf (13 pages, 848322 bytes).
 PDF statistics:
- 452 PDF objects out of 1000 (max. 8388607)
- 80 named destinations out of 1000 (max. 500000)
- 62571 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 524 PDF objects out of 1000 (max. 8388607)
+ 84 named destinations out of 1000 (max. 500000)
+ 64624 words of extra memory for PDF output out of 74296 (max. 10000000)
 

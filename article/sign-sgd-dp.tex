@@ -81,7 +81,7 @@
 
 
 % Title and author information
-\title{Sign SGD with Heavy-Tailed Noise and Differential Privacy}
+\title{Sign-SGD with Heavy-Tailed Noise and Differential Privacy}
 
 \author{
   Alexey Kravatskiy\\
@@ -104,11 +104,12 @@
 \maketitle
 
 \begin{abstract}
-In the era of large models, federated learning has become indispensable like never before. Sound modern federated learning must meet three key requirements. First, the method must process correctly real-world data, which, in case of Large Language Models, means the algorithm must tolerate noise with unbounded variance. Second, to ensure applicability, the algorithm must converge under these conditions with high probability, not only in expectation. Third, the whole procedure must not jeopardize user data. To address these natural requirements, we have constructed a novel modification of Sign version of Stochastic Gradient Descent. In this paper, we demonstrate that it meets all three earlier stated requisites. We start with proving algorithm's high-probability convergence on data with heavy-tailed noise. Then, we prove its differential privacy. Finally, we show the superior performance of the algorithm in training Large Language Models.
+In the era of large models, federated learning has become indispensable like never before. Sound modern federated learning must meet three key requirements. First and foremost, the whole process of learning must not jeopardize user data, hence be private to given extent. Second, the algorithm must correctly process real-world data, which, in case of Large Language Models (LLMs), means it must tolerate noise with unbounded variance. Third, to ensure applicability, the algorithm must converge under these conditions with high probability, not only in expectation. To address these natural requirements, we have constructed a novel modification of Sign version of Stochastic Gradient Descent. In this paper, we demonstrate that it meets all three earlier stated requisites. We start with defining a construction procedure which guarantees differential privacy. Then, we prove algorithm's high-probability convergence on data with heavy-tailed noise. Finally, we show the superior performance of the algorithm in training LLMs in distributed setting.
 
 \end{abstract}
 
 \paragraph{Keywords:} Sign SGD, differential privacy, high-probability convergence, federated learning, heavy-tailed noise.
+\paragraph{Idea:} We add Gaussian noise and privacy amplification by subsampling to make sign-SGD private.
 
 \paragraph{Highlights:}
 \begin{enumerate}
@@ -118,17 +119,17 @@ In the era of large models, federated learning has become indispensable like nev
 \end{enumerate}
 
 \section{Introduction}
-Federated Learning is a useful method to train models that require large amounts of data. Indeed, it is often the case that the data is distributed across multiple devices, like mobile phones \parencite{McMahan2017}, and it is not only costly to collect all the data in one place, but often also unacceptable due to the requirements of privacy. On the other hand, training the model only on the local data for a particular user is impossible, as the model is large. Hence, a need for a joint training procedure arises. We come to a setting with a server and a number of workers, where each worker has a local dataset. The goal is to train a model on the data from all the workers, without sharing the data between the workers or with the server.
+Federated Learning is a useful method to train models that require large amounts of data. Indeed, it is often the case that the data is distributed across multiple devices, like mobile phones \parencite{McMahan2017}, and it is not only costly to collect all the data in one place, but also often unacceptable due to the requirements of privacy. On the other hand, training the model only on the local data for a particular user is impossible, as the model is large and data of one user is insufficient. Hence, a need for a joint training procedure arises. We come to a setting with a server and a number of workers, where each worker has a local dataset. The goal is to train a model on the data from all the workers, without sharing the data between the workers or with the server.
 
-The most obvious way to train a model in a federated setting is to use Stochastic Gradient Descent (\algname{SGD}) \parencite{Robbins1951} by passing the gradient to the server. However, when trasmitting the gradient itself, the communication cost is unaffordably high. To address this issue, one can use the Sign Stochastic Gradient Descent algorithm \parencite{Bernstein2018}. This algorithm transmits only the signs of the coordinates of the gradients, which is much cheaper in terms of communication.
+The most obvious way to train a model in a federated setting is to use Stochastic Gradient Descent (\algname{SGD}) \parencite{Robbins1951} by passing the gradient to the server. However, when trasmitting the gradient itself, the communication cost is unaffordably high, and again the data privacy might be violated. To address this issue, one can use the Sign Stochastic Gradient Descent (\algname{SignSGD})algorithm \parencite{Bernstein2018}. This algorithm transmits only the signs of the coordinates of the gradients, which is much cheaper in terms of communication.
 
-Clipping the norm of gradient estimate before \algname{SGD} step, which comprises the method called \algname{ClipSGD}, is an another great idea that demonstrates positive empirical results \parencite{Pascanu2013, Goodfellow2016}. Nonetheless, the clipping requires meticulous tuning of the clipping threshold, which was shown to depend on not only iteration number but also the objective function and the noise \parencite[Theorem $3.1$]{Sadiev2023}. In case of federated learning, the search of the threshold is even more complicated, as the data is distributed across the workers and cannot be used for tuning, and the objective function is more complex due to sophistication and size of the model.
+Communication costs aside, clipping the norm of gradient estimate before \algname{SGD} step, which comprises the method called \algname{ClipSGD}, is an another great idea that demonstrates positive empirical results \parencite{Pascanu2013, Goodfellow2016}. Nonetheless, the clipping requires meticulous tuning of the clipping threshold, which was shown to depend on not only iteration number, but also the objective function and the noise \parencite[Theorem $3.1$]{Sadiev2023}. In case of federated learning, the search of the threshold is even more complicated, as the data is distributed across the workers and cannot be used for tuning, and the objective function is more complex due to sophistication and size of the model.
 
-The natural simplification of the clipping is normalization of the gradient, which lies at the core of \algname{NSGD} \parencite{Hazan2015}. \algname{NSGD} outperformed \algname{ClipSGD} on the task of sequence labeling via LSTM Language Models \cite{Merity2017}. Despite this fact, \algname{NSGD}, unlike \algname{ClipSGD}, requires larged batch sizes for convergence, which though can be mended by applying momentum \cite{Cutkosky2020}. The major drawback of \algname{NSGD} is the absence of proofs of convergence with high probability. Moreover, the method seems to be not private.
+The natural simplification of the clipping is normalization of the gradient, which lies at the core of \algname{NSGD} \parencite{Hazan2015}. \algname{NSGD} outperformed \algname{ClipSGD} on the task of sequence labeling via LSTM Language Models \cite{Merity2017}. Despite this fact, \algname{NSGD}, unlike \algname{ClipSGD}, requires larged batch sizes for convergence, which, however, can be mended by applying momentum \cite{Cutkosky2020}. The major drawback of \algname{NSGD} is the absence of proofs of convergence with high probability. Moreover, the method seems to be far from private.
 
-As to guarantee the privacy is our priority, we opted to base our algorithm on \algname{SignSGD}. The convergence with high probability of \algname{SignSGD} for the heavy-tailed noise was recently proved \parencite{Kornilov2025}, which makes \algname{SignSGD} a perfect candidate for federated learning. Simultaneously, \algname{SignSGD} was already used as a base to create a differentially private algorithm \parencite{Jin2020}. However, in both cases, no proofs for the convergence of the algorithm in the modern federated learning setting were provided.
+As to guarantee the privacy is our priority, we opted to base our algorithm on \algname{SignSGD}. The convergence with high probability of \algname{SignSGD} for the heavy-tailed noise has been recently proved \parencite{Kornilov2025}, which makes \algname{SignSGD} a perfect candidate for federated learning. Simultaneously, \algname{SignSGD} has already been used as a base to create an allegedly differentially private algorithm \parencite{Jin2020} (the authors proved differential privacy of only one step of the algorithm). However, in both cases, no proofs for the convergence of the algorithm in the modern federated learning setting were provided.
 
-In this paper, we propose a modification of \algname{SignSGD} that can be used to train LLMs on real data. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise, and does not require tuning. We also show that our algorithm is differentially private. Finally, we test the algorithm on the training of LLMs.
+In this paper, based on the concept of Rényi differential privacy, we develop the idea from \cite{Jin2020} to derive truly differentially-private modification of \algname{SignSGD}, which we naturally call {\scriptsize DP-SIGN}SGD. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise. Finally, we test the algorithm on the training of LLMs.
 
 \section{Problem statement.}
 First, we need to state that we work with stochastic optimization.
@@ -167,10 +168,10 @@ We assume that the data are distributed over the workers uniformly, consequently
 
 Now, let us introduce the requirements for the algorithm to solve the federated optimization problem.
 \paragraph{Heavy-tailed noise.}
-Noise has bounded $\kappa$-th moment for some $\kappa \in (1,2]$, i.e. $\EE_\xi[\| \nabla f (x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$. In particular, the noise can have unbounded variance, i.e. $\kappa < 2$.
+Noise has bounded $\kappa$-th moment for some $\kappa \in (1,2]$, i.e. $\EE_\xi[\| \nabla f (x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$. In particular, the noise can have unbounded variance when $\kappa < 2$.
 
 \paragraph{Differential privacy.}
-Additionally, the algorithm must be private, which means it must satisfy $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}:
+Additionally, the algorithm must be private. This is guaranteed by $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}:
 \begin{definition}
     Given a set of local datasets $\mathcal{D}$ provided with a notion of neighboring local datasets $\mathcal{N}_{\mathcal{D}}\subset \mathcal{D}\times \mathcal{D}$ that differ in only one data point. For a query function $f: \mathcal{D}\rightarrow \mathcal{X}$, a mechanism $\mathcal{M}:\mathcal{X}\rightarrow \mathcal{O}$ to release the answer of the query is defined to be $(\epsilon,\delta)$-locally differentially private if for any measurable subset $\mathcal{S}\subseteq\mathcal{O}$ and two neighboring local datasets $(D_1,D_2)\in \mathcal{N}_{\mathcal{D}}$,
     \begin{equation}
@@ -184,7 +185,7 @@ Additionally, the algorithm must be private, which means it must satisfy $(\epsi
     \end{equation}
 
 \paragraph{High-probability convergence.}
-The algorithm must have convergence guarantees which hold true with probability at least $1 - \delta_prob, \delta_prob \in (0,1)$.
+For given $\delta_{prob} \in (0,1)$, the algorithm must converge with probability at least $1 - \delta_{prob}$.
 
 \section{Theory}
 \subsection{The Algorithm and the compressor}
@@ -246,8 +247,9 @@ The problems with convergence of dp-sign are not limited by the incorrect Theore
 To the best of our knowledge, there are no differentially private versions of sign-sgd reported except this incorrect dp-sign. As Gaussian noise is still the best mechanism to ensure differential privacy (Laplace noise and exponential mechanism complicate convergence), we preserve the idea of dp-sign. However, we drastically change the privacy analysis to make $\sigma$ small enough for the algorithm to converge.
 
 \subsection{Rényi Differntial privacy}
-We will work with another type
-\begin{definition}[\renyi\ divergence \cite{mironov2019SGM}] Let $P$ and $Q$ be two distributions on $\mathcal{X}$ defined over the same probability space, and let $p$ and $q$ be their respective densities. The \renyi\ divergence of a finite order $\alpha\neq 1$ between $P$ and $Q$ is defined as
+According to ??? from \cite{Mironov2017}, advanced composition theorems for $(\eps, \delta)$-privacy are unlikely to yield strong bounds.
+To make an economical use of differential privacy, we have to introduce another type of differential privacy, which gives more tight bounds on composition.
+    \begin{definition}[\renyi\ divergence \cite{Mironov2017}] Let $P$ and $Q$ be two distributions on $\mathcal{X}$ defined over the same probability space, and let $p$ and $q$ be their respective densities. The \renyi\ divergence of a finite order $\alpha\neq 1$ between $P$ and $Q$ is defined as
     \[
     \rdalpha{P}{Q}\eqdef \frac1{\alpha-1}\ln \int_{\mathcal{X}} q(x)\left(\frac{p(x)}{q(x)}\right)^{\alpha}\,\mathrm{d}x.
     \]
@@ -255,37 +257,53 @@ We will work with another type
     \end{definition}
     
     
-    \begin{definition}[\renyi\ differential privacy (RDP)] We say that a randomized mechanism $\mathcal{M}\colon \mathcal{S}\to\mathcal{R}$ satisfies $(\alpha,\eps)$-\renyi\ differential privacy (RDP) if for any two \emph{adjacent} inputs $S,S'\in \mathcal{S}$ it holds that
+    \begin{definition}[\renyi\ differential privacy (RDP) \cite{Mironov2017}] We say that a randomized mechanism $\mathcal{M}\colon \mathcal{S}\to\mathcal{R}$ satisfies $(\alpha,\eps)$-\renyi\ differential privacy (RDP) if for any two \emph{adjacent} inputs $S,S'\in \mathcal{S}$ it holds that
     \[
     \rdalpha{\mathcal{M}(S)}{\mathcal{M}(S')}\leq \eps.
     \]
     \end{definition}
+
     The notion of adjacency between input datasets is domain-specific and is usually taken to mean that the inputs differ in contributions of a single individual. In this work, we will use this definition and call two datasets $S, S'$ to be adjacent if $S' = S \cup \{x\}$ for some $x$ (or vice versa).
     
-    \begin{definition}[Sampled Gaussian Mechanism (SGM)] Let $f$ be a function mapping subsets of $\mathcal{S}$ to $\mathbb{R}^d$. We define the Sampled Gaussian mechanism (SGM) parameterized with the sampling rate $0<q\leq 1$ and the noise $\sigma>0$ as
+    \begin{definition}[Sampled Gaussian Mechanism (SGM) \cite{mironov2019SGM}] Let $f$ be a function mapping subsets of $\mathcal{S}$ to $\mathbb{R}^d$. We define the Sampled Gaussian mechanism (SGM) parameterized with the sampling rate $0<q\leq 1$ and the noise $\sigma>0$ as
         \[
         \SG_{q,\sigma}(S)\eqdef f(\{x\colon x\in S \textrm{ is sampled with probability } q\})+\mathcal{N}(0,\sigma^2\mathbb{I}^d),
         \]
     where each element of $S$ is sampled independently at random with probability $q$ without replacement, and $\mathcal{N}(0,\sigma^2\mathbb{I}^d)$ is spherical $d$-dimensional Gaussian noise with per-coordinate variance $\sigma^2$.
     \end{definition}
     
-From \cite{mironov2019SGM}, we get the guarantee for integer $\alpha$:
-$$\eps_R \leq \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)$$
+From Section 3.3 (\textit{``Numerically stable computations``}) of \cite{mironov2019SGM}, for each integer $\alpha \geq 1$, SGM applied to a function with $\Delta_2\leq1$ is $(\alpha, \eps_R)$-RDP for the following $\eps_R$:
+$$\eps_R = \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)$$.
 
-From \cite{Mironov2017}, we relate $\eps_R$ with $\eps, \delta$ for the whole process with $T$ iterations. If this relation is satisfied, the algorithm is $(\eps, \delta)$-private:
+Clearly, if $\Delta_2 > 1$ for a mechanism, $\sigma := \Delta_2 \sigma$ will deliver the same $(\alpha, \eps_R)$-RDP.
+
+If an $(\alpha, \eps_R)$-RPD mechanism is applied $T$ times, by adaptive sequential composition \cite{Mironov2017}, we get $(\alpha, T\eps_R)$-RDP of the procedure. From \textit{Proposition 3} from \cite{Mironov2017}, it follows that the procedure is also $(\eps_R + \frac{\log1/\delta}{\alpha - 1}, \delta)$-differentially private for any $0 \leq \delta \leq 1$. Thus, the procedure is $(\eps, \delta)$-differntial privacy, if $(\alpha, \eps_R)$ satisfy:
 
 $$ \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}$$.
 
-This is all theory we need to conduct experiments.
+As convergence of the algorithm depends only on $\sigma$, while $\alpha$ is an internal parameter, we are interested in finding the minimal $\sigma$. This we achieve via grid search on integer $1\leq \alpha \leq 20$ and $0.5 \leq \sigma$. An example can be seen on \ref{fig:grid_sigma}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.98\textwidth]{../figs/valid_sigma.pdf}
+    \caption{Finding the minimal $\sigma$ for SGM with $\Delta_2 \leq 1$, sampling rate $q = 1/300$, and $T = 1000$}
+    \label{fig:grid_sigma}
+\end{figure}
+
+Judging by the chart, there is no need in searching among $\alpha \in \R$: \textit{Case II. Fractional $\alpha$} from \cite{mironov2019SGM} gives a series expression to obtain a bound for $\eps_R$, and the series is continuous on $\alpha$. Continuous borderline on \ref{fig:grid_sigma} implies that $\sigma$ we get by the grid search is close to the optimum.
+
+\subsection{Constructing \scriptsize{DP-SIGN}}
+
+
+
 \section{Experiments}
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we applied the algorithms to a classic machine learning problem. Then, we tested the algorithms on the training of Large Language Models.
 
 \subsection{Synthetic noise.}
-We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run for $T = 100000$ iterations on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma = 1/4$, and when the noise is Lévy stable with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and dp-signSGD. The results are presented in \cref{fig:logreg}.
+We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run for $T = 100000$ iterations on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma = 1/4$, and when the noise is Lévy stable with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and dp-signSGD. The results are presented in \ref{fig:logreg}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.98\textwidth]{../figs/v17_10_workers_long.pdf}
-    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of SGD and SignSGD with majority voting.}
+    \caption{Logistic regression on UCI Mushroom Dataset.\newline Performance of SGD, SignSGD, and DP-SignSGD with majority voting.}
     \label{fig:logreg}
 \end{figure}
 
