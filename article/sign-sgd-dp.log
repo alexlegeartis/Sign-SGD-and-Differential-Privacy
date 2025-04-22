@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  17 APR 2025 21:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  22 APR 2025 20:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1154,7 +1154,7 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `sign-sgd-dp.out' has not changed.
-(rerunfilecheck)             Checksum: 428DA00358D5AC66628DB04197E53DFF;1907.
+(rerunfilecheck)             Checksum: CDAFF53E46A280EC3ECFA95DAB77CAFC;1912.
 Package logreq Info: Writing requests to 'sign-sgd-dp.run.xml'.
 \openout1 = `sign-sgd-dp.run.xml'.
 
@@ -1162,7 +1162,7 @@ Package logreq Info: Writing requests to 'sign-sgd-dp.run.xml'.
 Here is how much of TeX's memory you used:
  26391 strings out of 473522
  472328 string characters out of 5715094
- 1319039 words of memory out of 5000000
+ 1319041 words of memory out of 5000000
  48898 multiletter control sequences out of 15000+600000
  675402 words of font info for 252 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1189,7 +1189,7 @@ Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Alex/AppData/Lo
 cal/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Alex/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/Alex/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on sign-sgd-dp.pdf (13 pages, 832964 bytes).
+Output written on sign-sgd-dp.pdf (13 pages, 833079 bytes).
 PDF statistics:
  542 PDF objects out of 1000 (max. 8388607)
  95 named destinations out of 1000 (max. 500000)

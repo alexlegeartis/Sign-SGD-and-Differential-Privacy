@@ -249,7 +249,7 @@ The problems with convergence of dp-sign are not limited by the incorrect Theore
 
 To the best of our knowledge, there are no differentially private versions of sign-sgd reported except this incorrect dp-sign. As Gaussian noise is still the best mechanism to ensure differential privacy (Laplace noise and exponential mechanism complicate convergence), we preserve the idea of dp-sign. However, we drastically change the privacy analysis to make $\sigma$ small enough for the algorithm to converge.
 
-\subsection{Rényi Differntial privacy}
+\subsection{Rényi Differential privacy}
 To make an economical use of differential privacy, we have to introduce another type of differential privacy, which gives more tight bounds on composition.
     \begin{definition}[\renyi\ divergence \cite{Mironov2017}] Let $P$ and $Q$ be two distributions on $\mathcal{X}$ defined over the same probability space, and let $p$ and $q$ be their respective densities. The \renyi\ divergence of a finite order $\alpha\neq 1$ between $P$ and $Q$ is defined as
     \[
@@ -307,7 +307,7 @@ Let us define {\scriptsize DP-SIGN} \ref{dp-sign-precise}. From the previous sec
         \STATE \textbf{Input}: coordinate $w$, loss function $l$, user database $D$, $(\eps, \delta)$-privacy requirement, number of iterations $T$, sampling rate $q$, clipping level $C$.
         \STATE Prepare subsample $S$: add each element $(x, y) \in D$ with probability $q$.
         \STATE Compute the gradient $\gradg$ of the subsample: $\frac{1}{|S|}\sum_{(x,y)\in S}l(w;(x,y))$. If $S$ is empty, let $\gradg = 0$.
-        \STATE If $||\gradg||_2 > C$: $\gradg = \gradg / C$.
+        \STATE If $||\gradg||_2 > C$: $\gradg = C\frac{\gradg}{||\gradg||_2}$.
         \STATE Grid search $\sigma(q, T, \eps, \delta)$ to satisfy \eqref{eq:renyi_eps_guarantee} and \eqref{eq:renyi_eps_requirement}.
         \STATE $\gradg_{priv}$ = $\gradg + \mathcal{N}(0,(C\sigma)^2\mathbb{I}^d)$
         \STATE \textbf{Output}: $sign(\gradg_{priv})$
