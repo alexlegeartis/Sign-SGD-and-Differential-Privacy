@@ -9,17 +9,45 @@ import matplotlib.pyplot as plt
 import time
 import os
 import math
+import numpy as np
 from torch.utils.data import random_split, DataLoader
+from privacy_methods import dp_sign_by_sigma, find_min_sigma
 
 # Create directory for saving plots
 os.makedirs('figs/mlp_23', exist_ok=True)
 
-# Settings
-NUM_WORKERS = 10
-NUM_EPOCHS = 5
-BATCH_SIZE = 64
+# Default configuration
+DEFAULT_CONFIG = {
+    'num_workers': 10,
+    'batch_size': 64,
+    'num_epochs': 20,
+    'iterations_per_epoch': 100,
+    'final_epsilon': 1.0,
+    'final_power_in_delta': 1.1,
+    'alpha_min': 2,
+    'alpha_max': 20,
+    'sigma_min': 0.7,
+    'sigma_max': 1.5,
+    'algorithms': {
+        'signsgd': {
+            'enabled': True,
+            'lr_scheduler': lambda t: 0.02 / (t + 1)**(1/4),
+            'color': 'b'
+        },
+        'dpsignsgd': {
+            'enabled': True,
+            'lr_scheduler': lambda t: 0.02 / (t + 1)**(1/4),
+            'color': 'g'
+        },
+        'fedsgd': {
+            'enabled': False,
+            'lr_scheduler': lambda t: 0.05,
+            'color': 'r'
+        }
+    }
+}
 
-# Define MLP model (from train_mlp.py)
+# Define MLP model
 class MLP(nn.Module):
     def __init__(self, input_size=784, hidden_size=128, num_classes=10):
         super(MLP, self).__init__()
@@ -43,15 +71,18 @@ class BaseWorker:
         self.loss_fn = nn.CrossEntropyLoss()
         self.lr_scheduler = lr_scheduler
         self.iter_count = 0
+        self.batch_size = data_loader.batch_size
+        self.dataset_size = len(data_loader.dataset)
 
     def get_learning_rate(self):
         if self.lr_scheduler is None:
-            return 0.05  # Default constant learning rate for FedSGD
+            return 0.05
         return self.lr_scheduler(self.iter_count)
 
     def compute_gradients(self):
         self.model.zero_grad()
-        # Get first batch
+        
+        # Get batch
         images, labels = next(iter(self.data_loader))
         images, labels = images.to(self.device), labels.to(self.device)
         
@@ -74,9 +105,6 @@ class BaseWorker:
 # SignSGD Worker
 class SignSGDWorker(BaseWorker):
     def __init__(self, data_loader, device, lr_scheduler=None):
-        if lr_scheduler is None:
-            # Default scheduler for SignSGD: 0.1/sqrt(T)
-            lr_scheduler = lambda t: 0.1 / math.sqrt(t + 1)  # +1 to avoid division by zero
         super().__init__(data_loader, device, lr_scheduler)
 
     def compute_grad_signs(self):
@@ -85,17 +113,42 @@ class SignSGDWorker(BaseWorker):
 
     def apply_majority_update(self, majority_signs):
         with torch.no_grad():
-            lr = self.get_learning_rate()
-            for param, sign in zip(self.model.parameters(), majority_signs):
-                param.add_(-lr * sign)
-            self.iter_count += 1
+            if majority_signs is not None:
+                lr = self.get_learning_rate()
+                for param, sign in zip(self.model.parameters(), majority_signs):
+                    param.add_(-lr * sign)
+                self.iter_count += 1
+
+# DPSignSGD Worker
+class DPSignSGDWorker(BaseWorker):
+    def __init__(self, data_loader, device, sigma, sensitivity_measure, lr_scheduler=None):
+        super().__init__(data_loader, device, lr_scheduler)
+        self.sigma = sigma
+        self.sensitivity_measure = sensitivity_measure
+        self.gradient_norms = []
+
+    def compute_grad_signs(self):
+        gradients = self.compute_gradients()
+        dp_signs = []
+        for grad in gradients:
+            grad_np = grad.cpu().numpy()
+            grad_norm = np.linalg.norm(grad_np)
+            self.gradient_norms.append(grad_norm)
+            dp_sign = dp_sign_by_sigma(grad_np, self.sensitivity_measure, self.sigma)
+            dp_signs.append(torch.from_numpy(dp_sign).to(self.device))
+        return dp_signs
+
+    def apply_majority_update(self, majority_signs):
+        with torch.no_grad():
+            if majority_signs is not None:
+                lr = self.get_learning_rate()
+                for param, sign in zip(self.model.parameters(), majority_signs):
+                    param.add_(-lr * sign)
+                self.iter_count += 1
 
 # FedSGD Worker
 class FedSGDWorker(BaseWorker):
     def __init__(self, data_loader, device, lr_scheduler=None):
-        if lr_scheduler is None:
-            # Default constant learning rate for FedSGD
-            lr_scheduler = lambda t: 0.05
         super().__init__(data_loader, device, lr_scheduler)
 
     def apply_fed_update(self, global_gradients):
@@ -126,14 +179,12 @@ def evaluate_model(model, test_loader, device):
     return test_loss / len(test_loader), 100 * correct / total
 
 def create_workers_data(train_dataset, num_workers=10):
-    """Split the training data among workers"""
     total_size = len(train_dataset)
     worker_sizes = [total_size // num_workers] * num_workers
-    worker_sizes[-1] += total_size % num_workers  # Add remainder to last worker
+    worker_sizes[-1] += total_size % num_workers
     worker_datasets = random_split(train_dataset, worker_sizes)
     return worker_datasets
 
-# Majority vote across workers
 def majority_vote(signs_list):
     num_params = len(signs_list[0])
     result = []
@@ -143,24 +194,30 @@ def majority_vote(signs_list):
         result.append(vote)
     return result
 
-def run_training(optimizer_type, workers, test_loader, device, num_epochs):
-    # Initialize global model for evaluation
+
+def run_training(optimizer_type, workers, test_loader, device, num_epochs, iterations_per_epoch):
     global_model = MLP().to(device)
     
-    # Lists to store metrics
-    test_losses = []
-    test_accuracies = []
-    times = []
-    learning_rates = []  # Track learning rates
+    metrics = {
+        'test_losses': [],
+        'test_accuracies': [],
+        'times': [],
+        'learning_rates': []
+    }
+    
     start_time = time.time()
     
-    # Training loop
+    # Initial evaluation
+    test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
+    metrics['test_losses'].append(test_loss)
+    metrics['test_accuracies'].append(test_accuracy)
+    metrics['times'].append(0.0)
+    
     for epoch in range(num_epochs):
         print(f"\nEpoch {epoch + 1}/{num_epochs}")
         
-        for iter in range(300):
+        for iter in range(iterations_per_epoch):
             if optimizer_type == 'signsgd':
-                # SignSGD with majority vote
                 all_signs = []
                 for worker in workers:
                     signs = worker.compute_grad_signs()
@@ -169,50 +226,54 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs):
                 for worker in workers:
                     worker.apply_majority_update(majority_signs)
             else:  # fedsgd
-                # FedSGD
                 all_gradients = []
                 for worker in workers:
                     gradients = worker.compute_gradients()
                     all_gradients.append(gradients)
                 
-                # Average gradients
                 avg_gradients = []
                 for i in range(len(all_gradients[0])):
                     stacked = torch.stack([grads[i] for grads in all_gradients])
                     avg_gradients.append(stacked.mean(dim=0))
                 
-                # Apply updates
                 for worker in workers:
                     worker.apply_fed_update(avg_gradients)
             
-            # Track learning rate of first worker
-            learning_rates.append(workers[0].get_learning_rate())
+            metrics['learning_rates'].append(workers[0].get_learning_rate())
         
-        # Update global model (use first worker's model for evaluation)
         global_model.load_state_dict(workers[0].model.state_dict())
         
-        # Evaluate
         test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
-        test_losses.append(test_loss)
-        test_accuracies.append(test_accuracy)
-        times.append(time.time() - start_time)
+        metrics['test_losses'].append(test_loss)
+        metrics['test_accuracies'].append(test_accuracy)
+        metrics['times'].append(time.time() - start_time)
         
         print(f"Epoch {epoch + 1} - Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.2f}%")
         print(f"Current learning rate: {workers[0].get_learning_rate():.6f}")
     
+    return metrics
+
+def analyze_gradient_norms(worker):
+    if not worker.gradient_norms:
+        return None
+    
+    norms = np.array(worker.gradient_norms)
+    median = np.median(norms)
+    lower_percentile = np.percentile(norms, 2.5)
+    upper_percentile = np.percentile(norms, 97.5)
+    
     return {
-        'test_losses': test_losses,
-        'test_accuracies': test_accuracies,
-        'times': times,
-        'learning_rates': learning_rates
+        'median': median,
+        'lower_95': lower_percentile,
+        'upper_95': upper_percentile,
+        'norms': norms
     }
 
-def main():
-    # Device configuration
+def run_experiment(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
 
-    # Load MNIST dataset
+    # Load dataset
     train_dataset = torchvision.datasets.MNIST(root='./data',
                                              train=True,
                                              transform=transforms.ToTensor(),
@@ -222,80 +283,121 @@ def main():
                                             train=False,
                                             transform=transforms.ToTensor())
     
-    # Create worker datasets and data loaders
-    worker_datasets = create_workers_data(train_dataset, NUM_WORKERS)
-    worker_loaders = [DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True) for dataset in worker_datasets]
-    test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
+    # Create workers
+    worker_datasets = create_workers_data(train_dataset, config['num_workers'])
+    worker_loaders = [DataLoader(dataset, batch_size=config['batch_size'], shuffle=True) 
+                     for dataset in worker_datasets]
+    test_loader = DataLoader(test_dataset, batch_size=config['batch_size'], shuffle=False)
     
-    # Define learning rate schedulers
-    signsgd_scheduler = lambda t: 0.01 / math.sqrt(t + 1)  # SignSGD scheduler
-    fedsgd_scheduler = lambda t: 0.05  # FedSGD scheduler
+    # Calculate total iterations and q
+    total_iterations = config['num_epochs'] * config['iterations_per_epoch']
     
-    # Run SignSGD with majority vote
-    print("\nRunning SignSGD with Majority Vote (adaptive lr = 0.01/sqrt(T))...")
-    signsgd_workers = [SignSGDWorker(loader, device, signsgd_scheduler) for loader in worker_loaders]
-    signsgd_metrics = run_training('signsgd', signsgd_workers, test_loader, device, NUM_EPOCHS)
+    # Run algorithms
+    results = {}
     
-    # Run FedSGD
-    print("\nRunning FedSGD (constant lr = 0.05)...")
-    fedsgd_workers = [FedSGDWorker(loader, device, fedsgd_scheduler) for loader in worker_loaders]
-    fedsgd_metrics = run_training('fedsgd', fedsgd_workers, test_loader, device, NUM_EPOCHS)
+    if config['algorithms']['signsgd']['enabled']:
+        print("\nRunning SignSGD with Majority Vote...")
+        workers = [SignSGDWorker(loader, device, 
+                               lr_scheduler=config['algorithms']['signsgd']['lr_scheduler']) 
+                  for loader in worker_loaders]
+        results['signsgd'] = run_training('signsgd', workers, test_loader, device, 
+                                        config['num_epochs'], config['iterations_per_epoch'])
     
-    # Create and save plots
-    epochs = range(1, NUM_EPOCHS + 1)
+    if config['algorithms']['dpsignsgd']['enabled']:
+        print("\nRunning DPSignSGD with Majority Vote...")
+        # Calculate q and sigma for each worker
+        dpsignsgd_workers = []
+        for loader in worker_loaders:
+            q = 1 / len(loader.dataset)  # Poisson probability for subsampling
+            sigma = find_min_sigma(q, total_iterations, 
+                                 config['final_epsilon'], 1/(len(loader.dataset))**config['final_power_in_delta'],
+                                 config['alpha_min'], config['alpha_max'],
+                                 config['sigma_min'], config['sigma_max'])
+            
+            worker = DPSignSGDWorker(loader, device,
+                                   sigma=sigma,
+                                   sensitivity_measure=1.0,
+                                   lr_scheduler=config['algorithms']['dpsignsgd']['lr_scheduler'])
+            dpsignsgd_workers.append(worker)
+        
+        results['dpsignsgd'] = run_training('signsgd', dpsignsgd_workers, test_loader, device,
+                                          config['num_epochs'], config['iterations_per_epoch'])
+        
+        # Analyze gradient norms
+        print("\nAnalyzing gradient norms for DPSignSGD:")
+        for i, worker in enumerate(dpsignsgd_workers):
+            analysis = analyze_gradient_norms(worker)
+            if analysis:
+                print(f"\nWorker {i + 1} gradient norm statistics:")
+                print(f"Median: {analysis['median']:.4f}")
+                print(f"95% interval: [{analysis['lower_95']:.4f}, {analysis['upper_95']:.4f}]")
+                
+                plt.figure(figsize=(10, 6))
+                plt.hist(analysis['norms'], bins=50, alpha=0.7)
+                plt.axvline(analysis['median'], color='r', linestyle='--', label=f'Median: {analysis["median"]:.4f}')
+                plt.axvline(analysis['lower_95'], color='g', linestyle='--', label=f'2.5%: {analysis["lower_95"]:.4f}')
+                plt.axvline(analysis['upper_95'], color='g', linestyle='--', label=f'97.5%: {analysis["upper_95"]:.4f}')
+                plt.xlabel('Gradient Norm')
+                plt.ylabel('Frequency')
+                plt.title(f'DPSignSGD Worker {i + 1} Gradient Norm Distribution')
+                plt.legend()
+                plt.grid(True)
+                plt.savefig(f'figs/mlp_23/dpsignsgd_worker_{i+1}_grad_norms.png')
+                plt.close()
     
-    # Accuracy vs Epochs
+    if config['algorithms']['fedsgd']['enabled']:
+        print("\nRunning FedSGD...")
+        workers = [FedSGDWorker(loader, device,
+                              lr_scheduler=config['algorithms']['fedsgd']['lr_scheduler'])
+                  for loader in worker_loaders]
+        results['fedsgd'] = run_training('fedsgd', workers, test_loader, device,
+                                       config['num_epochs'], config['iterations_per_epoch'])
+    
+    # Create plots
+    epochs = range(config['num_epochs'] + 1)
+    
+    # Plot metrics
+    metrics = ['test_accuracies', 'test_losses']
+    time_metrics = ['test_accuracies', 'test_losses']
+    
+    for metric in metrics:
+        plt.figure(figsize=(12, 6))
+        for algo in results:
+            if config['algorithms'][algo]['enabled']:
+                plt.plot(epochs, results[algo][metric], 
+                        f"{config['algorithms'][algo]['color']}-",
+                        label=f'{algo.upper()}')
+        plt.xlabel('Epochs')
+        plt.ylabel(metric.replace('_', ' ').title())
+        plt.title(f'Federated Learning: {metric.replace("_", " ").title()} vs Epochs')
+        plt.legend()
+        plt.grid(True)
+        plt.savefig(f'figs/mlp_23/{metric}_vs_epochs_comparison.png')
+        plt.close()
+    
+    for metric in time_metrics:
+        plt.figure(figsize=(12, 6))
+        for algo in results:
+            if config['algorithms'][algo]['enabled']:
+                plt.plot(results[algo]['times'], results[algo][metric],
+                        f"{config['algorithms'][algo]['color']}-",
+                        label=f'{algo.upper()}')
+        plt.xlabel('Time (seconds)')
+        plt.ylabel(metric.replace('_', ' ').title())
+        plt.title(f'Federated Learning: {metric.replace("_", " ").title()} vs Time')
+        plt.legend()
+        plt.grid(True)
+        plt.savefig(f'figs/mlp_23/{metric}_vs_time_comparison.png')
+        plt.close()
+    
+    # Learning Rate Schedule
     plt.figure(figsize=(12, 6))
-    plt.plot(epochs, signsgd_metrics['test_accuracies'], 'b-', label='SignSGD with Majority Vote')
-    plt.plot(epochs, fedsgd_metrics['test_accuracies'], 'r-', label='FedSGD')
-    plt.xlabel('Epochs')
-    plt.ylabel('Accuracy (%)')
-    plt.title('Federated Learning: Accuracy vs Epochs')
-    plt.legend()
-    plt.grid(True)
-    plt.savefig('figs/mlp_23/accuracy_vs_epochs_comparison.png')
-    plt.close()
-    
-    # Loss vs Epochs
-    plt.figure(figsize=(12, 6))
-    plt.plot(epochs, signsgd_metrics['test_losses'], 'b-', label='SignSGD with Majority Vote')
-    plt.plot(epochs, fedsgd_metrics['test_losses'], 'r-', label='FedSGD')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.title('Federated Learning: Loss vs Epochs')
-    plt.legend()
-    plt.grid(True)
-    plt.savefig('figs/mlp_23/loss_vs_epochs_comparison.png')
-    plt.close()
-    
-    # Accuracy vs Time
-    plt.figure(figsize=(12, 6))
-    plt.plot(signsgd_metrics['times'], signsgd_metrics['test_accuracies'], 'b-', label='SignSGD with Majority Vote')
-    plt.plot(fedsgd_metrics['times'], fedsgd_metrics['test_accuracies'], 'r-', label='FedSGD')
-    plt.xlabel('Time (seconds)')
-    plt.ylabel('Accuracy (%)')
-    plt.title('Federated Learning: Accuracy vs Time')
-    plt.legend()
-    plt.grid(True)
-    plt.savefig('figs/mlp_23/accuracy_vs_time_comparison.png')
-    plt.close()
-    
-    # Loss vs Time
-    plt.figure(figsize=(12, 6))
-    plt.plot(signsgd_metrics['times'], signsgd_metrics['test_losses'], 'b-', label='SignSGD with Majority Vote')
-    plt.plot(fedsgd_metrics['times'], fedsgd_metrics['test_losses'], 'r-', label='FedSGD')
-    plt.xlabel('Time (seconds)')
-    plt.ylabel('Loss')
-    plt.title('Federated Learning: Loss vs Time')
-    plt.legend()
-    plt.grid(True)
-    plt.savefig('figs/mlp_23/loss_vs_time_comparison.png')
-    plt.close()
-    
-    # Learning Rate vs Iterations
-    plt.figure(figsize=(12, 6))
-    plt.plot(range(len(signsgd_metrics['learning_rates'])), signsgd_metrics['learning_rates'], 'b-', label='SignSGD with Majority Vote')
-    plt.axhline(y=0.05, color='r', linestyle='-', label='FedSGD (constant)')
+    for algo in results:
+        if config['algorithms'][algo]['enabled']:
+            plt.plot(range(len(results[algo]['learning_rates'])), 
+                    results[algo]['learning_rates'],
+                    f"{config['algorithms'][algo]['color']}-",
+                    label=f'{algo.upper()}')
     plt.xlabel('Iterations')
     plt.ylabel('Learning Rate')
     plt.title('Learning Rate Schedule')
@@ -304,10 +406,18 @@ def main():
     plt.savefig('figs/mlp_23/learning_rate_schedule.png')
     plt.close()
     
-    print(f"\nFinal Test Accuracy:")
-    print(f"SignSGD with Majority Vote: {signsgd_metrics['test_accuracies'][-1]:.2f}%")
-    print(f"FedSGD: {fedsgd_metrics['test_accuracies'][-1]:.2f}%")
-    print(f"Plots saved in 'figs/mlp_23/' directory")
+    # Print final results
+    print("\nFinal Results:")
+    for algo in results:
+        if config['algorithms'][algo]['enabled']:
+            print(f"{algo.upper()}:")
+            print(f"  Final Test Accuracy: {results[algo]['test_accuracies'][-1]:.2f}%")
+    
+    print("\nPlots saved in 'figs/mlp_23/' directory")
 
 if __name__ == "__main__":
-    main()
+    # Example configuration
+    config = DEFAULT_CONFIG.copy()
+    
+    # Run experiment with configuration
+    run_experiment(config)
