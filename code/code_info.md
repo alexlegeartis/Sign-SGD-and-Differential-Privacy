@@ -1,1 +1,2 @@
-All relevant code is in "sign_sgd_dp" file. It is a python notebook that is supposed to be run step by step. On the other hand, it can be converted into a single .py file with the same functionality. However, I opted not to do so until the experiments are finalized.
+See renyi_dp_sign.ipynb for a clean implementation of dpSignSGD on mushrooms.
+See gpt_majority_sign.py for an implementation of dpSignSGD for MLP on MNIST (beta-version). privacy_methods is a helper module for gpt_majority_sign.py.

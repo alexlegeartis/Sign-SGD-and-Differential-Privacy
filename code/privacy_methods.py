@@ -33,7 +33,7 @@ from functools import lru_cache
 def find_min_sigma(q, T, epsilon, delta, alpha_min=2, alpha_max=20, sigma_min=0.5, sigma_max=3):
     # Define your ranges for alpha and sigma
     alphas = np.arange(alpha_min, alpha_max, 1)          # Integer values for alpha
-    sigmas = np.linspace(sigma_min, sigma_max, 30)   # Real values for sigma
+    sigmas = np.linspace(sigma_min, sigma_max, 50)   # Real values for sigma
 
     opt_sigma = 100000
     opt_alpha = None
