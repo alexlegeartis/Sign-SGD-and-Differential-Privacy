@@ -31,24 +31,24 @@ DEFAULT_CONFIG = {
     'algorithms': {
         'signsgd': {
             'enabled': True,
-            'num_epochs': 10,
+            'num_epochs': 50,
             'lr_scheduler': lambda t: 0.02 / (t + 1)**(1/4),
-            'poisson_qn': 50,
+            'poisson_qn': 10,
             'color': 'b'
         },
         'dpsignsgd': {
             'enabled': True,
-            'num_epochs': 200,
+            'num_epochs': 500,
             'lr_scheduler': lambda t: 0.02 / (t + 1)**(1/5), # lambda t: 1 / math.sqrt(128 * 784 * 2 * 50 * 30),
-            'poisson_qn': 50,
+            'poisson_qn': 10,
             'clipping_level': lambda t: 10 / (t + 1)**(1/6),  # Dynamic clipping level
             'color': 'g'
         },
         'fedsgd': {
             'enabled': True,
-            'num_epochs': 10,
+            'num_epochs': 50,
             'lr_scheduler': lambda t: 0.05,
-            'poisson_qn': 20,
+            'poisson_qn': 10,
             'color': 'r'
         }
     }
