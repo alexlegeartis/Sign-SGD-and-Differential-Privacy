@@ -13,6 +13,8 @@
 \usepackage{multicol}% many columns in slide
 \usepackage{hyperref}% urls
 \usepackage{hhline}%tables
+\usepackage{algorithmic}
+\usepackage{algorithm}
 
 \usepackage[backend=biber,style=authoryear]{biblatex}
 \bibliography{../article/draft_lib} % assumes refs.bib includes the entry
@@ -29,11 +31,11 @@
 \usepackage{mathtools}
 \DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{#1\;\delimsize\|\;#2}
 %----------------------------------------------------------------------------------------------------------
-\title[\hbox to 56mm{Feature generation}]{Differentially private modification of sign-SGD}
+\title[\hbox to 56mm{Feature generation}]{Differentially private modification of SignSGD}
 \author[A.\,Yu.~Kravatskiy]{Alexey Kravatskiy}
 \institute{Moscow Institute of Physics and Technology}
 \date{\footnotesize
-\par\smallskip\emph{Course:} My first scientific paper\par (Strijov's practice)/Group 205 %821, 813
+\par\smallskip\emph{Course:} My first scientific paper\par (Strijov's practice) \& Innovative Practicum /Group 205
 \par\smallskip\emph{Expert:} A.\,N.~Beznosikov
 \par\smallskip\emph{Consultant:} S.\,A.~Chezhegov
 \par\bigskip\small 2025}
@@ -51,19 +53,19 @@
 A communication-efficient and private algorithm for distributed optimization converging under heavy-tailed noise (noise with unbounded variance).
 \end{block}
 \begin{block}{Problem}
-The only proposed private sign-based algorithm dp-signSGD either is not private or does not converge.
+The only proposed private sign-based algorithm DP-SignSGD either is not private or does not converge.
 \end{block}
 \begin{block}{Solution}
-A new privacy accountant for dp-signSGD that affords lower noise to ensure privacy.
+A new privacy accountant for DP-SignSGD that affords lower noise to ensure privacy.
 \end{block}
 \end{frame}
 %-----------------------------------------------------------------------------------------------------
-\begin{frame}{Differential privacy of DP-signSGD}
+\begin{frame}{Differential privacy of DP-SignSGD}
 
 \includegraphics[width=1.0\textwidth]{dp_sign_converges} 
 
 \bigskip
-DP-signSGD with an appropriate $\sigma$ is {\color{red} $(\epsilon, delta)$-private and converges under heavy-tailed noise}.
+DP-SignSGD with an appropriate $\sigma$ is {\color{red} $(\epsilon, \delta)$-private and converges under heavy-tailed noise}.
 \end{frame}
 
 %-----------------------------------------------------------------------------------------------------
@@ -78,15 +80,46 @@ DP-signSGD with an appropriate $\sigma$ is {\color{red} $(\epsilon, delta)$-priv
 \begin{frame}{Differential Privacy}
     \begin{definition}
         Given a set of local datasets $\mathcal{D}$ provided with a notion of neighboring local datasets $\mathcal{N}_{\mathcal{D}}\subset \mathcal{D}\times \mathcal{D}$ that differ in only one data point. For a query function $f: \mathcal{D}\rightarrow \mathcal{X}$, a mechanism $\mathcal{M}:\mathcal{X}\rightarrow \mathcal{O}$ to release the answer of the query is defined to be $(\epsilon,\delta)$-locally differentially private if for any measurable subset $\mathcal{S}\subseteq\mathcal{O}$ and two neighboring local datasets $(D_1,D_2)\in \mathcal{N}_{\mathcal{D}}$,
-        \begin{equation}
+        $$
         P(\mathcal{M}(f(D_1))\in \mathcal{S}) \leq e^{\epsilon}P(\mathcal{M}(f(D_2))\in \mathcal{S}) + \delta.
-        \end{equation}
+        $$
     \end{definition}
         
         A key quantity in characterizing local differential privacy for many mechanisms is the sensitivity of the query $f$ in a given norm $l_{r}$, which is defined as
-        \begin{equation}\label{sensitivity}
+        $$
         \Delta_{r} = \max_{(D_1,D_2)\in\mathcal{N}_{\mathcal{D}}}||f(D_1)-f(D_2)||_r.
-        \end{equation}
+        $$
+\end{frame}
+%-----------------------------------------------------------------------------------------------------
+\begin{frame}{Incorrect version of DP-SIGN (\cite{Jin2020})}
+\begin{definition}
+    For any given gradient $\boldsymbol{g}_{m}^{(t)}$, the compressor $\mathrm{dp\text{-}sign}$ outputs $\mathrm{dp\text{-}sign}(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$. The $i$-th entry of $\mathrm{dp\text{-}sign}(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$ is given by
+    $$
+    \mathrm{dp\text{-}sign}(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)_{i} =
+    \begin{cases}
+    1, & \text{with probability } \Phi\left(\dfrac{(\boldsymbol{g}_{m}^{(t)})_{i}}{\sigma}\right) \\[1.5ex]
+    -1, & \text{with probability } 1-\Phi\left(\dfrac{(\boldsymbol{g}_{m}^{(t)})_{i}}{\sigma}\right)
+    \end{cases}
+    $$
+    where $\Phi(\cdot)$ is the cumulative distribution function of the standard normal distribution; $\sigma = \dfrac{\Delta_{2}}{\epsilon}\sqrt{2\ln\left(\dfrac{1.25}{\delta}\right)}$, where $\epsilon$ and $\delta$ are the differential privacy parameters and $\Delta_2$ is the sensitivity measure.
+\end{definition}
+\end{frame}
+%-----------------------------------------------------------------------------------------------------
+\begin{frame}{Theorem 6 from (\cite{Jin2020})}
+\begin{theorem}\label{dp-sign-probabilities}
+    Let $u_{1},u_{2},\cdots,u_{M}$ be $M$ known and fixed real numbers. Further define random variables $\hat{u}_{i}=dp\text{-}sign(u_{i},\epsilon,\delta), \forall 1\leq i \leq M$. Then there always exist a constant $\sigma_{0}$ such that when $\sigma \geq \sigma_{0}$, $P(sign(\frac{1}{M}\sum_{m=1}^{M}\hat{u}_{i})\neq sign(\frac{1}{M}\sum_{m=1}^{M}u_{i})) <\big(1-x^2\big)^{\frac{M}{2}}$,
+    where $x = \frac{|\sum_{m=1}^{M}u_{m}|}{2\sigma M}$.
+\end{theorem}
+
+\bigskip
+
+\textcolor{red}{\textbf{Fault}} From the proof, it follows that the constant $\sigma_0$ depends on the values of $\{u_{i}\}$, which precludes from constructing DP-SIGN compressor.
+
+\textcolor{red}{\textbf{Fault}} The authors have not guaranteed the overall $(\eps, \delta)$-privacy.
+
+\textcolor{red}{\textbf{Fault}} The authors have not proved the convergence of their DP-SignSGD.
+
+
 \end{frame}
 %-----------------------------------------------------------------------------------------------------
 \begin{frame}{Rényi divergence (\cite{Mironov2017})}
@@ -96,8 +129,6 @@ DP-signSGD with an appropriate $\sigma$ is {\color{red} $(\epsilon, delta)$-priv
         \]
         \renyi\ divergence at orders $\alpha=1,\infty$ are defined by continuity.
         \end{definition}
-        
-        
     
 \end{frame}
 %-----------------------------------------------------------------------------------------------------
@@ -122,34 +153,63 @@ DP-signSGD with an appropriate $\sigma$ is {\color{red} $(\epsilon, delta)$-priv
     \end{frame}
 %-----------------------------------------------------------------------------------------------------
 \begin{frame}{Criterion of a private algorithm}
-Following the procedure from \cite{mironov2019SGM}, we can get:
-$$\eps_R \leq \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)$$
+Following the procedure from \cite{mironov2019SGM}, we get:
+$$\eps_R = \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)$$
 
-While according to the advanced composition theorem and conversion from \renyi  privacy to $(\eps, \delta)$-privacy, $\eps_R$ must satisfy:
+While according to the advanced composition theorem and conversion from \renyi\ privacy to $(\eps, \delta)$-privacy, $\eps_R$ must satisfy:
 $$ \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}$$.
 \end{frame}
 
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Grid Search to find minimal $\sigma$}
-\begin{columns}[c]
-\includegraphics[width=1.0\textwidth]{valid_sigma} 
-\end{columns}
+\includegraphics[width=1.0\textwidth]{grid_sigma_to_pres.pdf}
+($\alpha$, $\sigma$) that guarantee ($\epsilon$, $\delta$)-dp of $T$ subsamplings for $\epsilon = 1$, $\delta = 1/n^{1.1}$, $T = 1000$, $q = 1/n$, where $n=649$ (10\% of the Mushroom dataset).
+
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{Our version of DP-SIGN compressor}
+\newcommand{\gradg}{\boldsymbol{g}}
+    %\caption{DP-SIGN compressor}
+    %\label{dp-sign-precise}
+    \begin{algorithmic}
+        \STATE \textbf{Input}: coordinate $w$, loss function $l$, user database $D$, $(\eps, \delta)$-privacy requirement, number of iterations $T$, sampling rate $q$, clipping level $C$.
+        \STATE Prepare subsample $S$: add each element $(x, y) \in D$ with probability $q$.
+        \STATE Compute the gradient $\gradg$ of the subsample: $\frac{1}{|S|}\sum_{(x,y)\in S}l(w;(x,y))$. If $S$ is empty, let $\gradg = 0$.
+        \STATE If $||\gradg||_2 > C$: $\gradg = C\frac{\gradg}{||\gradg||_2}$.
+        \STATE Grid search $\sigma(q, T, \eps, \delta)$ that satisfies 2 expressions for $\eps_R$ stated earlier.
+        \STATE $\gradg_{priv}$ = $\gradg + \mathcal{N}(0,(C\sigma)^2\mathbb{I}^d)$
+        \STATE \textbf{Output}: $sign(\gradg_{priv})$
+    \end{algorithmic}
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{UCI Mushroom Dataset}
+6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features.
+10 workers with equal size of datasets $n ~ 645$. $q = 1/n$.
+\end{frame}
+%-------------------------------------------------------------------------------------------
+\begin{frame}{Synthetic heavy-tailed noise}
+We add to the gradients coordinatewise noise with Lévy stable distribution with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Computational experiment}
     \includegraphics[width=1.0\textwidth]{dp_sign_100K_steps} 
-dp-sign SGD converges very slowly, but it depends on a dataset. Lower $q$ leads to much lower $\sigma$ and better convergence.
+DP-SignSGD converges very slowly, but it depends on a dataset. Lower $q$ leads to much lower $\sigma$ and better convergence.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
-\begin{frame}{Conclusion}
-    \begin{block}{dp-sign SGD}
+\begin{frame}{Implemented DP-SGD and DP-SignSGD are not feasible yet}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{v28_10eps_short.pdf}
+    \end{figure}
+    The current approach to construct DP-SGD might be not optimal.
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{DP-SignSGD with Poisson sampling $q = 1/n$}
     \begin{itemize}
-        \item with Poisson sampling $q = 1/n$ 
-        \item is $(10, 1/n^{1.1})$ differentially-private
+        \item is $(1, 1/n^{1.1})$ differentially-private
         \item empirically converges on logistic regression problem even with heavy-tailed noise
+        \item empirically converges with the same type of convergence like DP-SGD with Poisson sampling
     \end{itemize}
-    \end{block}
-    Now we have to provide theoretical guarantees of convergence.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \end{document} 

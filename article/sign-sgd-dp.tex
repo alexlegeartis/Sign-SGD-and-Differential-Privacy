@@ -110,7 +110,7 @@
 \maketitle
 
 \begin{abstract}
-In the era of large models, federated learning has become indispensable like never before. Sound modern federated learning must meet three key requirements. First and foremost, the whole process of learning must not jeopardize user data, hence be private to given extent. Second, the algorithm must correctly process real-world data, which, in case of Large Language Models (LLMs), means it must tolerate noise with unbounded variance. Third, to ensure applicability, the algorithm must converge under these conditions with high probability, not only in expectation. To address these natural requirements, we have constructed a novel modification of Sign version of Stochastic Gradient Descent. In this paper, we demonstrate that it meets all three earlier stated requisites. We start with defining a construction procedure which guarantees differential privacy. Then, we prove algorithm's high-probability convergence on data with heavy-tailed noise. Finally, we show the superior performance of the algorithm in training LLMs in distributed setting.
+In the era of large models, federated learning has become indispensable like never before. Sound modern federated learning must meet three key requirements. First and foremost, the whole process of learning must not jeopardize user data, hence be private to given extent. Second, the algorithm must correctly process real-world data, which, in case of Large Language Models (LLMs), means it must tolerate noise with unbounded variance. Third, to ensure applicability, the algorithm must converge under these conditions with high probability, not only in expectation. To address these crucial requirements, we propose a novel modification of Sign version of Stochastic Gradient Descent. In this paper, we demonstrate that it meets all three earlier stated requisites. We start with defining a construction procedure which guarantees differential privacy. Then, we prove algorithm's high-probability convergence on data with heavy-tailed noise. Finally, we show the superior performance of the algorithm in training LLMs in distributed setting.
 
 \end{abstract}
 
@@ -127,7 +127,7 @@ In the era of large models, federated learning has become indispensable like nev
 \section{Introduction}
 Federated Learning is a useful method to train models that require large amounts of data. Indeed, it is often the case that the data is distributed across multiple devices, like mobile phones \parencite{McMahan2017}, and it is not only costly to collect all the data in one place, but also often unacceptable due to the requirements of privacy. On the other hand, training the model only on the local data for a particular user is impossible, as the model is large and data of one user is insufficient. Hence, a need for a joint training procedure arises. We come to a setting with a server and a number of workers, where each worker has a local dataset. The goal is to train a model on the data from all the workers, without sharing the data between the workers or with the server.
 
-The most obvious way to train a model in a federated setting is to use Stochastic Gradient Descent (\algname{SGD}) \parencite{Robbins1951} by passing the gradient to the server. However, when trasmitting the gradient itself, the communication cost is unaffordably high, and again the data privacy might be violated. To address this issue, one can use the Sign Stochastic Gradient Descent (\algname{SignSGD})algorithm \parencite{Bernstein2018}. This algorithm transmits only the signs of the coordinates of the gradients, which is much cheaper in terms of communication.
+The most obvious way to train a model in a federated setting is to use Stochastic Gradient Descent (\algname{SGD}) \parencite{Robbins1951} by passing the gradient to the server. However, when trasmitting the gradient itself, the communication cost is unaffordably high, and again the data privacy might be violated. To address this issue, one can use the Sign Stochastic Gradient Descent (\algname{SignSGD}) algorithm \parencite{Bernstein2018}. This algorithm transmits only the signs of the coordinates of the gradients, which is much cheaper in terms of communication.
 
 Communication costs aside, clipping the norm of gradient estimate before \algname{SGD} step, which comprises the method called \algname{ClipSGD}, is an another great idea that demonstrates positive empirical results \parencite{Pascanu2013, Goodfellow2016}. Nonetheless, the clipping requires meticulous tuning of the clipping threshold, which was shown to depend on not only iteration number, but also the objective function and the noise \parencite[Theorem $3.1$]{Sadiev2023}. In case of federated learning, the search of the threshold is even more complicated, as the data is distributed across the workers and cannot be used for tuning, and the objective function is more complex due to sophistication and size of the model.
 
@@ -161,7 +161,7 @@ F(w) = \frac{1}{|D|}\sum_{(x,y)\in D}l(w;(x,y)).
 
 In case of distributed optimization, the dataset is split between $M$ workers. Each worker $m$ has a local dataset $D_m \subset I$ and a local function $f_m:\R^d \to \R$ defined as
 \begin{equation}
-f_m(w)=\frac{1}{|D_m|}\sum_{(x_n,y_n)\in D_m}l(w;(x_n,y_n)),
+f_m(w)=\frac{1}{|D_m|}\sum_{(x,y)\in D_m}l(w;(x,y)),
 \end{equation}
 where $|D_m|$ is the size of worker $m$'s local dataset $D_m$.
 
@@ -173,19 +173,20 @@ Thus, our goal is to solve the following federated optimization problem:
 We assume that the data are distributed over the workers uniformly, consequently, $\EE[f_{m}(w)]=F(w)$ for workers' data distribution.
 
 Now, let us introduce the requirements for the algorithm to solve the federated optimization problem.
-\paragraph{Heavy-tailed noise.}
-Noise has bounded $\kappa$-th moment for some $\kappa \in (1,2]$, i.e. $\EE_\xi[\| \nabla f (x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$. In particular, the noise can have unbounded variance when $\kappa < 2$.
+
+%\paragraph{Heavy-tailed noise.}
+% Noise has bounded $\kappa$-th moment for some $\kappa \in (1,2]$, i.e. $\EE_\xi[\| \nabla f (x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$. In % particular, the noise can have unbounded variance when $\kappa < 2$.
 
 \paragraph{Differential privacy.}
 Additionally, the algorithm must be private. This is guaranteed by $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}:
 \begin{definition}
     Given a set of local datasets $\mathcal{D}$ provided with a notion of neighboring local datasets $\mathcal{N}_{\mathcal{D}}\subset \mathcal{D}\times \mathcal{D}$ that differ in only one data point. For a query function $f: \mathcal{D}\rightarrow \mathcal{X}$, a mechanism $\mathcal{M}:\mathcal{X}\rightarrow \mathcal{O}$ to release the answer of the query is defined to be $(\epsilon,\delta)$-locally differentially private if for any measurable subset $\mathcal{S}\subseteq\mathcal{O}$ and two neighboring local datasets $(D_1,D_2)\in \mathcal{N}_{\mathcal{D}}$,
     \begin{equation}
-    P(\mathcal{M}(f(D_1))\in \mathcal{S}) \leq e^{\epsilon}P(\mathcal{M}(f(D_2))\in \mathcal{S}) + \delta.
+    \mathbb{P}(\mathcal{M}(f(D_1))\in \mathcal{S}) \leq e^{\epsilon}P(\mathcal{M}(f(D_2))\in \mathcal{S}) + \delta.
     \end{equation}
 \end{definition}
     
-    A key quantity in characterizing local differential privacy for many mechanisms is the sensitivity of the query $f$ in a given norm $l_{r}$, which is defined as
+    A key quantity in characterizing local differential privacy for many mechanisms is the sensitivity of the query $f$ in a given norm $l_{r}$ (we use $l_{2}$), which is defined as
     \begin{equation}\label{sensitivity}
     \Delta_{r} = \max_{(D_1,D_2)\in\mathcal{N}_{\mathcal{D}}}||f(D_1)-f(D_2)||_r.
     \end{equation}
@@ -194,6 +195,16 @@ Additionally, the algorithm must be private. This is guaranteed by $(\epsilon,\d
 For given $\delta_{prob} \in (0,1)$, the algorithm must converge with probability at least $1 - \delta_{prob}$.
 
 \section{Theory}
+\begin{assumption}[Heavy-tailed noise in gradient estimates]\label{as: pBCM}
+    The unbiased estimate $\nabla f (x, \xi)$  has bounded $\kappa$-th moment $\kappa \in (1,2]$ for each coordinate, i.e., $\forall x \in \R^d$: 
+    \begin{itemize}
+        \item $\EE_\xi [\nabla f (x, \xi)] = \nabla f(x),$
+        \item $\EE_\xi [|\nabla f (x, \xi)_i - \nabla f(x)_i|^\kappa] \leq \sigma_i^\kappa, i \in \overline{1,d},$
+    \end{itemize}
+    where $\Vec{\sigma} = [\sigma_1, \dots, \sigma_d]$ are non-negative constants.
+    If $\kappa = 2$, then the noise is called a bounded variance. 
+\end{assumption}
+
 \subsection{The Algorithm and the compressor}
 The algorithm we are working with can be defined generally as follows:
 \begin{algorithm}
@@ -212,7 +223,7 @@ The algorithm we are working with can be defined generally as follows:
 Our goal is to find such compressor $q(\cdot)$ that the algorithm is private.
 
 \subsection{Incorrectness of earlier proposed DP-SIGN}
-Some time ago there was proposed a 1-bit compressor dp-sign \cite{Jin2020}:
+Some time ago, a 1-bit compressor dp-sign \cite{Jin2020} was proposed:
 
 \begin{definition}
     For any given gradient $\boldsymbol{g}_{m}^{(t)}$, the compressor $dp\text{-}sign$ outputs $dp\text{-}sign(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$. The $i$-th entry of $dp\text{-}sign(\boldsymbol{g}_{m}^{(t)},\epsilon,\delta)$ is given by
@@ -331,7 +342,7 @@ $\gradg_{priv}$ is private due to the satisfaction of \eqref{eq:renyi_eps_guaran
 In this section, we present the experimental results for the methods we discussed in Sections 2 and 3. First, we appy the algorithms to a classic machine learning problem. Then, we test the algorithms on the training of Large Language Models.
 
 \subsection{Synthetic noise.}
-We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run for $T = 100000$ iterations on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma = 1/4$, and when the noise is Lévy stable with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$. For private algorithms, we set $\epsilon \approx 10$, $\delta \approx 1/n^{1.1}$, where $n$ is the size of local user database, as is recommended for machine learning purposes \cite{Ponomareva2023}. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and {\scriptsize DP-SIGN}SGD. The results are presented in \ref{fig:logreg}.
+We test our algorithm on the method of logistic regression for UCI Mushroom Dataset. The dataset consists of 6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features, and represents a mushroom either poisonous or edible. We apply different algorithms to train the logistic regression model. The algorithms are run for $T = 100000$ iterations on 10 workers, with training data distributed between the workers equally. We compare the cases when there is no noise, when the noise is normal with $\sigma = 1/4$, and when the noise is coordinatewise Lévy stable with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$. For private algorithms, we set $\epsilon \approx 10$, $\delta \approx 1/n^{1.1}$, where $n$ is the size of local user database, as is recommended for machine learning purposes \cite{Ponomareva2023}. We set the learning rate $\gamma = 1/\sqrt{d T}$ for SGD, sign-SGD, and {\scriptsize DP-SIGN}SGD. The results are presented in \ref{fig:logreg}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{../figs/v17_10_workers_long.pdf}
