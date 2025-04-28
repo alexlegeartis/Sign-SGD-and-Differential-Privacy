@@ -21,6 +21,8 @@
 
 % Your figures are here:
 \graphicspath{ {fig/} {../figs/} }
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
 \newcommand{\eqdef}{\stackrel{\Delta}{=}}
 \newcommand{\SG}{\mathrm{SG}}
 \newcommand{\rd}[3]{\mathrm{D}_{#1}\infdivx*{#2}{#3}}
@@ -62,10 +64,10 @@ A new privacy accountant for DP-SignSGD that affords lower noise to ensure priva
 %-----------------------------------------------------------------------------------------------------
 \begin{frame}{Differential privacy of DP-SignSGD}
 
-\includegraphics[width=1.0\textwidth]{dp_sign_converges} 
+\includegraphics[width=1.0\textwidth]{v100K/short/v100K_short.pdf} 
 
 \bigskip
-DP-SignSGD with an appropriate $\sigma$ is {\color{red} $(\epsilon, \delta)$-private and converges under heavy-tailed noise}.
+DP-SignSGD with our DP-SIGN compressor is {\color{red} $(\eps, \delta)$-private and converges under heavy-tailed noise}. It behaves very much like DP-SGD with the same privacy mechanism.
 \end{frame}
 
 %-----------------------------------------------------------------------------------------------------
@@ -183,32 +185,61 @@ $$ \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}$$.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{UCI Mushroom Dataset}
-6,449 training samples and 1,625 testing samples. Each sample has $d = 112$ features.
-10 workers with equal size of datasets $n ~ 645$. $q = 1/n$.
+There are 6,449 training samples equally distributed over 10 workers. Test consists of 1,625 samples. Each sample has $d = 112$ features. $q = 1/n$.
+
+We solve the binary classification problem with $\lambda = 10^{-3}$ regularization.
+
+\bigskip
+
+Optimization problem:
+$$\min_{x \in \mathbb{R}^n} \left( \frac{1}{m} \sum_{i=1}^m \ln(1 + \exp(-b_i \langle a_i, x \rangle)) + \frac{\lambda}{2} \|x\|^2 \right)
+$$
+
+Classification rule:
+$b(a) := \text{sign}(\langle a, x \rangle)$
+
+\bigskip
+
+For each algorithm (SignSGD, DP-SGD, and DP-SignSGD), we set the learning rate $\eta=\frac{1}{\sqrt{T d}}$. The goal is $(10, 1/n^{1.1})$ privacy.
 \end{frame}
-%-------------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------------------------------
+\begin{frame}{Heavy-tailed noise in gradient estimates}
+
+    The unbiased estimate $\nabla f (x, \xi)$  has bounded $\kappa$-th moment $\kappa \in (1,2]$ for each coordinate, i.e., $\forall x \in \R^d$: 
+    \begin{itemize}
+        \item $\EE_\xi [\nabla f (x, \xi)] = \nabla f(x),$
+        \item $\EE_\xi [|\nabla f (x, \xi)_i - \nabla f(x)_i|^\kappa] \leq \sigma_i^\kappa, i \in \overline{1,d},$
+    \end{itemize}
+    where $\Vec{\sigma} = [\sigma_1, \dots, \sigma_d]$ are non-negative constants.
+    If $\kappa = 2$, then the noise is called a bounded variance. 
+
+\end{frame}
+%------------------------------------------------------------------------------------------------------
 \begin{frame}{Synthetic heavy-tailed noise}
-We add to the gradients coordinatewise noise with Lévy stable distribution with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$
+\includegraphics[width=1.0\textwidth]{levy_stable_histogram} 
+We add to the gradients coordinatewise noise with Lévy stable distribution with $\sigma_l = 1/4$, $\alpha_l=1.6$, which corresponds to $\kappa=1.5$, and $\beta_l=0$ (this distribution is defined by its characteristic function $\varphi(t)=\exp\left(-0.25^{1.6}|t|^{1.6})\right)$.
+
+We compare settings with no noise, $\mathcal{N}(0, 0.25^2\mathbb{I}^d)$ noise and this noise.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Computational experiment}
-    \includegraphics[width=1.0\textwidth]{dp_sign_100K_steps} 
+    \includegraphics[width=1.0\textwidth]{v100K/long/v100K_long.pdf} 
 DP-SignSGD converges very slowly, but it depends on a dataset. Lower $q$ leads to much lower $\sigma$ and better convergence.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
-\begin{frame}{Implemented DP-SGD and DP-SignSGD are not feasible yet}
+\begin{frame}{Our DP-SGD and DP-SignSGD are not feasible yet}
     \begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{v28_10eps_short.pdf}
     \end{figure}
-    The current approach to construct DP-SGD might be not optimal.
+    The current approach to construct DP-SGD might be not optimal: currently, our DP-SGD fails to converge on MLP problem.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{DP-SignSGD with Poisson sampling $q = 1/n$}
     \begin{itemize}
-        \item is $(1, 1/n^{1.1})$ differentially-private
+        \item $(10, 1/n^{1.1})$ differentially-private
         \item empirically converges on logistic regression problem even with heavy-tailed noise
-        \item empirically converges with the same type of convergence like DP-SGD with Poisson sampling
+        \item empirically converges with the same type of convergence like DP-SGD with Poisson subsampling
     \end{itemize}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
