@@ -13,7 +13,7 @@ import numpy as np
 from torch.utils.data import random_split, DataLoader
 from privacy_methods import dp_sign_by_sigma, find_min_sigma
 
-code_version = "mlp_23"
+code_version = "mlp_28"
 # Create directory for saving plots
 os.makedirs(f'../figs/{code_version}', exist_ok=True)
 
