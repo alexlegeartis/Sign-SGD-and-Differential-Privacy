@@ -23,7 +23,7 @@ os.makedirs(FIGS_PATH, exist_ok=True)
 DEFAULT_CONFIG = {
     'num_workers': 3,
     'batch_size': 128,
-    'iterations_per_epoch': 50,
+    'iterations_per_epoch': 100,
     'final_epsilon': 10.0,
     'final_power_in_delta': 1.1,
     'alpha_min': 2,
@@ -41,15 +41,17 @@ DEFAULT_CONFIG = {
         },
         'dpsignsgd': {
             'enabled': True,
-            'num_epochs': 4,
-            'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/3),  # Optimal learning rate for perceptron
-            'poisson_qn': 200,
+            'num_epochs': 40,
+            # Learning rate scheduler with warmup: linear warmup for first 100 iterations, then decay
+            'lr_scheduler': lambda t: 0.005 * min(1.0, (t+1)/100) / (t + 1)**(1/5),  # Warmup + optimal LR
+            'poisson_qn': 100, # 200 and 1 --> 10 and 20
+            'repeat_num': 1,
             'clipping_level': lambda t: 4, # lambda t: 10 / (t + 1)**(1/6),  # Dynamic clipping level
-            'color': 'g'
+            'color': 'o'
         },
         'dpsgd': {
             'enabled': True,
-            'num_epochs': 4,
+            'num_epochs': 40,
             'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/3),  # Optimal learning rate for perceptron
             'poisson_qn': 200,
             'clipping_level': lambda t: 4, # 10 / (t + 1)**(1/6),  # Dynamic clipping level
@@ -57,8 +59,8 @@ DEFAULT_CONFIG = {
         },
         'fedsgd': {
             'enabled': False,
-            'num_epochs': 20,
-            'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/4),  # Constant learning rate
+            'num_epochs': 40,
+            'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/3),  # Constant learning rate
             'poisson_qn': 100,
             'color': 'r'
         }
@@ -134,7 +136,6 @@ class BaseWorker:
         self.batch_size = data_loader.batch_size
         self.dataset_size = len(data_loader.dataset)
         self.poisson_sampling_prob = poisson_sampling_prob
-        self.train_losses = []  # Track training losses
 
     def get_learning_rate(self):
         if self.lr_scheduler is None:
@@ -154,15 +155,12 @@ class BaseWorker:
             images = images[mask]
             labels = labels[mask]
             if len(images) == 0:
-                self.train_losses.append(-1)  # No images to process
                 return [torch.zeros_like(param.data) for param in self.model.parameters()]
         
         # Forward pass
         outputs = self.model(images)
         loss = self.loss_fn(outputs, labels)
         
-        # Store training loss
-        self.train_losses.append(loss.item()) # this uses only some of the images
         
         # Backward pass
         loss.backward()
@@ -209,56 +207,63 @@ class DPSGDWorker(BaseWorker):
         current_clipping_level = self.clipping_level_fn(self.iter_count)
         
         # Calculate and store gradient norms
-        current_norms = []
         for grad in gradients:
             grad_np = grad.cpu().numpy()
-            grad_norm = np.linalg.norm(grad_np)
-            current_norms.append(grad_norm)
-            
             dp_grad = dp_by_sigma(grad_np, current_clipping_level, self.sigma)
             dp_grads.append(torch.from_numpy(dp_grad).to(self.device))
         
         return dp_grads
 
-    def apply_majority_update(self, majority_signs):
+    def apply_majority_update(self, avg_grads):
         with torch.no_grad():
-            if majority_signs is not None:
+            if avg_grads is not None:
                 lr = self.get_learning_rate()
-                for param, sign in zip(self.model.parameters(), majority_signs):
-                    param.add_(-lr * sign)
+                for param, grad in zip(self.model.parameters(), avg_grads):
+                    param.add_(-lr * grad)
                 self.iter_count += 1
 
 # DPSignSGD Worker
 class DPSignSGDWorker(BaseWorker):
-    def __init__(self, data_loader, device, sigma, clipping_level_fn, model_type='mlp', lr_scheduler=None, poisson_sampling_prob=None):
+    def __init__(self, data_loader, device, sigma, clipping_level_fn, repeat_num=1,
+                 model_type='mlp', lr_scheduler=None, poisson_sampling_prob=None):
         super().__init__(data_loader, device, model_type, lr_scheduler, poisson_sampling_prob)
         self.sigma = sigma
         self.clipping_level_fn = clipping_level_fn
-        # self.gradient_norms = []
-        # self.norm_percentiles = []  # Track 90th percentile over time
-        # self.window_size = 50  # Size of sliding window
-        
+        self.repeat_num = repeat_num
+
     def compute_grad_signs(self):
-        gradients = self.compute_gradients()
-        dp_signs = []
+        dp_grads = []
         current_clipping_level = self.clipping_level_fn(self.iter_count)
         
-        # Calculate and store gradient norms
-        current_norms = []
-        for grad in gradients:
-            grad_np = grad.cpu().numpy()
-            grad_norm = np.linalg.norm(grad_np)
-            current_norms.append(grad_norm)
-            # self.gradient_norms.append(grad_norm)
+        # Perform multiple repetitions with different samplings
+        dp_grad_sum = None
+        
+        for _ in range(self.repeat_num):
+            # Get fresh gradients with new Poisson sampling
+            gradients = self.compute_gradients()  # This includes new Poisson sampling
             
-            dp_sign = dp_sign_by_sigma(grad_np, current_clipping_level, self.sigma)
-            dp_signs.append(torch.from_numpy(dp_sign).to(self.device))
+            # Calculate and store gradient norms
+            for num, grad in enumerate(gradients):
+                grad_np = grad.cpu().numpy()
+                
+                # Apply DP with new noise
+                dp_grad = dp_by_sigma(grad_np, current_clipping_level, self.sigma)
+                
+                # Initialize or add to sum
+                if dp_grad_sum is None:
+                    dp_grad_sum = [None] * len(gradients)
+                if dp_grad_sum[num] is None:
+                    dp_grad_sum[num] = dp_grad
+                else:
+                    dp_grad_sum[num] += dp_grad
         
+        # Take average and convert to sign
+        for grad_sum in dp_grad_sum:
+            dp_grad_avg = grad_sum / self.repeat_num
+            dp_grad_sign = np.sign(dp_grad_avg)
+            dp_grads.append(torch.from_numpy(dp_grad_sign).to(self.device))
         
-        # percentile_90 = np.percentile(self.gradient_norms[-self.window_size:], 90)
-        # self.norm_percentiles.append(percentile_90)
-        
-        return dp_signs
+        return dp_grads
 
     def apply_majority_update(self, majority_signs):
         with torch.no_grad():
@@ -324,7 +329,6 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
     metrics = {
         'test_losses': [],
         'test_accuracies': [],
-        'train_losses': [],  # Add train losses
         'times': [],
         'learning_rates': []
     }
@@ -335,7 +339,6 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
     test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
     metrics['test_losses'].append(test_loss)
     metrics['test_accuracies'].append(test_accuracy)
-    metrics['train_losses'].append(1)  # Initial train loss
     metrics['times'].append(0.0)
     
     for epoch in range(num_epochs):
@@ -381,17 +384,13 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
         
         global_model.load_state_dict(workers[0].model.state_dict())
         
-        # Calculate average training loss across all workers
-        avg_train_loss = np.mean([np.mean(worker.train_losses[-iterations_per_epoch:]) for worker in workers])
-        
-        metrics['train_losses'].append(avg_train_loss)
         
         test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
         metrics['test_losses'].append(test_loss)
         metrics['test_accuracies'].append(test_accuracy)
         metrics['times'].append(time.time() - start_time)
         
-        print(f"Epoch {epoch + 1} - Train Loss: {avg_train_loss:.4f}, Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.2f}%")
+        print(f"Epoch {epoch + 1} - Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.2f}%")
         print(f"Current learning rate: {workers[0].get_learning_rate():.6f}")
     
     return metrics
@@ -452,7 +451,7 @@ def run_experiment(config):
         for loader in worker_loaders:
             q = config['algorithms']['dpsignsgd']['poisson_qn'] / len(loader.dataset)
             total_iterations = config['algorithms']['dpsignsgd']['num_epochs'] * config['iterations_per_epoch']
-            sigma = find_min_sigma(q, total_iterations * 4,  # 4 parameters of MLP and 8 parameters of CNN 
+            sigma = find_min_sigma(q, total_iterations * config['algorithms']['dpsignsgd']['repeat_num']* 4,  # 4 parameters of MLP and 8 parameters of CNN 
                                  config['final_epsilon'], 1/(len(loader.dataset))**config['final_power_in_delta'],
                                  config['alpha_min'], config['alpha_max'],
                                  config['sigma_min'], config['sigma_max'])
@@ -463,7 +462,8 @@ def run_experiment(config):
                                    clipping_level_fn=config['algorithms']['dpsignsgd']['clipping_level'],
                                    model_type=config['model_type'],
                                    lr_scheduler=config['algorithms']['dpsignsgd']['lr_scheduler'],
-                                   poisson_sampling_prob=q)
+                                   poisson_sampling_prob=q,
+                                   repeat_num=config['algorithms']['dpsignsgd']['repeat_num'])
             dpsignsgd_workers.append(worker)
         
         results['dpsignsgd'] = run_training('dpsignsgd', dpsignsgd_workers, test_loader, device,
@@ -547,8 +547,8 @@ def run_experiment(config):
     epochs = range(max_epochs + 1)
     
     # Plot metrics
-    metrics = ['test_accuracies', 'test_losses', 'train_losses']
-    time_metrics = ['test_accuracies', 'test_losses', 'train_losses']
+    metrics = ['test_accuracies', 'test_losses']
+    time_metrics = ['test_accuracies', 'test_losses']
     
     for metric in metrics:
         plt.figure(figsize=(12, 6))
@@ -558,10 +558,7 @@ def run_experiment(config):
                     plt.plot(range(len(results[algo][metric])), results[algo][metric], 
                             f"{config['algorithms'][algo]['color']}-",
                             label=f'{algo.upper()} Test Loss')
-                    # Add train loss on the same plot
-                    plt.plot(range(len(results[algo]['train_losses'])), results[algo]['train_losses'],
-                            f"{config['algorithms'][algo]['color']}--",
-                            label=f'{algo.upper()} Train Loss')
+                    
                 else:
                     plt.plot(range(len(results[algo][metric])), results[algo][metric], 
                             f"{config['algorithms'][algo]['color']}-",
@@ -582,10 +579,7 @@ def run_experiment(config):
                     plt.plot(results[algo]['times'], results[algo][metric],
                             f"{config['algorithms'][algo]['color']}-",
                             label=f'{algo.upper()} Test Loss')
-                    # Add train loss on the same plot
-                    plt.plot(results[algo]['times'], results[algo]['train_losses'],
-                            f"{config['algorithms'][algo]['color']}--",
-                            label=f'{algo.upper()} Train Loss')
+                    
                 else:
                     plt.plot(results[algo]['times'], results[algo][metric],
                             f"{config['algorithms'][algo]['color']}-",

@@ -5,16 +5,17 @@ import scipy
 
 code_version = "v23april"
 
+import mpmath
+# from mpmath import mp, loggamma, log, exp
+
 def compute_A_alpha(alpha, q, sigma):  # for now we have only support of integer alpha
     asum = 0
     for k in range(alpha + 1):
-        asum += scipy.special.comb(alpha, k) * (1 - q) ** (alpha - k) * q**k * math.exp((k*k-k)/(2 * sigma * sigma))
+        asum += scipy.special.comb(alpha, k) * mpmath.power(1 - q, alpha - k) * mpmath.power(q, k) * mpmath.exp((k*k-k)/(2 * sigma * sigma))
     return asum
 
-
 def compute_eps_precise(alpha, q, sigma): # this is Rényi epsilon for 1 step
-    return 1/(alpha - 1) * math.log(compute_A_alpha(alpha, q, sigma))
-
+    return float(float(1/(alpha - 1) * mpmath.log(compute_A_alpha(alpha, q, sigma))))
 
 def find_min_eps_precise(alpha, T, epsilon, delta):
     return epsilon / T - math.log(1/delta)/((alpha - 1) * T)
