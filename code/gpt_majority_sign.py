@@ -13,7 +13,7 @@ import numpy as np
 from torch.utils.data import random_split, DataLoader
 from privacy_methods import dp_sign_by_sigma, dp_by_sigma, find_min_sigma
 
-code_version = "mlp_29"
+code_version = "mlp_292"
 # Global path for saving figures
 FIGS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'figs', code_version))
 # Create directory for saving plots
@@ -34,16 +34,16 @@ DEFAULT_CONFIG = {
     'algorithms': {
         'signsgd': {
             'enabled': False,
-            'num_epochs': 40,
+            'num_epochs': 100,
             'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/3),  # Optimal learning rate for perceptron
             'poisson_qn': 30,
             'color': 'b'
         },
         'dpsignsgd': {
             'enabled': True,
-            'num_epochs': 40,
+            'num_epochs': 100,
             # Learning rate scheduler with warmup: linear warmup for first 100 iterations, then decay
-            'lr_scheduler': lambda t: 0.005 * min(1.0, (t+1)/100) / (t + 1)**(1/5),  # Warmup + optimal LR
+            'lr_scheduler': lambda t: 0.005 * min(1.0, (t+1)/500) / (t + 1)**(1/5),  # Warmup + optimal LR
             'poisson_qn': 100, # 200 and 1 --> 10 and 20
             'repeat_num': 1,
             'clipping_level': lambda t: 4, # lambda t: 10 / (t + 1)**(1/6),  # Dynamic clipping level
