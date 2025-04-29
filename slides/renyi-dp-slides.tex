@@ -144,7 +144,7 @@ DP-SignSGD with our DP-SIGN compressor is {\color{red} $(\eps, \delta)$-private 
     
 \end{frame}
 %-----------------------------------------------------------------------------------------------------
-\begin{frame}{Sample Gaussian Mechanism (\cite{mironov2019SGM})}
+\begin{frame}{Bernoulli sampling + Gaussian Mechanism (\cite{mironov2019SGM})}
     \begin{definition}[Sampled Gaussian Mechanism (SGM)] Let $f$ be a function mapping subsets of $\mathcal{S}$ to $\mathbb{R}^d$. We define the Sampled Gaussian mechanism (SGM) parameterized with the sampling rate $0<q\leq 1$ and the noise $\sigma>0$ as
         \[
         \SG_{q,\sigma}(S)\eqdef f(\{x\colon x\in S \textrm{ is sampled with probability } q\})+\mathcal{N}(0,\sigma^2\mathbb{I}^d),
@@ -240,11 +240,11 @@ DP-SignSGD converges better, when the learning rate is dynamic. $T^{-1/5}$ inste
     The current approach to construct DP-SGD might be not optimal: currently, our DP-SGD fails to converge on MLP problem.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
-\begin{frame}{DP-SignSGD with Poisson sampling $q = 1/n$}
+\begin{frame}{DP-SignSGD with Bernoulli sampling $q = 1/n$}
     \begin{itemize}
         \item $(10, 1/n^{1.1})$ differentially-private
         \item empirically converges on logistic regression problem even with heavy-tailed noise
-        \item empirically converges with the same type of convergence like DP-SGD with Poisson subsampling
+        \item empirically converges with the same type of convergence like DP-SGD with Bernoulli subsampling
         \item benefits from slowly decreasing learning rate
     \end{itemize}
 \end{frame}
