@@ -11,44 +11,55 @@ import os
 import math
 import numpy as np
 from torch.utils.data import random_split, DataLoader
-from privacy_methods import dp_sign_by_sigma, find_min_sigma
+from privacy_methods import dp_sign_by_sigma, dp_by_sigma, find_min_sigma
 
-code_version = "mlp_28"
+code_version = "mlp_29"
+# Global path for saving figures
+FIGS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'figs', code_version))
 # Create directory for saving plots
-os.makedirs(f'../figs/{code_version}', exist_ok=True)
+os.makedirs(FIGS_PATH, exist_ok=True)
 
 # Default configuration
 DEFAULT_CONFIG = {
-    'num_workers': 5,
+    'num_workers': 3,
     'batch_size': 128,
     'iterations_per_epoch': 50,
     'final_epsilon': 10.0,
-    'final_power_in_delta': 1.05,
+    'final_power_in_delta': 1.1,
     'alpha_min': 2,
     'alpha_max': 20,
     'sigma_min': 0.1,
     'sigma_max': 2,
+    'model_type': 'mlp',  # or 'cnn'
     'algorithms': {
         'signsgd': {
-            'enabled': True,
-            'num_epochs': 50,
-            'lr_scheduler': lambda t: 0.02 / (t + 1)**(1/4),
-            'poisson_qn': 10,
+            'enabled': False,
+            'num_epochs': 40,
+            'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/3),  # Optimal learning rate for perceptron
+            'poisson_qn': 30,
             'color': 'b'
         },
         'dpsignsgd': {
             'enabled': True,
-            'num_epochs': 500,
-            'lr_scheduler': lambda t: 0.02 / (t + 1)**(1/5), # lambda t: 1 / math.sqrt(128 * 784 * 2 * 50 * 30),
-            'poisson_qn': 10,
-            'clipping_level': lambda t: 10 / (t + 1)**(1/6),  # Dynamic clipping level
+            'num_epochs': 4,
+            'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/3),  # Optimal learning rate for perceptron
+            'poisson_qn': 200,
+            'clipping_level': lambda t: 4, # lambda t: 10 / (t + 1)**(1/6),  # Dynamic clipping level
             'color': 'g'
         },
-        'fedsgd': {
+        'dpsgd': {
             'enabled': True,
-            'num_epochs': 50,
-            'lr_scheduler': lambda t: 0.05,
-            'poisson_qn': 10,
+            'num_epochs': 4,
+            'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/3),  # Optimal learning rate for perceptron
+            'poisson_qn': 200,
+            'clipping_level': lambda t: 4, # 10 / (t + 1)**(1/6),  # Dynamic clipping level
+            'color': 'y'
+        },
+        'fedsgd': {
+            'enabled': False,
+            'num_epochs': 20,
+            'lr_scheduler': lambda t: 0.01 / (t + 1)**(1/4),  # Constant learning rate
+            'poisson_qn': 100,
             'color': 'r'
         }
     }
@@ -61,6 +72,7 @@ class MLP(nn.Module):
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.relu = nn.ReLU()
         self.fc2 = nn.Linear(hidden_size, num_classes)
+        self._initialize_weights()
         
     def forward(self, x):
         x = x.view(x.size(0), -1)  # Flatten the input
@@ -68,11 +80,52 @@ class MLP(nn.Module):
         x = self.relu(x)
         x = self.fc2(x)
         return x
+    def _initialize_weights(self):
+        nn.init.kaiming_normal_(self.fc1.weight, nonlinearity='relu')
+        nn.init.zeros_(self.fc1.bias)
+        nn.init.kaiming_normal_(self.fc2.weight, nonlinearity='relu')
+        nn.init.zeros_(self.fc2.bias)
+
+
+# Define CNN model
+class CNN(nn.Module):
+    def __init__(self, num_classes=10):
+        super(CNN, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.fc1 = nn.Linear(64 * 7 * 7, 128)
+        self.fc2 = nn.Linear(128, num_classes)
+        self.dropout = nn.Dropout(0.25)
+        self._initialize_weights()
+        
+    def forward(self, x):
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 64 * 7 * 7)
+        x = F.relu(self.fc1(x))
+        x = self.dropout(x)
+        x = self.fc2(x)
+        return x
+    def _initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.zeros_(m.bias)
+            elif isinstance(m, nn.Linear):
+                nn.init.kaiming_normal_(m.weight, nonlinearity='relu')
+                nn.init.zeros_(m.bias)
 
 # Base Worker class
 class BaseWorker:
-    def __init__(self, data_loader, device, lr_scheduler=None, poisson_sampling_prob=None):
-        self.model = MLP().to(device)
+    def __init__(self, data_loader, device, model_type='mlp', lr_scheduler=None, poisson_sampling_prob=None):
+        if model_type == 'mlp':
+            self.model = MLP().to(device)
+        elif model_type == 'cnn':
+            self.model = CNN().to(device)
+        else:
+            raise ValueError(f"Unknown model type: {model_type}")
         self.data_loader = data_loader
         self.device = device
         self.loss_fn = nn.CrossEntropyLoss()
@@ -81,6 +134,7 @@ class BaseWorker:
         self.batch_size = data_loader.batch_size
         self.dataset_size = len(data_loader.dataset)
         self.poisson_sampling_prob = poisson_sampling_prob
+        self.train_losses = []  # Track training losses
 
     def get_learning_rate(self):
         if self.lr_scheduler is None:
@@ -100,27 +154,35 @@ class BaseWorker:
             images = images[mask]
             labels = labels[mask]
             if len(images) == 0:
+                self.train_losses.append(-1)  # No images to process
                 return [torch.zeros_like(param.data) for param in self.model.parameters()]
+        
         # Forward pass
         outputs = self.model(images)
         loss = self.loss_fn(outputs, labels)
+        
+        # Store training loss
+        self.train_losses.append(loss.item()) # this uses only some of the images
         
         # Backward pass
         loss.backward()
         
         # Get gradients
         gradients = []
+        real_grads_num = 0
         for param in self.model.parameters():
             if param.grad is not None:
                 gradients.append(param.grad.clone())
+                real_grads_num += 1
             else:
                 gradients.append(torch.zeros_like(param.data))
+        # print(real_grads_num)
         return gradients
 
 # SignSGD Worker
 class SignSGDWorker(BaseWorker):
-    def __init__(self, data_loader, device, lr_scheduler=None, poisson_sampling_prob=None):
-        super().__init__(data_loader, device, lr_scheduler, poisson_sampling_prob)
+    def __init__(self, data_loader, device, model_type='mlp', lr_scheduler=None, poisson_sampling_prob=None):
+        super().__init__(data_loader, device, model_type, lr_scheduler, poisson_sampling_prob)
 
     def compute_grad_signs(self):
         gradients = self.compute_gradients()
@@ -134,15 +196,47 @@ class SignSGDWorker(BaseWorker):
                     param.add_(-lr * sign)
                 self.iter_count += 1
 
-# DPSignSGD Worker
-class DPSignSGDWorker(BaseWorker):
-    def __init__(self, data_loader, device, sigma, clipping_level_fn, lr_scheduler=None, poisson_sampling_prob=None):
-        super().__init__(data_loader, device, lr_scheduler, poisson_sampling_prob)
+# DPSGD Worker
+class DPSGDWorker(BaseWorker):
+    def __init__(self, data_loader, device, sigma, clipping_level_fn, model_type='mlp', lr_scheduler=None, poisson_sampling_prob=None):
+        super().__init__(data_loader, device, model_type, lr_scheduler, poisson_sampling_prob)
         self.sigma = sigma
         self.clipping_level_fn = clipping_level_fn
-        self.gradient_norms = []
-        self.norm_percentiles = []  # Track 90th percentile over time
-        self.window_size = 50  # Size of sliding window
+        
+    def compute_noise_grads(self):
+        gradients = self.compute_gradients() # Bernoulli sampling is included
+        dp_grads = []
+        current_clipping_level = self.clipping_level_fn(self.iter_count)
+        
+        # Calculate and store gradient norms
+        current_norms = []
+        for grad in gradients:
+            grad_np = grad.cpu().numpy()
+            grad_norm = np.linalg.norm(grad_np)
+            current_norms.append(grad_norm)
+            
+            dp_grad = dp_by_sigma(grad_np, current_clipping_level, self.sigma)
+            dp_grads.append(torch.from_numpy(dp_grad).to(self.device))
+        
+        return dp_grads
+
+    def apply_majority_update(self, majority_signs):
+        with torch.no_grad():
+            if majority_signs is not None:
+                lr = self.get_learning_rate()
+                for param, sign in zip(self.model.parameters(), majority_signs):
+                    param.add_(-lr * sign)
+                self.iter_count += 1
+
+# DPSignSGD Worker
+class DPSignSGDWorker(BaseWorker):
+    def __init__(self, data_loader, device, sigma, clipping_level_fn, model_type='mlp', lr_scheduler=None, poisson_sampling_prob=None):
+        super().__init__(data_loader, device, model_type, lr_scheduler, poisson_sampling_prob)
+        self.sigma = sigma
+        self.clipping_level_fn = clipping_level_fn
+        # self.gradient_norms = []
+        # self.norm_percentiles = []  # Track 90th percentile over time
+        # self.window_size = 50  # Size of sliding window
         
     def compute_grad_signs(self):
         gradients = self.compute_gradients()
@@ -155,14 +249,14 @@ class DPSignSGDWorker(BaseWorker):
             grad_np = grad.cpu().numpy()
             grad_norm = np.linalg.norm(grad_np)
             current_norms.append(grad_norm)
-            self.gradient_norms.append(grad_norm)
+            # self.gradient_norms.append(grad_norm)
             
             dp_sign = dp_sign_by_sigma(grad_np, current_clipping_level, self.sigma)
             dp_signs.append(torch.from_numpy(dp_sign).to(self.device))
         
         
-        percentile_90 = np.percentile(self.gradient_norms[-self.window_size:], 90)
-        self.norm_percentiles.append(percentile_90)
+        # percentile_90 = np.percentile(self.gradient_norms[-self.window_size:], 90)
+        # self.norm_percentiles.append(percentile_90)
         
         return dp_signs
 
@@ -176,8 +270,8 @@ class DPSignSGDWorker(BaseWorker):
 
 # FedSGD Worker
 class FedSGDWorker(BaseWorker):
-    def __init__(self, data_loader, device, lr_scheduler=None, poisson_sampling_prob=None):
-        super().__init__(data_loader, device, lr_scheduler, poisson_sampling_prob)
+    def __init__(self, data_loader, device, model_type='mlp', lr_scheduler=None, poisson_sampling_prob=None):
+        super().__init__(data_loader, device, model_type, lr_scheduler, poisson_sampling_prob)
 
     def apply_fed_update(self, global_gradients):
         with torch.no_grad():
@@ -225,11 +319,12 @@ def majority_vote(signs_list):
 
 
 def run_training(optimizer_type, workers, test_loader, device, num_epochs, iterations_per_epoch):
-    global_model = MLP().to(device)
+    global_model = workers[0].model.to(device)
     
     metrics = {
         'test_losses': [],
         'test_accuracies': [],
+        'train_losses': [],  # Add train losses
         'times': [],
         'learning_rates': []
     }
@@ -240,6 +335,7 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
     test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
     metrics['test_losses'].append(test_loss)
     metrics['test_accuracies'].append(test_accuracy)
+    metrics['train_losses'].append(1)  # Initial train loss
     metrics['times'].append(0.0)
     
     for epoch in range(num_epochs):
@@ -254,6 +350,19 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
                 majority_signs = majority_vote(all_signs)
                 for worker in workers:
                     worker.apply_majority_update(majority_signs)
+            elif optimizer_type == 'dpsgd':
+                all_gradients = []
+                for worker in workers:
+                    gradients = worker.compute_noise_grads()
+                    all_gradients.append(gradients)
+                
+                avg_gradients = []
+                for i in range(len(all_gradients[0])):
+                    stacked = torch.stack([grads[i] for grads in all_gradients])
+                    avg_gradients.append(stacked.mean(dim=0))
+                
+                for worker in workers:
+                    worker.apply_majority_update(avg_gradients)
             else:  # fedsgd
                 all_gradients = []
                 for worker in workers:
@@ -272,12 +381,17 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
         
         global_model.load_state_dict(workers[0].model.state_dict())
         
+        # Calculate average training loss across all workers
+        avg_train_loss = np.mean([np.mean(worker.train_losses[-iterations_per_epoch:]) for worker in workers])
+        
+        metrics['train_losses'].append(avg_train_loss)
+        
         test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
         metrics['test_losses'].append(test_loss)
         metrics['test_accuracies'].append(test_accuracy)
         metrics['times'].append(time.time() - start_time)
         
-        print(f"Epoch {epoch + 1} - Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.2f}%")
+        print(f"Epoch {epoch + 1} - Train Loss: {avg_train_loss:.4f}, Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.2f}%")
         print(f"Current learning rate: {workers[0].get_learning_rate():.6f}")
     
     return metrics
@@ -324,6 +438,7 @@ def run_experiment(config):
     if config['algorithms']['signsgd']['enabled']:
         print("\nRunning SignSGD with Majority Vote...")
         workers = [SignSGDWorker(loader, device, 
+                               model_type=config['model_type'],
                                lr_scheduler=config['algorithms']['signsgd']['lr_scheduler'],
                                poisson_sampling_prob=config['algorithms']['signsgd']['poisson_qn'] / len(loader.dataset)) 
                   for loader in worker_loaders]
@@ -337,7 +452,7 @@ def run_experiment(config):
         for loader in worker_loaders:
             q = config['algorithms']['dpsignsgd']['poisson_qn'] / len(loader.dataset)
             total_iterations = config['algorithms']['dpsignsgd']['num_epochs'] * config['iterations_per_epoch']
-            sigma = find_min_sigma(q, total_iterations, 
+            sigma = find_min_sigma(q, total_iterations * 4,  # 4 parameters of MLP and 8 parameters of CNN 
                                  config['final_epsilon'], 1/(len(loader.dataset))**config['final_power_in_delta'],
                                  config['alpha_min'], config['alpha_max'],
                                  config['sigma_min'], config['sigma_max'])
@@ -346,6 +461,7 @@ def run_experiment(config):
             worker = DPSignSGDWorker(loader, device,
                                    sigma=sigma,
                                    clipping_level_fn=config['algorithms']['dpsignsgd']['clipping_level'],
+                                   model_type=config['model_type'],
                                    lr_scheduler=config['algorithms']['dpsignsgd']['lr_scheduler'],
                                    poisson_sampling_prob=q)
             dpsignsgd_workers.append(worker)
@@ -353,6 +469,7 @@ def run_experiment(config):
         results['dpsignsgd'] = run_training('dpsignsgd', dpsignsgd_workers, test_loader, device,
                                           config['algorithms']['dpsignsgd']['num_epochs'], config['iterations_per_epoch'])
         
+        '''
         # Plot gradient norm percentiles over time
         plt.figure(figsize=(12, 6))
         for i, worker in enumerate(dpsignsgd_workers):
@@ -365,7 +482,7 @@ def run_experiment(config):
         plt.title('Sliding Window (50 last gradients) 90th Percentile of Gradient Norms')
         plt.legend()
         plt.grid(True)
-        plt.savefig(f'../figs/{code_version}/gradient_norm_percentiles.png')
+        plt.savefig(os.path.join(FIGS_PATH, 'gradient_norm_percentiles.png'))
         plt.close()
         
         # Analyze gradient norms
@@ -387,12 +504,37 @@ def run_experiment(config):
                 plt.title(f'DPSignSGD Worker {i + 1} Gradient Norm Distribution')
                 plt.legend()
                 plt.grid(True)
-                plt.savefig(f'../figs/{code_version}/dpsignsgd_worker_{i+1}_grad_norms.png')
+                plt.savefig(os.path.join(FIGS_PATH, f'dpsignsgd_worker_{i+1}_grad_norms.png'))
                 plt.close()
+        '''
+    
+    if config['algorithms']['dpsgd']['enabled']:
+        print("\nRunning DPSGD...")
+        dp_workers = []
+        for loader in worker_loaders:
+            q = config['algorithms']['dpsgd']['poisson_qn'] / len(loader.dataset)
+            total_iterations = config['algorithms']['dpsgd']['num_epochs'] * config['iterations_per_epoch']
+            sigma = find_min_sigma(q, total_iterations * 4,  # 4 parameters of MLP and 8 parameters of CNN 
+                                 config['final_epsilon'], 1/(len(loader.dataset))**config['final_power_in_delta'],
+                                 config['alpha_min'], config['alpha_max'],
+                                 config['sigma_min'], config['sigma_max'])
+            print(f"Sigma is {sigma}")
+            
+            worker = DPSGDWorker(loader, device,
+                                   sigma=sigma,
+                                   clipping_level_fn=config['algorithms']['dpsgd']['clipping_level'],
+                                   model_type=config['model_type'],
+                                   lr_scheduler=config['algorithms']['dpsgd']['lr_scheduler'],
+                                   poisson_sampling_prob=q)
+            dp_workers.append(worker)
+            
+        results['dpsgd'] = run_training('dpsgd', dp_workers, test_loader, device,
+                                       config['algorithms']['dpsgd']['num_epochs'], config['iterations_per_epoch'])
     
     if config['algorithms']['fedsgd']['enabled']:
         print("\nRunning FedSGD...")
         workers = [FedSGDWorker(loader, device,
+                              model_type=config['model_type'],
                               lr_scheduler=config['algorithms']['fedsgd']['lr_scheduler'],
                               poisson_sampling_prob=config['algorithms']['fedsgd']['poisson_qn'] / len(loader.dataset))
                   for loader in worker_loaders]
@@ -405,37 +547,55 @@ def run_experiment(config):
     epochs = range(max_epochs + 1)
     
     # Plot metrics
-    metrics = ['test_accuracies', 'test_losses']
-    time_metrics = ['test_accuracies', 'test_losses']
+    metrics = ['test_accuracies', 'test_losses', 'train_losses']
+    time_metrics = ['test_accuracies', 'test_losses', 'train_losses']
     
     for metric in metrics:
         plt.figure(figsize=(12, 6))
         for algo in results:
             if config['algorithms'][algo]['enabled']:
-                plt.plot(range(len(results[algo][metric])), results[algo][metric], 
-                        f"{config['algorithms'][algo]['color']}-",
-                        label=f'{algo.upper()}')
+                if metric == 'test_losses':
+                    plt.plot(range(len(results[algo][metric])), results[algo][metric], 
+                            f"{config['algorithms'][algo]['color']}-",
+                            label=f'{algo.upper()} Test Loss')
+                    # Add train loss on the same plot
+                    plt.plot(range(len(results[algo]['train_losses'])), results[algo]['train_losses'],
+                            f"{config['algorithms'][algo]['color']}--",
+                            label=f'{algo.upper()} Train Loss')
+                else:
+                    plt.plot(range(len(results[algo][metric])), results[algo][metric], 
+                            f"{config['algorithms'][algo]['color']}-",
+                            label=f'{algo.upper()}')
         plt.xlabel('Epochs')
         plt.ylabel(metric.replace('_', ' ').title())
         plt.title(f'Federated Learning: {metric.replace("_", " ").title()} vs Epochs')
         plt.legend()
         plt.grid(True)
-        plt.savefig(f'../figs/{code_version}/{metric}_vs_epochs_comparison.png')
+        plt.savefig(os.path.join(FIGS_PATH, f'{metric}_vs_epochs_comparison.png'))
         plt.close()
     
     for metric in time_metrics:
         plt.figure(figsize=(12, 6))
         for algo in results:
             if config['algorithms'][algo]['enabled']:
-                plt.plot(results[algo]['times'], results[algo][metric],
-                        f"{config['algorithms'][algo]['color']}-",
-                        label=f'{algo.upper()}')
+                if metric == 'test_losses':
+                    plt.plot(results[algo]['times'], results[algo][metric],
+                            f"{config['algorithms'][algo]['color']}-",
+                            label=f'{algo.upper()} Test Loss')
+                    # Add train loss on the same plot
+                    plt.plot(results[algo]['times'], results[algo]['train_losses'],
+                            f"{config['algorithms'][algo]['color']}--",
+                            label=f'{algo.upper()} Train Loss')
+                else:
+                    plt.plot(results[algo]['times'], results[algo][metric],
+                            f"{config['algorithms'][algo]['color']}-",
+                            label=f'{algo.upper()}')
         plt.xlabel('Time (seconds)')
         plt.ylabel(metric.replace('_', ' ').title())
         plt.title(f'Federated Learning: {metric.replace("_", " ").title()} vs Time')
         plt.legend()
         plt.grid(True)
-        plt.savefig(f'../figs/{code_version}/{metric}_vs_time_comparison.png')
+        plt.savefig(os.path.join(FIGS_PATH, f'{metric}_vs_time_comparison.png'))
         plt.close()
     
     # Learning Rate Schedule
@@ -451,7 +611,7 @@ def run_experiment(config):
     plt.title('Learning Rate Schedule')
     plt.legend()
     plt.grid(True)
-    plt.savefig(f'../figs/{code_version}/learning_rate_schedule.png')
+    plt.savefig(os.path.join(FIGS_PATH, 'learning_rate_schedule.png'))
     plt.close()
     
     # Print final results
@@ -461,7 +621,7 @@ def run_experiment(config):
             print(f"{algo.upper()}:")
             print(f"  Final Test Accuracy: {results[algo]['test_accuracies'][-1]:.2f}%")
     
-    print(f"\nPlots saved in '../figs/{code_version}/' directory")
+    print(f"\nPlots saved in '{FIGS_PATH}' directory")
 
 if __name__ == "__main__":
     # Example configuration
