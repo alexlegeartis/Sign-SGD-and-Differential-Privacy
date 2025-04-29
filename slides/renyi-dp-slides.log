@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  28 APR 2025 23:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  29 APR 2025 10:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1690,18 +1690,31 @@ pdf  used on input line 228.
 [17
 
  <../figs/v28_constant_step/long/v28_constant_step_long.pdf>]
-<../figs/v28_10eps_short.pdf, id=355, 906.96967pt x 405.21388pt>
-File: ../figs/v28_10eps_short.pdf Graphic file (type pdf)
-<use ../figs/v28_10eps_short.pdf>
-Package pdftex.def Info: ../figs/v28_10eps_short.pdf  used on input line 236.
-(pdftex.def)             Requested size: 307.28987pt x 137.2948pt.
+<../figs/v28_dynamic_step/long/v28_dynamic_step_long.pdf, id=355, 1135.82118pt 
+x 654.54535pt>
+File: ../figs/v28_dynamic_step/long/v28_dynamic_step_long.pdf Graphic file (typ
+e pdf)
+<use ../figs/v28_dynamic_step/long/v28_dynamic_step_long.pdf>
+Package pdftex.def Info: ../figs/v28_dynamic_step/long/v28_dynamic_step_long.pd
+f  used on input line 233.
+(pdftex.def)             Requested size: 307.28987pt x 177.07916pt.
 
 
 [18
 
- <../figs/v28_10eps_short.pdf>]
+ <../figs/v28_dynamic_step/long/v28_dynamic_step_long.pdf>]
+<../figs/v28_10eps_short.pdf, id=421, 906.96967pt x 405.21388pt>
+File: ../figs/v28_10eps_short.pdf Graphic file (type pdf)
+<use ../figs/v28_10eps_short.pdf>
+Package pdftex.def Info: ../figs/v28_10eps_short.pdf  used on input line 241.
+(pdftex.def)             Requested size: 307.28987pt x 137.2948pt.
+
 
 [19
+
+ <../figs/v28_10eps_short.pdf>]
+
+[20
 
 ]
 \tf@nav=\write8
@@ -1725,10 +1738,10 @@ Package logreq Info: Writing requests to 'renyi-dp-slides.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 35489 strings out of 473522
- 677721 string characters out of 5715094
+ 35502 strings out of 473522
+ 678319 string characters out of 5715094
  1517359 words of memory out of 5000000
- 58019 multiletter control sequences out of 15000+600000
+ 58030 multiletter control sequences out of 15000+600000
  581064 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,17n,123p,3246b,1750s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1759,9 +1772,9 @@ msy8.pfb><C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmtt10.pfb><C:/Users/Alex/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/amsfonts/symbols/msam10.pfb><C:/Users/Alex/AppData/Local/Programs/MiKTeX/font
 s/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on renyi-dp-slides.pdf (19 pages, 795597 bytes).
+Output written on renyi-dp-slides.pdf (20 pages, 1115221 bytes).
 PDF statistics:
- 537 PDF objects out of 1000 (max. 8388607)
- 44 named destinations out of 1000 (max. 500000)
- 76 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 603 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

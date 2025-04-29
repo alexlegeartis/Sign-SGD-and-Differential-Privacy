@@ -227,6 +227,11 @@ We compare settings with no noise, $\mathcal{N}(0, 0.25^2\mathbb{I}^d)$ noise an
 DP-SignSGD converges very slowly, but it depends on a dataset. Lower $q$ leads to much lower $\sigma$ and better convergence.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
+\begin{frame}{Constant vs Dynamic learning rate}
+    \includegraphics[width=1.0\textwidth]{v28_dynamic_step/long/v28_dynamic_step_long.pdf} 
+DP-SignSGD converges better, when the learning rate is dynamic. $T^{-1/5}$ instead of $T^{-1/2}$ factor is required, because $\sigma$ depends on $T$.
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
 \begin{frame}{Our DP-SGD and DP-SignSGD are not feasible yet}
     \begin{figure}
         \centering
@@ -240,6 +245,7 @@ DP-SignSGD converges very slowly, but it depends on a dataset. Lower $q$ leads t
         \item $(10, 1/n^{1.1})$ differentially-private
         \item empirically converges on logistic regression problem even with heavy-tailed noise
         \item empirically converges with the same type of convergence like DP-SGD with Poisson subsampling
+        \item benefits from slowly decreasing learning rate
     \end{itemize}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
