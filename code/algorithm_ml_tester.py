@@ -1,5 +1,6 @@
-from os import putenv
-putenv("HSA_OVERRIDE_GFX_VERSION", "9.0.0")
+#!/usr/bin/python3
+#from os import putenv
+# putenv("HSA_OVERRIDE_GFX_VERSION", "9.0.0")
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -28,33 +29,38 @@ FIGS_PATH = os.path.join(BASE_PATH, 'figs')
 LOG_PATH = os.path.join(BASE_PATH, 'logs')
 
 def setup_logging(code_version):
-    # Create directories
-    version_figs_path = os.path.join(FIGS_PATH, code_version)
-    version_logs_path = os.path.join(LOG_PATH, code_version)
-    os.makedirs(version_figs_path, exist_ok=True)
-    os.makedirs(version_logs_path, exist_ok=True)
+    # Create base directories
+    os.makedirs(FIGS_PATH, exist_ok=True)
+    os.makedirs(LOG_PATH, exist_ok=True)
+    
+    # Create timestamp in readable format (YYYY-MM-DD_HH-MM-SS)
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    
+    # Create experiment-specific directories
+    experiment_path = os.path.join(LOG_PATH, code_version + '_' + timestamp)
+    os.makedirs(experiment_path, exist_ok=True)
     
     # Setup logging
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = os.path.join(version_logs_path, f'experiment_{timestamp}.log')
+    log_file = os.path.join(experiment_path, f'experiment{timestamp}.log')
+    print_handler = logging.StreamHandler(sys.stdout)  # Send logs to stdout like print()
+    print_handler.setFormatter(logging.Formatter('%(message)s'))
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s',
+        format='%(asctime)s - %(message)s',
         handlers=[
             logging.FileHandler(log_file),
-            logging.StreamHandler(sys.stdout)  # Send logs to stdout like print()
+            print_handler
         ]
     )
     
-    logging.info(f"Created directories for version {code_version}")
-    logging.info(f"Figures will be saved to: {version_figs_path}")
-    logging.info(f"Logs will be saved to: {version_logs_path}")
+    logging.info(f"Created experiment directory: {experiment_path}")
+    logging.info(f"Logs will be saved to: {log_file}")
     
-    return version_figs_path, version_logs_path, timestamp
+    return FIGS_PATH, experiment_path, timestamp
 
-def backup_config(config_path, logs_path, timestamp):
-    # Create backup of config file
-    config_backup_path = os.path.join(logs_path, f'config_{timestamp}.json')
+def backup_config(config_path, experiment_path, timestamp):
+    # Create backup of config file in the experiment directory
+    config_backup_path = os.path.join(experiment_path, f'config_{timestamp}.json')
     shutil.copy2(config_path, config_backup_path)
     logging.info(f"Config file backed up to: {config_backup_path}")
 
@@ -181,8 +187,7 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
     metrics['times'].append(0.0)
     
     for epoch in range(num_epochs):
-        logging.info(f"Epoch {epoch + 1}/{num_epochs}")
-        
+        logging.info(f"\nEpoch {epoch + 1}/{num_epochs}")
         for iter in range(iterations_per_epoch):
             if optimizer_type == 'signsgd' or optimizer_type == 'dpsignsgd':
                 all_signs = []
@@ -227,10 +232,9 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
         metrics['test_losses'].append(test_loss)
         metrics['test_accuracies'].append(test_accuracy)
         metrics['times'].append(time.time() - start_time)
-        
-        logging.info(f"Epoch {epoch + 1} - Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.2f}%")
-        logging.info(f"Current learning rate: {workers[0].get_learning_rate():.6f}")
-    
+        logging.info(f"Test Loss: {test_loss:.4f}")
+        logging.info(f"Test Accuracy: {test_accuracy:.2f}%")
+        logging.info(f"Learning rate: {workers[0].get_learning_rate():.6f}")
     return metrics
 
 # Load configuration from file
@@ -249,11 +253,12 @@ def load_config(config_path):
 
 def run_experiment(config):
     # Setup logging and get paths
-    figs_path, logs_path, timestamp = setup_logging(config['code_version'])
+    figs_path, experiment_path, timestamp = setup_logging(config['code_version'])
     
     # Backup config
     config_path = os.path.join(os.path.dirname(__file__), 'config.json')
-    backup_config(config_path, logs_path, timestamp)
+    backup_config(config_path, experiment_path, timestamp)
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logging.info(f"Using device: {device}")
 
@@ -373,11 +378,11 @@ def run_experiment(config):
         logging.info(f"{algo['label']}:")
         logging.info(f"  Final Test Accuracy: {results[algo['label']]['test_accuracies'][-1]:.2f}%")
     
-    logging.info(f"Log file saved in '{logs_path}'")
+    logging.info(f"Log file saved in '{experiment_path}'")
 
 if __name__ == "__main__":
     # Load configuration from file
-    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    config_path = os.path.join(os.path.dirname(__file__), 'config_cnn.json')
     config = load_config(config_path)
     
     # Run experiment with configuration
