@@ -1,0 +1,242 @@
+2025-04-30 13:26:40,483 - INFO - Using device: cuda
+2025-04-30 13:26:40,521 - INFO - 
+Running SignSGD (LR=0.01)...
+2025-04-30 13:26:41,469 - INFO - Epoch 1/10
+2025-04-30 13:26:44,626 - INFO - Epoch 1 - Test Loss: 2.1488, Test Accuracy: 28.09%
+2025-04-30 13:26:44,626 - INFO - Current learning rate: 0.002147
+2025-04-30 13:26:44,626 - INFO - Epoch 2/10
+2025-04-30 13:26:47,620 - INFO - Epoch 2 - Test Loss: 2.0174, Test Accuracy: 36.50%
+2025-04-30 13:26:47,620 - INFO - Current learning rate: 0.001707
+2025-04-30 13:26:47,620 - INFO - Epoch 3/10
+2025-04-30 13:26:50,605 - INFO - Epoch 3 - Test Loss: 2.0138, Test Accuracy: 43.10%
+2025-04-30 13:26:50,605 - INFO - Current learning rate: 0.001492
+2025-04-30 13:26:50,605 - INFO - Epoch 4/10
+2025-04-30 13:26:53,597 - INFO - Epoch 4 - Test Loss: 1.8675, Test Accuracy: 42.97%
+2025-04-30 13:26:53,597 - INFO - Current learning rate: 0.001356
+2025-04-30 13:26:53,597 - INFO - Epoch 5/10
+2025-04-30 13:26:56,565 - INFO - Epoch 5 - Test Loss: 1.7189, Test Accuracy: 46.48%
+2025-04-30 13:26:56,565 - INFO - Current learning rate: 0.001259
+2025-04-30 13:26:56,565 - INFO - Epoch 6/10
+2025-04-30 13:26:59,542 - INFO - Epoch 6 - Test Loss: 1.7160, Test Accuracy: 44.03%
+2025-04-30 13:26:59,542 - INFO - Current learning rate: 0.001185
+2025-04-30 13:26:59,542 - INFO - Epoch 7/10
+2025-04-30 13:27:02,511 - INFO - Epoch 7 - Test Loss: 1.6843, Test Accuracy: 44.89%
+2025-04-30 13:27:02,511 - INFO - Current learning rate: 0.001126
+2025-04-30 13:27:02,511 - INFO - Epoch 8/10
+2025-04-30 13:27:05,507 - INFO - Epoch 8 - Test Loss: 1.7572, Test Accuracy: 39.74%
+2025-04-30 13:27:05,507 - INFO - Current learning rate: 0.001077
+2025-04-30 13:27:05,507 - INFO - Epoch 9/10
+2025-04-30 13:27:08,472 - INFO - Epoch 9 - Test Loss: 1.5407, Test Accuracy: 49.83%
+2025-04-30 13:27:08,472 - INFO - Current learning rate: 0.001035
+2025-04-30 13:27:08,472 - INFO - Epoch 10/10
+2025-04-30 13:27:11,440 - INFO - Epoch 10 - Test Loss: 1.6579, Test Accuracy: 46.37%
+2025-04-30 13:27:11,440 - INFO - Current learning rate: 0.001000
+2025-04-30 13:27:11,440 - INFO - 
+Running DPSignSGD (LR=0.005)...
+2025-04-30 13:27:11,824 - INFO - Sigma for DPSignSGD (LR=0.005): 0.6040816326530613
+2025-04-30 13:27:11,826 - INFO - Sigma for DPSignSGD (LR=0.005): 0.6040816326530613
+2025-04-30 13:27:11,827 - INFO - Sigma for DPSignSGD (LR=0.005): 0.6040816326530613
+2025-04-30 13:27:12,431 - INFO - Epoch 1/10
+2025-04-30 13:27:16,577 - INFO - Epoch 1 - Test Loss: 2.3241, Test Accuracy: 13.98%
+2025-04-30 13:27:16,577 - INFO - Current learning rate: 0.000401
+2025-04-30 13:27:16,577 - INFO - Epoch 2/10
+2025-04-30 13:27:20,393 - INFO - Epoch 2 - Test Loss: 2.3243, Test Accuracy: 13.72%
+2025-04-30 13:27:20,393 - INFO - Current learning rate: 0.000696
+2025-04-30 13:27:20,393 - INFO - Epoch 3/10
+2025-04-30 13:27:24,213 - INFO - Epoch 3 - Test Loss: 2.3280, Test Accuracy: 13.17%
+2025-04-30 13:27:24,213 - INFO - Current learning rate: 0.000961
+2025-04-30 13:27:24,213 - INFO - Epoch 4/10
+2025-04-30 13:27:28,089 - INFO - Epoch 4 - Test Loss: 2.3277, Test Accuracy: 14.70%
+2025-04-30 13:27:28,089 - INFO - Current learning rate: 0.001209
+2025-04-30 13:27:28,096 - INFO - Epoch 5/10
+2025-04-30 13:27:32,080 - INFO - Epoch 5 - Test Loss: 2.3259, Test Accuracy: 16.73%
+2025-04-30 13:27:32,081 - INFO - Current learning rate: 0.001442
+2025-04-30 13:27:32,081 - INFO - Epoch 6/10
+2025-04-30 13:27:35,824 - INFO - Epoch 6 - Test Loss: 2.3076, Test Accuracy: 16.35%
+2025-04-30 13:27:35,824 - INFO - Current learning rate: 0.001391
+2025-04-30 13:27:35,824 - INFO - Epoch 7/10
+2025-04-30 13:27:39,506 - INFO - Epoch 7 - Test Loss: 2.3125, Test Accuracy: 15.60%
+2025-04-30 13:27:39,506 - INFO - Current learning rate: 0.001348
+2025-04-30 13:27:39,506 - INFO - Epoch 8/10
+2025-04-30 13:27:43,201 - INFO - Epoch 8 - Test Loss: 2.3334, Test Accuracy: 15.29%
+2025-04-30 13:27:43,201 - INFO - Current learning rate: 0.001313
+2025-04-30 13:27:43,201 - INFO - Epoch 9/10
+2025-04-30 13:27:46,912 - INFO - Epoch 9 - Test Loss: 2.3539, Test Accuracy: 13.34%
+2025-04-30 13:27:46,912 - INFO - Current learning rate: 0.001282
+2025-04-30 13:27:46,912 - INFO - Epoch 10/10
+2025-04-30 13:27:50,634 - INFO - Epoch 10 - Test Loss: 2.3584, Test Accuracy: 12.52%
+2025-04-30 13:27:50,634 - INFO - Current learning rate: 0.001256
+2025-04-30 13:27:50,634 - INFO - 
+Running DPSignSGD (LR=0.01)...
+2025-04-30 13:27:50,634 - INFO - Sigma for DPSignSGD (LR=0.01): 0.6040816326530613
+2025-04-30 13:27:50,635 - INFO - Sigma for DPSignSGD (LR=0.01): 0.6040816326530613
+2025-04-30 13:27:50,636 - INFO - Sigma for DPSignSGD (LR=0.01): 0.6040816326530613
+2025-04-30 13:27:51,240 - INFO - Epoch 1/10
+2025-04-30 13:27:55,000 - INFO - Epoch 1 - Test Loss: 2.3594, Test Accuracy: 6.29%
+2025-04-30 13:27:55,000 - INFO - Current learning rate: 0.000803
+2025-04-30 13:27:55,000 - INFO - Epoch 2/10
+2025-04-30 13:27:58,706 - INFO - Epoch 2 - Test Loss: 2.3633, Test Accuracy: 7.70%
+2025-04-30 13:27:58,706 - INFO - Current learning rate: 0.001392
+2025-04-30 13:27:58,714 - INFO - Epoch 3/10
+2025-04-30 13:28:02,440 - INFO - Epoch 3 - Test Loss: 2.3562, Test Accuracy: 9.22%
+2025-04-30 13:28:02,440 - INFO - Current learning rate: 0.001923
+2025-04-30 13:28:02,440 - INFO - Epoch 4/10
+2025-04-30 13:28:06,168 - INFO - Epoch 4 - Test Loss: 2.3515, Test Accuracy: 10.08%
+2025-04-30 13:28:06,168 - INFO - Current learning rate: 0.002418
+2025-04-30 13:28:06,168 - INFO - Epoch 5/10
+2025-04-30 13:28:09,894 - INFO - Epoch 5 - Test Loss: 2.3714, Test Accuracy: 10.34%
+2025-04-30 13:28:09,894 - INFO - Current learning rate: 0.002884
+2025-04-30 13:28:09,894 - INFO - Epoch 6/10
+2025-04-30 13:28:13,664 - INFO - Epoch 6 - Test Loss: 2.4142, Test Accuracy: 10.14%
+2025-04-30 13:28:13,665 - INFO - Current learning rate: 0.002781
+2025-04-30 13:28:13,665 - INFO - Epoch 7/10
+2025-04-30 13:28:17,520 - INFO - Epoch 7 - Test Loss: 2.3441, Test Accuracy: 14.15%
+2025-04-30 13:28:17,520 - INFO - Current learning rate: 0.002697
+2025-04-30 13:28:17,520 - INFO - Epoch 8/10
+2025-04-30 13:28:21,536 - INFO - Epoch 8 - Test Loss: 2.3799, Test Accuracy: 16.23%
+2025-04-30 13:28:21,536 - INFO - Current learning rate: 0.002626
+2025-04-30 13:28:21,536 - INFO - Epoch 9/10
+2025-04-30 13:28:25,270 - INFO - Epoch 9 - Test Loss: 2.3252, Test Accuracy: 18.91%
+2025-04-30 13:28:25,270 - INFO - Current learning rate: 0.002565
+2025-04-30 13:28:25,270 - INFO - Epoch 10/10
+2025-04-30 13:28:28,992 - INFO - Epoch 10 - Test Loss: 2.3216, Test Accuracy: 18.90%
+2025-04-30 13:28:28,992 - INFO - Current learning rate: 0.002511
+2025-04-30 13:28:28,992 - INFO - 
+Running DPSGD (LR=0.01)...
+2025-04-30 13:28:29,296 - INFO - Sigma for DPSGD (LR=0.01): 0.6428571428571428
+2025-04-30 13:28:29,298 - INFO - Sigma for DPSGD (LR=0.01): 0.6428571428571428
+2025-04-30 13:28:29,299 - INFO - Sigma for DPSGD (LR=0.01): 0.6428571428571428
+2025-04-30 13:28:29,898 - INFO - Epoch 1/4
+2025-04-30 13:28:33,976 - INFO - Epoch 1 - Test Loss: 2.3460, Test Accuracy: 13.57%
+2025-04-30 13:28:33,976 - INFO - Current learning rate: 0.002147
+2025-04-30 13:28:33,976 - INFO - Epoch 2/4
+2025-04-30 13:28:38,148 - INFO - Epoch 2 - Test Loss: 2.3930, Test Accuracy: 11.28%
+2025-04-30 13:28:38,148 - INFO - Current learning rate: 0.001707
+2025-04-30 13:28:38,149 - INFO - Epoch 3/4
+2025-04-30 13:28:42,354 - INFO - Epoch 3 - Test Loss: 2.3952, Test Accuracy: 12.02%
+2025-04-30 13:28:42,354 - INFO - Current learning rate: 0.001492
+2025-04-30 13:28:42,354 - INFO - Epoch 4/4
+2025-04-30 13:28:46,407 - INFO - Epoch 4 - Test Loss: 2.3309, Test Accuracy: 15.61%
+2025-04-30 13:28:46,407 - INFO - Current learning rate: 0.001356
+2025-04-30 13:28:46,407 - INFO - 
+Running FedSGD (LR=0.01)...
+2025-04-30 13:28:47,029 - INFO - Epoch 1/40
+2025-04-30 13:28:50,464 - INFO - Epoch 1 - Test Loss: 2.2914, Test Accuracy: 15.39%
+2025-04-30 13:28:50,464 - INFO - Current learning rate: 0.002147
+2025-04-30 13:28:50,464 - INFO - Epoch 2/40
+2025-04-30 13:28:53,754 - INFO - Epoch 2 - Test Loss: 2.2553, Test Accuracy: 17.46%
+2025-04-30 13:28:53,754 - INFO - Current learning rate: 0.001707
+2025-04-30 13:28:53,754 - INFO - Epoch 3/40
+2025-04-30 13:28:56,921 - INFO - Epoch 3 - Test Loss: 2.2231, Test Accuracy: 18.55%
+2025-04-30 13:28:56,921 - INFO - Current learning rate: 0.001492
+2025-04-30 13:28:56,921 - INFO - Epoch 4/40
+2025-04-30 13:29:00,254 - INFO - Epoch 4 - Test Loss: 2.2030, Test Accuracy: 20.22%
+2025-04-30 13:29:00,254 - INFO - Current learning rate: 0.001356
+2025-04-30 13:29:00,254 - INFO - Epoch 5/40
+2025-04-30 13:29:03,519 - INFO - Epoch 5 - Test Loss: 2.1817, Test Accuracy: 21.62%
+2025-04-30 13:29:03,519 - INFO - Current learning rate: 0.001259
+2025-04-30 13:29:03,519 - INFO - Epoch 6/40
+2025-04-30 13:29:06,647 - INFO - Epoch 6 - Test Loss: 2.1658, Test Accuracy: 23.26%
+2025-04-30 13:29:06,647 - INFO - Current learning rate: 0.001185
+2025-04-30 13:29:06,647 - INFO - Epoch 7/40
+2025-04-30 13:29:09,831 - INFO - Epoch 7 - Test Loss: 2.1465, Test Accuracy: 24.72%
+2025-04-30 13:29:09,832 - INFO - Current learning rate: 0.001126
+2025-04-30 13:29:09,832 - INFO - Epoch 8/40
+2025-04-30 13:29:12,846 - INFO - Epoch 8 - Test Loss: 2.1323, Test Accuracy: 26.35%
+2025-04-30 13:29:12,846 - INFO - Current learning rate: 0.001077
+2025-04-30 13:29:12,846 - INFO - Epoch 9/40
+2025-04-30 13:29:15,915 - INFO - Epoch 9 - Test Loss: 2.1181, Test Accuracy: 27.54%
+2025-04-30 13:29:15,915 - INFO - Current learning rate: 0.001035
+2025-04-30 13:29:15,915 - INFO - Epoch 10/40
+2025-04-30 13:29:19,348 - INFO - Epoch 10 - Test Loss: 2.0982, Test Accuracy: 28.82%
+2025-04-30 13:29:19,348 - INFO - Current learning rate: 0.001000
+2025-04-30 13:29:19,348 - INFO - Epoch 11/40
+2025-04-30 13:29:22,603 - INFO - Epoch 11 - Test Loss: 2.0779, Test Accuracy: 30.83%
+2025-04-30 13:29:22,603 - INFO - Current learning rate: 0.000968
+2025-04-30 13:29:22,603 - INFO - Epoch 12/40
+2025-04-30 13:29:25,701 - INFO - Epoch 12 - Test Loss: 2.0669, Test Accuracy: 31.71%
+2025-04-30 13:29:25,701 - INFO - Current learning rate: 0.000941
+2025-04-30 13:29:25,701 - INFO - Epoch 13/40
+2025-04-30 13:29:28,785 - INFO - Epoch 13 - Test Loss: 2.0476, Test Accuracy: 33.39%
+2025-04-30 13:29:28,785 - INFO - Current learning rate: 0.000916
+2025-04-30 13:29:28,785 - INFO - Epoch 14/40
+2025-04-30 13:29:31,863 - INFO - Epoch 14 - Test Loss: 2.0325, Test Accuracy: 34.53%
+2025-04-30 13:29:31,863 - INFO - Current learning rate: 0.000894
+2025-04-30 13:29:31,863 - INFO - Epoch 15/40
+2025-04-30 13:29:35,073 - INFO - Epoch 15 - Test Loss: 2.0197, Test Accuracy: 35.54%
+2025-04-30 13:29:35,073 - INFO - Current learning rate: 0.000873
+2025-04-30 13:29:35,080 - INFO - Epoch 16/40
+2025-04-30 13:29:38,475 - INFO - Epoch 16 - Test Loss: 2.0072, Test Accuracy: 35.26%
+2025-04-30 13:29:38,475 - INFO - Current learning rate: 0.000855
+2025-04-30 13:29:38,475 - INFO - Epoch 17/40
+2025-04-30 13:29:41,986 - INFO - Epoch 17 - Test Loss: 1.9911, Test Accuracy: 37.05%
+2025-04-30 13:29:41,986 - INFO - Current learning rate: 0.000838
+2025-04-30 13:29:41,986 - INFO - Epoch 18/40
+2025-04-30 13:29:45,251 - INFO - Epoch 18 - Test Loss: 1.9813, Test Accuracy: 38.33%
+2025-04-30 13:29:45,251 - INFO - Current learning rate: 0.000822
+2025-04-30 13:29:45,251 - INFO - Epoch 19/40
+2025-04-30 13:29:48,436 - INFO - Epoch 19 - Test Loss: 1.9681, Test Accuracy: 39.43%
+2025-04-30 13:29:48,436 - INFO - Current learning rate: 0.000807
+2025-04-30 13:29:48,436 - INFO - Epoch 20/40
+2025-04-30 13:29:51,479 - INFO - Epoch 20 - Test Loss: 1.9548, Test Accuracy: 40.24%
+2025-04-30 13:29:51,479 - INFO - Current learning rate: 0.000794
+2025-04-30 13:29:51,479 - INFO - Epoch 21/40
+2025-04-30 13:29:54,663 - INFO - Epoch 21 - Test Loss: 1.9439, Test Accuracy: 40.89%
+2025-04-30 13:29:54,663 - INFO - Current learning rate: 0.000781
+2025-04-30 13:29:54,663 - INFO - Epoch 22/40
+2025-04-30 13:29:57,899 - INFO - Epoch 22 - Test Loss: 1.9309, Test Accuracy: 41.93%
+2025-04-30 13:29:57,899 - INFO - Current learning rate: 0.000769
+2025-04-30 13:29:57,899 - INFO - Epoch 23/40
+2025-04-30 13:30:01,186 - INFO - Epoch 23 - Test Loss: 1.9182, Test Accuracy: 42.33%
+2025-04-30 13:30:01,187 - INFO - Current learning rate: 0.000757
+2025-04-30 13:30:01,187 - INFO - Epoch 24/40
+2025-04-30 13:30:04,682 - INFO - Epoch 24 - Test Loss: 1.9049, Test Accuracy: 43.41%
+2025-04-30 13:30:04,682 - INFO - Current learning rate: 0.000747
+2025-04-30 13:30:04,682 - INFO - Epoch 25/40
+2025-04-30 13:30:08,123 - INFO - Epoch 25 - Test Loss: 1.8912, Test Accuracy: 44.77%
+2025-04-30 13:30:08,124 - INFO - Current learning rate: 0.000737
+2025-04-30 13:30:08,124 - INFO - Epoch 26/40
+2025-04-30 13:30:11,708 - INFO - Epoch 26 - Test Loss: 1.8817, Test Accuracy: 45.24%
+2025-04-30 13:30:11,708 - INFO - Current learning rate: 0.000727
+2025-04-30 13:30:11,708 - INFO - Epoch 27/40
+2025-04-30 13:30:15,034 - INFO - Epoch 27 - Test Loss: 1.8693, Test Accuracy: 45.98%
+2025-04-30 13:30:15,034 - INFO - Current learning rate: 0.000718
+2025-04-30 13:30:15,034 - INFO - Epoch 28/40
+2025-04-30 13:30:18,583 - INFO - Epoch 28 - Test Loss: 1.8565, Test Accuracy: 46.66%
+2025-04-30 13:30:18,583 - INFO - Current learning rate: 0.000709
+2025-04-30 13:30:18,583 - INFO - Epoch 29/40
+2025-04-30 13:30:21,837 - INFO - Epoch 29 - Test Loss: 1.8431, Test Accuracy: 48.16%
+2025-04-30 13:30:21,837 - INFO - Current learning rate: 0.000701
+2025-04-30 13:30:21,837 - INFO - Epoch 30/40
+2025-04-30 13:30:24,975 - INFO - Epoch 30 - Test Loss: 1.8315, Test Accuracy: 48.80%
+2025-04-30 13:30:24,975 - INFO - Current learning rate: 0.000693
+2025-04-30 13:30:24,975 - INFO - Epoch 31/40
+2025-04-30 13:30:28,251 - INFO - Epoch 31 - Test Loss: 1.8224, Test Accuracy: 49.28%
+2025-04-30 13:30:28,251 - INFO - Current learning rate: 0.000686
+2025-04-30 13:30:28,251 - INFO - Epoch 32/40
+2025-04-30 13:30:31,675 - INFO - Epoch 32 - Test Loss: 1.8114, Test Accuracy: 50.27%
+2025-04-30 13:30:31,676 - INFO - Current learning rate: 0.000679
+2025-04-30 13:30:31,676 - INFO - Epoch 33/40
+2025-04-30 13:30:34,965 - INFO - Epoch 33 - Test Loss: 1.7990, Test Accuracy: 51.18%
+2025-04-30 13:30:34,965 - INFO - Current learning rate: 0.000672
+2025-04-30 13:30:34,965 - INFO - Epoch 34/40
+2025-04-30 13:30:38,391 - INFO - Epoch 34 - Test Loss: 1.7881, Test Accuracy: 51.43%
+2025-04-30 13:30:38,391 - INFO - Current learning rate: 0.000665
+2025-04-30 13:30:38,391 - INFO - Epoch 35/40
+2025-04-30 13:30:41,709 - INFO - Epoch 35 - Test Loss: 1.7768, Test Accuracy: 51.92%
+2025-04-30 13:30:41,709 - INFO - Current learning rate: 0.000659
+2025-04-30 13:30:41,709 - INFO - Epoch 36/40
+2025-04-30 13:30:45,035 - INFO - Epoch 36 - Test Loss: 1.7677, Test Accuracy: 52.85%
+2025-04-30 13:30:45,036 - INFO - Current learning rate: 0.000652
+2025-04-30 13:30:45,036 - INFO - Epoch 37/40
+2025-04-30 13:30:48,345 - INFO - Epoch 37 - Test Loss: 1.7600, Test Accuracy: 53.71%
+2025-04-30 13:30:48,346 - INFO - Current learning rate: 0.000646
+2025-04-30 13:30:48,346 - INFO - Epoch 38/40
+2025-04-30 13:30:51,973 - INFO - Epoch 38 - Test Loss: 1.7502, Test Accuracy: 54.08%
+2025-04-30 13:30:51,973 - INFO - Current learning rate: 0.000641
+2025-04-30 13:30:51,973 - INFO - Epoch 39/40
+2025-04-30 13:30:55,526 - INFO - Epoch 39 - Test Loss: 1.7402, Test Accuracy: 54.51%
+2025-04-30 13:30:55,526 - INFO - Current learning rate: 0.000635
+2025-04-30 13:30:55,526 - INFO - Epoch 40/40
+2025-04-30 13:30:59,049 - INFO - Epoch 40 - Test Loss: 1.7309, Test Accuracy: 54.60%
+2025-04-30 13:30:59,049 - INFO - Current learning rate: 0.000630
