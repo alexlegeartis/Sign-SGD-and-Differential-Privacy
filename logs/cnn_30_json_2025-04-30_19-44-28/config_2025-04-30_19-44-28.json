@@ -1,7 +1,7 @@
 {
     "code_version": "cnn_30_json",
     "dataset": "mnist",
-    "num_workers": 3,
+    "num_workers": 30,
     "batch_size": 500,
     "iterations_per_epoch": 100,
     "alpha_min": 2,

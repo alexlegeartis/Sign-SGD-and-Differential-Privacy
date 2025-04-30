@@ -182,27 +182,56 @@ def majority_vote(signs_list):
         result.append(vote)
     return result
 
-def compute_worker_grads_mp(worker, grad_type):
-    if grad_type == 'signsgd' or grad_type == 'dpsignsgd':
-        signs = worker.compute_grad_signs()
-        return [sign.cpu() for sign in signs]  # Move to CPU before returning
-    elif grad_type == 'dpsgd':
-        grads = worker.compute_noise_grads()
-        return [grad.cpu() for grad in grads]  # Move to CPU before returning
-    else:  # fedsgd
-        grads = worker.compute_gradients()
-        return [grad.cpu() for grad in grads]  # Move to CPU before returning
+def worker_fn(worker_id, task_queue, result_queue, worker, device, is_validation=False):
+    if not is_validation:
+        # Move worker's model to the correct device
+        worker.model.to(device)
+    
+    while True:
+        try:
+            task = task_queue.get()
+            if task == 'STOP':
+                break
+            elif task == 'GRAD':
+                if is_validation:
+                    # Validation worker doesn't compute gradients
+                    result_queue.put('SKIP')
+                else:
+                    # Each worker computes its own gradient
+                    if isinstance(worker, (SignSGDWorker, DPSignSGDWorker)):
+                        grads = worker.compute_grad_signs()
+                        result_queue.put([grad.cpu() for grad in grads])
+                    elif isinstance(worker, DPSGDWorker):
+                        grads = worker.compute_noise_grads()
+                        result_queue.put([grad.cpu() for grad in grads])
+                    else:  # FedSGDWorker
+                        grads = worker.compute_gradients()
+                        result_queue.put([grad.cpu() for grad in grads])
+            elif task[0] == 'UPDATE':
+                update_data = task[1]
+                if isinstance(worker, (SignSGDWorker, DPSignSGDWorker, DPSGDWorker)):
+                    worker.apply_majority_update(update_data)
+                else:  # FedSGDWorker
+                    worker.apply_fed_update(update_data)
+                result_queue.put('DONE')
+            elif task == 'TEST':
+                if is_validation:
+                    # Only validation worker performs testing
+                    test_loss, test_accuracy = evaluate_model(worker.model, worker.data_loader, device)
+                    result_queue.put(('TEST_RESULT', test_loss, test_accuracy, worker.get_learning_rate()))
+                else:
+                    result_queue.put('SKIP')
+        except Exception as e:
+            print(str(e))
+            logging.error(f"Worker {worker_id} error: {str(e)}")
+            result_queue.put(('ERROR', str(e)))
 
-def apply_worker_update_mp(worker, update_data, update_type):
-    if update_type == 'signsgd' or update_type == 'dpsignsgd':
-        worker.apply_majority_update(update_data)
-    elif update_type == 'dpsgd':
-        worker.apply_majority_update(update_data)
-    else:  # fedsgd
-        worker.apply_fed_update(update_data)
-
+from copy import deepcopy
 def run_training(optimizer_type, workers, test_loader, device, num_epochs, iterations_per_epoch):
-    global_model = workers[0].model.to(device)
+    # Create validation worker
+    validation_worker = deepcopy(workers[0])
+    validation_worker.data_loader = test_loader
+    validation_worker.model.load_state_dict(workers[0].model.state_dict())
     
     metrics = {
         'test_losses': [],
@@ -213,71 +242,111 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
     
     start_time = time.time()
     
-    # Initial evaluation
-    test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
-    metrics['test_losses'].append(test_loss)
-    metrics['test_accuracies'].append(test_accuracy)
-    metrics['times'].append(0.0)
+    # Create separate queues for each worker
+    worker_queues = []
+    for _ in range(len(workers)):
+        task_queue = mp.Queue()
+        result_queue = mp.Queue()
+        worker_queues.append((task_queue, result_queue))
     
-    # Calculate how many workers per process
-    num_workers = len(workers)
-    num_processes = 10
+    # Create queues for validation worker
+    validation_task_queue = mp.Queue()
+    validation_result_queue = mp.Queue()
     
-    # Create worker groups
-    worker_groups = [workers[i:i + num_processes] 
-                    for i in range(0, num_workers, num_processes)]
-    print(f"Groups: {len(worker_groups)}")
+    # Spawn workers
+    processes = []
+    for i, (task_queue, result_queue) in enumerate(worker_queues):
+        p = mp.Process(target=worker_fn, 
+                      args=(i, task_queue, result_queue, workers[i], device, False))
+        p.start()
+        processes.append(p)
     
-    with mp.Pool(processes=num_processes) as pool:
+    # Spawn validation worker
+    validation_process = mp.Process(target=worker_fn,
+                                  args=(-1, validation_task_queue, validation_result_queue, 
+                                       validation_worker, device, True))
+    validation_process.start()
+    processes.append(validation_process)
+    
+    try:
         for epoch in range(num_epochs):
             logging.info(f"\nEpoch {epoch + 1}/{num_epochs}")
             
             for iter in range(iterations_per_epoch):
-                # Compute gradients in parallel
-                all_grads = []
-                for group in worker_groups:
-                    group_grads = pool.starmap(compute_worker_grads_mp,
-                                             [(worker, optimizer_type) for worker in group])
-                    all_grads.extend(group_grads)
+                # Each worker computes its gradient independently
+                all_grads = [None] * len(workers)
                 
-                if optimizer_type == 'signsgd' or optimizer_type == 'dpsignsgd':
+                # Send GRAD task to each worker
+                for task_queue, _ in worker_queues:
+                    task_queue.put('GRAD')
+                
+                # Collect gradients from each worker
+                for i, (_, result_queue) in enumerate(worker_queues):
+                    result = result_queue.get()
+                    if isinstance(result, tuple) and result[0] == 'ERROR':
+                        raise RuntimeError(f"Worker {i} failed: {result[1]}")
+                    all_grads[i] = result
+                
+                # Verify all gradients are collected
+                if any(grad is None for grad in all_grads):
+                    missing = [i for i, g in enumerate(all_grads) if g is None]
+                    logging.error(f"Missing gradients from workers: {missing}")
+                    raise RuntimeError("Failed to collect gradients from all workers")
+                
+                if isinstance(workers[0], (SignSGDWorker, DPSignSGDWorker)):
                     # Compute majority vote
                     majority_signs = majority_vote(all_grads)
-                    # Apply updates directly
-                    for worker in workers:
-                        apply_worker_update_mp(worker, majority_signs, optimizer_type)
-                elif optimizer_type == 'dpsgd':
+                    # Send UPDATE task to each worker
+                    for task_queue, _ in worker_queues:
+                        task_queue.put(('UPDATE', majority_signs))
+                    # Send UPDATE to validation worker
+                    validation_task_queue.put(('UPDATE', majority_signs))
+                else:  # DPSGDWorker or FedSGDWorker
                     # Compute average gradients
                     avg_gradients = []
                     for i in range(len(all_grads[0])):
                         stacked = torch.stack([grads[i] for grads in all_grads])
                         avg_gradients.append(stacked.mean(dim=0))
-                    # Apply updates directly
-                    for worker in workers:
-                        apply_worker_update_mp(worker, avg_gradients, optimizer_type)
-                else:  # fedsgd
-                    # Compute average gradients
-                    avg_gradients = []
-                    for i in range(len(all_grads[0])):
-                        stacked = torch.stack([grads[i] for grads in all_grads])
-                        avg_gradients.append(stacked.mean(dim=0))
-                    # Apply updates directly
-                    for worker in workers:
-                        apply_worker_update_mp(worker, avg_gradients, optimizer_type)
+                    # Send UPDATE task to each worker
+                    for task_queue, _ in worker_queues:
+                        task_queue.put(('UPDATE', avg_gradients))
+                    # Send UPDATE to validation worker
+                    validation_task_queue.put(('UPDATE', avg_gradients))
+                
+                # Wait for updates to complete
+                for _, result_queue in worker_queues:
+                    status = result_queue.get()
+                    if status == 'ERROR':
+                        raise Exception("Worker failed during update")
+                
+                # Wait for validation worker update
+                validation_result_queue.get()
                 
                 metrics['learning_rates'].append(workers[0].get_learning_rate())
             
-            # Update global model
-            global_model.load_state_dict(workers[0].model.state_dict())
+            # Perform testing using validation worker
+            validation_task_queue.put('TEST')
+            test_result = validation_result_queue.get()
+            if isinstance(test_result, tuple) and test_result[0] == 'TEST_RESULT':
+                _, test_loss, test_accuracy, learn_rate = test_result
+            else:
+                raise RuntimeError("Validation worker failed to return test results")
             
-            test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
             metrics['test_losses'].append(test_loss)
             metrics['test_accuracies'].append(test_accuracy)
             metrics['times'].append(time.time() - start_time)
             
             logging.info(f"Test Loss: {test_loss:.4f}")
             logging.info(f"Test Accuracy: {test_accuracy:.2f}%")
-            logging.info(f"Learning rate: {workers[0].get_learning_rate():.6f}")
+            logging.info(f"Learning rate: {learn_rate:.6f}")
+    
+    finally:
+        # Clean up
+        for task_queue, _ in worker_queues:
+            task_queue.put('STOP')
+        validation_task_queue.put('STOP')
+        for p in processes:
+            p.join()
     
     return metrics
 
@@ -305,7 +374,7 @@ def run_experiment(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # Set up multiprocessing
     # mp.set_start_method('spawn')
-    mp.set_start_method('fork', force=True)  # 'fork' avoids pickling issues (on Unix)
+    mp.set_start_method('spawn', force=True)  # 'fork' avoids pickling issues (on Unix)
     logging.info(f"Using device: {device}")
 
     # Load dataset based on config

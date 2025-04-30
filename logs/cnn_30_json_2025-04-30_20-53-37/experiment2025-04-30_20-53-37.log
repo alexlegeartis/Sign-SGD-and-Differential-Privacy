@@ -1,0 +1,38 @@
+2025-04-30 20:53:37,960 - Created experiment directory: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_20-53-37
+2025-04-30 20:53:37,960 - Logs will be saved to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_20-53-37/experiment2025-04-30_20-53-37.log
+2025-04-30 20:53:37,960 - Config file backed up to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_20-53-37/config_2025-04-30_20-53-37.json
+2025-04-30 20:53:38,097 - Using device: cuda
+2025-04-30 20:53:38,097 - Loading mnist dataset
+2025-04-30 20:53:38,977 - Number of gradients per iteration: 16
+2025-04-30 20:53:38,978 - 
+Running DPSignSGD (LR~1/t^0.0.08)...
+2025-04-30 20:53:39,378 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.4877551020408163
+2025-04-30 20:53:39,383 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.4877551020408163
+2025-04-30 20:53:39,387 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.4877551020408163
+2025-04-30 20:53:41,993 - 
+Epoch 1/20
+2025-04-30 20:53:56,735 - Test Loss: 3.9601
+2025-04-30 20:53:56,736 - Test Accuracy: 9.61%
+2025-04-30 20:53:56,736 - Learning rate: 0.000070
+2025-04-30 20:53:56,736 - 
+Epoch 2/20
+2025-04-30 20:54:03,932 - Test Loss: 3.8935
+2025-04-30 20:54:03,932 - Test Accuracy: 9.63%
+2025-04-30 20:54:03,932 - Learning rate: 0.000132
+2025-04-30 20:54:03,932 - 
+Epoch 3/20
+2025-04-30 20:54:11,270 - Test Loss: 3.8779
+2025-04-30 20:54:11,270 - Test Accuracy: 9.60%
+2025-04-30 20:54:11,270 - Learning rate: 0.000191
+2025-04-30 20:54:11,270 - 
+Epoch 4/20
+2025-04-30 20:54:18,582 - Test Loss: 3.9149
+2025-04-30 20:54:18,582 - Test Accuracy: 9.60%
+2025-04-30 20:54:18,582 - Learning rate: 0.000248
+2025-04-30 20:54:18,582 - 
+Epoch 5/20
+2025-04-30 20:54:25,893 - Test Loss: 3.8788
+2025-04-30 20:54:25,893 - Test Accuracy: 9.59%
+2025-04-30 20:54:25,893 - Learning rate: 0.000304
+2025-04-30 20:54:25,893 - 
+Epoch 6/20
