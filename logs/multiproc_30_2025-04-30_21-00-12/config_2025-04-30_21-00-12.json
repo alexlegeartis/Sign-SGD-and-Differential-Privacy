@@ -1,14 +1,14 @@
 {
-    "code_version": "3workers_30",
+    "code_version": "multiproc_30",
     "dataset": "mnist",
-    "num_workers": 3,
+    "num_workers": 10,
     "batch_size": 500,
     "iterations_per_epoch": 100,
     "alpha_min": 2,
     "alpha_max": 20,
     "sigma_min": 0.1,
     "sigma_max": 2,
-    "model_type": "cnn",
+    "model_type": "optimal",
     "algorithms": [
         {
             "type": "signsgd",
@@ -21,9 +21,9 @@
         {
             "type": "dpsignsgd",
             "enabled": true,
-            "num_epochs": 300,
+            "num_epochs": 20,
             "lr_scheduler": "lr_scheduler_2",
-            "poisson_qn": 100,
+            "poisson_qn": 30,
             "repeat_num": 1,
             "clipping_level": "clipping_level_4",
             "final_epsilon": 10.0,

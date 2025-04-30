@@ -1,0 +1,25 @@
+2025-04-30 20:54:55,920 - Created experiment directory: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/multiproc_30_2025-04-30_20-54-55
+2025-04-30 20:54:55,920 - Logs will be saved to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/multiproc_30_2025-04-30_20-54-55/experiment2025-04-30_20-54-55.log
+2025-04-30 20:54:55,920 - Config file backed up to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/multiproc_30_2025-04-30_20-54-55/config_2025-04-30_20-54-55.json
+2025-04-30 20:54:56,054 - Using device: cuda
+2025-04-30 20:54:56,054 - Loading mnist dataset
+2025-04-30 20:54:56,930 - Number of gradients per iteration: 16
+2025-04-30 20:54:56,931 - 
+Running DPSignSGD (LR~1/t^0.0.08)...
+2025-04-30 20:54:57,334 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,338 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,342 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,346 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,372 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,376 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,380 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,384 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,387 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,391 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,395 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,399 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,403 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,406 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,410 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.6040816326530613
+2025-04-30 20:54:57,758 - 
+Epoch 1/20

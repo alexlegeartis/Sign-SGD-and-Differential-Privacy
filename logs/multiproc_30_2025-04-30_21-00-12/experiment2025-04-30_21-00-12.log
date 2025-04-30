@@ -1,0 +1,60 @@
+2025-04-30 21:00:12,433 - Created experiment directory: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/multiproc_30_2025-04-30_21-00-12
+2025-04-30 21:00:12,433 - Logs will be saved to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/multiproc_30_2025-04-30_21-00-12/experiment2025-04-30_21-00-12.log
+2025-04-30 21:00:12,433 - Config file backed up to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/multiproc_30_2025-04-30_21-00-12/config_2025-04-30_21-00-12.json
+2025-04-30 21:00:12,569 - Using device: cuda
+2025-04-30 21:00:12,569 - Loading mnist dataset
+2025-04-30 21:00:13,449 - Number of gradients per iteration: 16
+2025-04-30 21:00:13,449 - 
+Running DPSignSGD (LR~1/t^0.0.08)...
+2025-04-30 21:00:13,837 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,842 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,846 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,849 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,874 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,879 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,882 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,886 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,890 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:13,894 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.7979591836734694
+2025-04-30 21:00:14,138 - 
+Epoch 1/20
+2025-04-30 21:00:49,347 - Test Loss: 3.2363
+2025-04-30 21:00:49,347 - Test Accuracy: 14.76%
+2025-04-30 21:00:49,347 - Learning rate: 0.000070
+2025-04-30 21:00:49,347 - 
+Epoch 2/20
+2025-04-30 21:01:12,586 - Test Loss: 3.2089
+2025-04-30 21:01:12,586 - Test Accuracy: 14.61%
+2025-04-30 21:01:12,586 - Learning rate: 0.000132
+2025-04-30 21:01:12,586 - 
+Epoch 3/20
+2025-04-30 21:01:35,628 - Test Loss: 3.2266
+2025-04-30 21:01:35,628 - Test Accuracy: 15.02%
+2025-04-30 21:01:35,629 - Learning rate: 0.000191
+2025-04-30 21:01:35,629 - 
+Epoch 4/20
+2025-04-30 21:01:58,977 - Test Loss: 3.2042
+2025-04-30 21:01:58,977 - Test Accuracy: 15.05%
+2025-04-30 21:01:58,977 - Learning rate: 0.000248
+2025-04-30 21:01:58,977 - 
+Epoch 5/20
+2025-04-30 21:02:22,389 - Test Loss: 3.1852
+2025-04-30 21:02:22,389 - Test Accuracy: 16.06%
+2025-04-30 21:02:22,389 - Learning rate: 0.000304
+2025-04-30 21:02:22,389 - 
+Epoch 6/20
+2025-04-30 21:02:45,597 - Test Loss: 3.1210
+2025-04-30 21:02:45,597 - Test Accuracy: 15.38%
+2025-04-30 21:02:45,597 - Learning rate: 0.000300
+2025-04-30 21:02:45,597 - 
+Epoch 7/20
+2025-04-30 21:03:08,836 - Test Loss: 3.0397
+2025-04-30 21:03:08,836 - Test Accuracy: 16.15%
+2025-04-30 21:03:08,836 - Learning rate: 0.000296
+2025-04-30 21:03:08,836 - 
+Epoch 8/20
+2025-04-30 21:03:32,245 - Test Loss: 3.0797
+2025-04-30 21:03:32,245 - Test Accuracy: 14.18%
+2025-04-30 21:03:32,245 - Learning rate: 0.000293
+2025-04-30 21:03:32,245 - 
+Epoch 9/20

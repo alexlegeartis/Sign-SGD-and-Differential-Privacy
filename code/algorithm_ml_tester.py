@@ -322,8 +322,6 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
                 # Wait for validation worker update
                 validation_result_queue.get()
                 
-                metrics['learning_rates'].append(workers[0].get_learning_rate())
-            
             # Perform testing using validation worker
             validation_task_queue.put('TEST')
             test_result = validation_result_queue.get()
