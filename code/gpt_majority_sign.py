@@ -16,6 +16,7 @@ from datetime import datetime
 import json
 import ast
 import shutil
+import sys
 
 from models import MLP, CNN, OptimalMNIST
 from privacy_methods import find_min_sigma
@@ -41,9 +42,13 @@ def setup_logging(code_version):
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
             logging.FileHandler(log_file),
-            logging.StreamHandler()
+            logging.StreamHandler(sys.stdout)  # Send logs to stdout like print()
         ]
     )
+    
+    logging.info(f"Created directories for version {code_version}")
+    logging.info(f"Figures will be saved to: {version_figs_path}")
+    logging.info(f"Logs will be saved to: {version_logs_path}")
     
     return version_figs_path, version_logs_path, timestamp
 
@@ -243,15 +248,14 @@ def load_config(config_path):
     return config
 
 def run_experiment(config):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    logging.info(f"Using device: {device}")
-
     # Setup logging and get paths
     figs_path, logs_path, timestamp = setup_logging(config['code_version'])
     
     # Backup config
     config_path = os.path.join(os.path.dirname(__file__), 'config.json')
     backup_config(config_path, logs_path, timestamp)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    logging.info(f"Using device: {device}")
 
     # Load dataset
     train_dataset = torchvision.datasets.MNIST(root='../data',
@@ -281,6 +285,10 @@ def run_experiment(config):
     
     grads_per_iter = sum(1 for _ in temp_model.parameters())
     logging.info(f"Number of gradients per iteration: {grads_per_iter}")
+    
+    # Delete temporary model
+    del temp_model
+    torch.cuda.empty_cache() if torch.cuda.is_available() else None
     
     # Run algorithms
     results = {}
