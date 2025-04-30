@@ -69,7 +69,7 @@ class SignSGDWorker(BaseWorker):
             if majority_signs is not None:
                 lr = self.get_learning_rate()
                 for param, sign in zip(self.model.parameters(), majority_signs):
-                    param.add_(-lr * sign)
+                    param.add_(-lr * sign.to(self.device))
                 self.iter_count += 1
 
 class DPSGDWorker(BaseWorker):
@@ -96,7 +96,7 @@ class DPSGDWorker(BaseWorker):
             if avg_grads is not None:
                 lr = self.get_learning_rate()
                 for param, grad in zip(self.model.parameters(), avg_grads):
-                    param.add_(-lr * grad)
+                    param.add_(-lr * grad.to(self.device))
                 self.iter_count += 1
 
 class DPSignSGDWorker(BaseWorker):
@@ -146,7 +146,7 @@ class DPSignSGDWorker(BaseWorker):
             if majority_signs is not None:
                 lr = self.get_learning_rate()
                 for param, sign in zip(self.model.parameters(), majority_signs):
-                    param.add_(-lr * sign)
+                    param.add_(-lr * sign.to(self.device))
                 self.iter_count += 1
 
 class FedSGDWorker(BaseWorker):

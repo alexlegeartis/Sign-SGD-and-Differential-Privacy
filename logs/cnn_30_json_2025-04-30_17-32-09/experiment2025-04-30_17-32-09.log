@@ -1,0 +1,11 @@
+2025-04-30 17:32:09,536 - Created experiment directory: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_17-32-09
+2025-04-30 17:32:09,536 - Logs will be saved to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_17-32-09/experiment2025-04-30_17-32-09.log
+2025-04-30 17:32:09,536 - Config file backed up to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_17-32-09/config_2025-04-30_17-32-09.json
+2025-04-30 17:32:09,654 - Using device: cuda
+2025-04-30 17:32:09,654 - Loading mnist dataset
+2025-04-30 17:32:10,537 - Number of gradients per iteration: 16
+2025-04-30 17:32:10,538 - 
+Running DPSignSGD (LR~1/t^0.0.08)...
+2025-04-30 17:32:10,965 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.4102040816326531
+2025-04-30 17:32:12,926 - 
+Epoch 1/20

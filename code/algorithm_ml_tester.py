@@ -9,17 +9,15 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import time
 import os
-import math
-import numpy as np
 from torch.utils.data import random_split, DataLoader
 import logging
 from datetime import datetime
 import json
-import ast
 import shutil
 import sys
+import torch.multiprocessing as mp
 
-from models import MLP, CNN, OptimalMNIST
+from models import create_model
 from privacy_methods import find_min_sigma
 from workers import SignSGDWorker, DPSGDWorker, DPSignSGDWorker, FedSGDWorker
 
@@ -27,6 +25,22 @@ from workers import SignSGDWorker, DPSGDWorker, DPSignSGDWorker, FedSGDWorker
 BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 FIGS_PATH = os.path.join(BASE_PATH, 'figs')
 LOG_PATH = os.path.join(BASE_PATH, 'logs')
+
+# Learning rate scheduler functions
+def lr_scheduler_1(t):
+    return 0.01 / (t + 1)**(1/3)
+
+def lr_scheduler_2(t):
+    return min(1, (t+1)/500) * 0.0005 / (t+1)**(0.08)
+
+def lr_scheduler_3(t):
+    return min(1, (t+1)/1000) * 0.0005
+
+def lr_scheduler_many_workers(t):
+    return 0.0005
+
+def clipping_level_4(t):
+    return 4
 
 def setup_logging(code_version):
     # Create base directories
@@ -164,9 +178,28 @@ def majority_vote(signs_list):
     result = []
     for i in range(num_params):
         stacked = torch.stack([worker_signs[i] for worker_signs in signs_list])
-        vote = torch.sign(stacked.sum(dim=0))
+        vote = torch.sign(stacked.sum(dim=0)).cpu()
         result.append(vote)
     return result
+
+def compute_worker_grads_mp(worker, grad_type):
+    if grad_type == 'signsgd' or grad_type == 'dpsignsgd':
+        signs = worker.compute_grad_signs()
+        return [sign.cpu() for sign in signs]  # Move to CPU before returning
+    elif grad_type == 'dpsgd':
+        grads = worker.compute_noise_grads()
+        return [grad.cpu() for grad in grads]  # Move to CPU before returning
+    else:  # fedsgd
+        grads = worker.compute_gradients()
+        return [grad.cpu() for grad in grads]  # Move to CPU before returning
+
+def apply_worker_update_mp(worker, update_data, update_type):
+    if update_type == 'signsgd' or update_type == 'dpsignsgd':
+        worker.apply_majority_update(update_data)
+    elif update_type == 'dpsgd':
+        worker.apply_majority_update(update_data)
+    else:  # fedsgd
+        worker.apply_fed_update(update_data)
 
 def run_training(optimizer_type, workers, test_loader, device, num_epochs, iterations_per_epoch):
     global_model = workers[0].model.to(device)
@@ -186,55 +219,66 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
     metrics['test_accuracies'].append(test_accuracy)
     metrics['times'].append(0.0)
     
-    for epoch in range(num_epochs):
-        logging.info(f"\nEpoch {epoch + 1}/{num_epochs}")
-        for iter in range(iterations_per_epoch):
-            if optimizer_type == 'signsgd' or optimizer_type == 'dpsignsgd':
-                all_signs = []
-                for worker in workers:
-                    signs = worker.compute_grad_signs()
-                    all_signs.append(signs)
-                majority_signs = majority_vote(all_signs)
-                for worker in workers:
-                    worker.apply_majority_update(majority_signs)
-            elif optimizer_type == 'dpsgd':
-                all_gradients = []
-                for worker in workers:
-                    gradients = worker.compute_noise_grads()
-                    all_gradients.append(gradients)
-                
-                avg_gradients = []
-                for i in range(len(all_gradients[0])):
-                    stacked = torch.stack([grads[i] for grads in all_gradients])
-                    avg_gradients.append(stacked.mean(dim=0))
-                
-                for worker in workers:
-                    worker.apply_majority_update(avg_gradients)
-            else:  # fedsgd
-                all_gradients = []
-                for worker in workers:
-                    gradients = worker.compute_gradients()
-                    all_gradients.append(gradients)
-                
-                avg_gradients = []
-                for i in range(len(all_gradients[0])):
-                    stacked = torch.stack([grads[i] for grads in all_gradients])
-                    avg_gradients.append(stacked.mean(dim=0))
-                
-                for worker in workers:
-                    worker.apply_fed_update(avg_gradients)
+    # Calculate how many workers per process
+    num_workers = len(workers)
+    num_processes = 10
+    
+    # Create worker groups
+    worker_groups = [workers[i:i + num_processes] 
+                    for i in range(0, num_workers, num_processes)]
+    print(f"Groups: {len(worker_groups)}")
+    
+    with mp.Pool(processes=num_processes) as pool:
+        for epoch in range(num_epochs):
+            logging.info(f"\nEpoch {epoch + 1}/{num_epochs}")
             
-            metrics['learning_rates'].append(workers[0].get_learning_rate())
-        
-        global_model.load_state_dict(workers[0].model.state_dict())
-        
-        test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
-        metrics['test_losses'].append(test_loss)
-        metrics['test_accuracies'].append(test_accuracy)
-        metrics['times'].append(time.time() - start_time)
-        logging.info(f"Test Loss: {test_loss:.4f}")
-        logging.info(f"Test Accuracy: {test_accuracy:.2f}%")
-        logging.info(f"Learning rate: {workers[0].get_learning_rate():.6f}")
+            for iter in range(iterations_per_epoch):
+                # Compute gradients in parallel
+                all_grads = []
+                for group in worker_groups:
+                    group_grads = pool.starmap(compute_worker_grads_mp,
+                                             [(worker, optimizer_type) for worker in group])
+                    all_grads.extend(group_grads)
+                
+                if optimizer_type == 'signsgd' or optimizer_type == 'dpsignsgd':
+                    # Compute majority vote
+                    majority_signs = majority_vote(all_grads)
+                    # Apply updates directly
+                    for worker in workers:
+                        apply_worker_update_mp(worker, majority_signs, optimizer_type)
+                elif optimizer_type == 'dpsgd':
+                    # Compute average gradients
+                    avg_gradients = []
+                    for i in range(len(all_grads[0])):
+                        stacked = torch.stack([grads[i] for grads in all_grads])
+                        avg_gradients.append(stacked.mean(dim=0))
+                    # Apply updates directly
+                    for worker in workers:
+                        apply_worker_update_mp(worker, avg_gradients, optimizer_type)
+                else:  # fedsgd
+                    # Compute average gradients
+                    avg_gradients = []
+                    for i in range(len(all_grads[0])):
+                        stacked = torch.stack([grads[i] for grads in all_grads])
+                        avg_gradients.append(stacked.mean(dim=0))
+                    # Apply updates directly
+                    for worker in workers:
+                        apply_worker_update_mp(worker, avg_gradients, optimizer_type)
+                
+                metrics['learning_rates'].append(workers[0].get_learning_rate())
+            
+            # Update global model
+            global_model.load_state_dict(workers[0].model.state_dict())
+            
+            test_loss, test_accuracy = evaluate_model(global_model, test_loader, device)
+            metrics['test_losses'].append(test_loss)
+            metrics['test_accuracies'].append(test_accuracy)
+            metrics['times'].append(time.time() - start_time)
+            
+            logging.info(f"Test Loss: {test_loss:.4f}")
+            logging.info(f"Test Accuracy: {test_accuracy:.2f}%")
+            logging.info(f"Learning rate: {workers[0].get_learning_rate():.6f}")
+    
     return metrics
 
 # Load configuration from file
@@ -256,21 +300,38 @@ def run_experiment(config):
     figs_path, experiment_path, timestamp = setup_logging(config['code_version'])
     
     # Backup config
-    config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+    config_path = os.path.join(os.path.dirname(__file__), 'config_cnn.json')
     backup_config(config_path, experiment_path, timestamp)
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # Set up multiprocessing
+    # mp.set_start_method('spawn')
+    mp.set_start_method('fork', force=True)  # 'fork' avoids pickling issues (on Unix)
     logging.info(f"Using device: {device}")
 
-    # Load dataset
-    train_dataset = torchvision.datasets.MNIST(root='../data',
-                                             train=True,
-                                             transform=transforms.ToTensor(),
-                                             download=True)
+    # Load dataset based on config
+    dataset_name = config.get('dataset', 'mnist')
+    logging.info(f"Loading {dataset_name} dataset")
     
-    test_dataset = torchvision.datasets.MNIST(root='../data',
-                                            train=False,
-                                            transform=transforms.ToTensor())
+    if dataset_name == 'mnist':
+        train_dataset = torchvision.datasets.MNIST(root='../data',
+                                                 train=True,
+                                                 transform=transforms.ToTensor(),
+                                                 download=True)
+        test_dataset = torchvision.datasets.MNIST(root='../data',
+                                                train=False,
+                                                transform=transforms.ToTensor())
+    else:  # cifar10
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        ])
+        train_dataset = torchvision.datasets.CIFAR10(root='../data',
+                                                   train=True,
+                                                   transform=transform,
+                                                   download=True)
+        test_dataset = torchvision.datasets.CIFAR10(root='../data',
+                                                  train=False,
+                                                  transform=transform)
     
     # Create workers
     worker_datasets = create_workers_data(train_dataset, config['num_workers'])
@@ -279,15 +340,7 @@ def run_experiment(config):
     test_loader = DataLoader(test_dataset, batch_size=config['batch_size'], shuffle=False)
     
     # Calculate grads_per_iter by creating a temporary model
-    if config['model_type'] == 'mlp':
-        temp_model = MLP().to(device)
-    elif config['model_type'] == 'cnn':
-        temp_model = CNN().to(device)
-    elif config['model_type'] == 'optimal':
-        temp_model = OptimalMNIST().to(device)
-    else:
-        raise ValueError(f"Unknown model type: {config['model_type']}")
-    
+    temp_model = create_model(config['model_type'], device, dataset_name)
     grads_per_iter = sum(1 for _ in temp_model.parameters())
     logging.info(f"Number of gradients per iteration: {grads_per_iter}")
     

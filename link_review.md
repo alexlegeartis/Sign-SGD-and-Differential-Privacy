@@ -3,6 +3,7 @@
 - 2 articles central to our research
 - noteworthy links from those 2 articles
 - links to other articles we consider citing in our future article
+- an updated version is available in the article
 
 | Topic | Title | Year | Authors | Paper | Code | Summary |
 | :--- | :--- | ---: | :--- | :--- | :--- | :--- |

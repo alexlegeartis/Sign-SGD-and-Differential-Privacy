@@ -1,0 +1,58 @@
+2025-04-30 18:59:17,827 - Created experiment directory: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_18-59-17
+2025-04-30 18:59:17,827 - Logs will be saved to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_18-59-17/experiment2025-04-30_18-59-17.log
+2025-04-30 18:59:17,827 - Config file backed up to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_30_json_2025-04-30_18-59-17/config_2025-04-30_18-59-17.json
+2025-04-30 18:59:17,944 - Using device: cuda
+2025-04-30 18:59:17,944 - Loading mnist dataset
+2025-04-30 18:59:18,821 - Number of gradients per iteration: 16
+2025-04-30 18:59:18,822 - 
+Running DPSignSGD (LR~1/t^0.0.08)...
+2025-04-30 18:59:19,222 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.4877551020408163
+2025-04-30 18:59:19,227 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.4877551020408163
+2025-04-30 18:59:19,230 - Sigma for DPSignSGD (LR~1/t^0.0.08): 0.4877551020408163
+2025-04-30 18:59:21,255 - 
+Epoch 1/20
+2025-04-30 18:59:39,606 - Test Loss: 3.3301
+2025-04-30 18:59:39,606 - Test Accuracy: 7.64%
+2025-04-30 18:59:39,606 - Learning rate: 0.000070
+2025-04-30 18:59:39,606 - 
+Epoch 2/20
+2025-04-30 18:59:53,951 - Test Loss: 3.2763
+2025-04-30 18:59:53,951 - Test Accuracy: 8.49%
+2025-04-30 18:59:53,951 - Learning rate: 0.000132
+2025-04-30 18:59:53,951 - 
+Epoch 3/20
+2025-04-30 19:00:08,365 - Test Loss: 3.2244
+2025-04-30 19:00:08,365 - Test Accuracy: 8.15%
+2025-04-30 19:00:08,365 - Learning rate: 0.000191
+2025-04-30 19:00:08,365 - 
+Epoch 4/20
+2025-04-30 19:00:22,699 - Test Loss: 3.0885
+2025-04-30 19:00:22,699 - Test Accuracy: 8.59%
+2025-04-30 19:00:22,699 - Learning rate: 0.000248
+2025-04-30 19:00:22,699 - 
+Epoch 5/20
+2025-04-30 19:00:37,081 - Test Loss: 3.0359
+2025-04-30 19:00:37,082 - Test Accuracy: 9.26%
+2025-04-30 19:00:37,082 - Learning rate: 0.000304
+2025-04-30 19:00:37,082 - 
+Epoch 6/20
+2025-04-30 19:00:51,463 - Test Loss: 2.9376
+2025-04-30 19:00:51,463 - Test Accuracy: 9.59%
+2025-04-30 19:00:51,463 - Learning rate: 0.000300
+2025-04-30 19:00:51,463 - 
+Epoch 7/20
+2025-04-30 19:01:06,085 - Test Loss: 2.8592
+2025-04-30 19:01:06,085 - Test Accuracy: 15.31%
+2025-04-30 19:01:06,085 - Learning rate: 0.000296
+2025-04-30 19:01:06,085 - 
+Epoch 8/20
+2025-04-30 19:01:20,586 - Test Loss: 2.7878
+2025-04-30 19:01:20,586 - Test Accuracy: 13.01%
+2025-04-30 19:01:20,586 - Learning rate: 0.000293
+2025-04-30 19:01:20,586 - 
+Epoch 9/20
+2025-04-30 19:01:35,029 - Test Loss: 2.6941
+2025-04-30 19:01:35,029 - Test Accuracy: 15.14%
+2025-04-30 19:01:35,029 - Learning rate: 0.000290
+2025-04-30 19:01:35,029 - 
+Epoch 10/20

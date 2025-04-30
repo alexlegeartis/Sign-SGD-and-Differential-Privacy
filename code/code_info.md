@@ -1,2 +1,3 @@
-See renyi_dp_sign.ipynb for a clean implementation of dpSignSGD on mushrooms.
-See gpt_majority_sign.py for an implementation of dpSignSGD for MLP on MNIST (beta-version). privacy_methods is a helper module for gpt_majority_sign.py.
+See renyi_dp_sign.ipynb for a clean implementation of DP-SignSGD on mushrooms.
+
+For an application to MNIST dataset, you need algorithm_ml_tester.py. It imports models.py, workers.py, and privacy_methods.py.
