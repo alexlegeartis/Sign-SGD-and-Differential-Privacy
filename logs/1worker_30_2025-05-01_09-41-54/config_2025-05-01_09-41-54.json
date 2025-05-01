@@ -20,27 +20,15 @@
         },
         {
             "type": "dpsignsgd",
-            "enabled": false,
-            "num_epochs": 20,
-            "lr_scheduler": "lr_scheduler_1",
-            "poisson_qn": 200,
-            "repeat_num": 2,
-            "clipping_level": "clipping_level_4",
-            "final_epsilon": 10.0,
-            "final_power_in_delta": 1.1,
-            "label": "DPSignSGD 1 repeat"
-        },
-        {
-            "type": "dpsignsgd",
             "enabled": true,
             "num_epochs": 20,
             "lr_scheduler": "lr_scheduler_1",
             "poisson_qn": 40,
-            "repeat_num": 16,
+            "repeat_num": 5,
             "clipping_level": "clipping_level_4",
             "final_epsilon": 10.0,
             "final_power_in_delta": 1.1,
-            "label": "DPSignSGD 15 repeats"
+            "label": "DPSignSGD 4 repeats"
         },
         {
             "type": "dpsignsgd",

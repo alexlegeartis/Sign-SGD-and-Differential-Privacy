@@ -20,39 +20,15 @@
         },
         {
             "type": "dpsignsgd",
-            "enabled": false,
-            "num_epochs": 20,
-            "lr_scheduler": "lr_scheduler_1",
-            "poisson_qn": 200,
-            "repeat_num": 2,
-            "clipping_level": "clipping_level_4",
-            "final_epsilon": 10.0,
-            "final_power_in_delta": 1.1,
-            "label": "DPSignSGD 1 repeat"
-        },
-        {
-            "type": "dpsignsgd",
             "enabled": true,
-            "num_epochs": 20,
-            "lr_scheduler": "lr_scheduler_1",
-            "poisson_qn": 40,
-            "repeat_num": 16,
-            "clipping_level": "clipping_level_4",
-            "final_epsilon": 10.0,
-            "final_power_in_delta": 1.1,
-            "label": "DPSignSGD 15 repeats"
-        },
-        {
-            "type": "dpsignsgd",
-            "enabled": true,
-            "num_epochs": 20,
+            "num_epochs": 30,
             "lr_scheduler": "lr_scheduler_1",
             "poisson_qn": 400,
             "repeat_num": 1,
             "clipping_level": "clipping_level_4",
             "final_epsilon": 10.0,
             "final_power_in_delta": 1.1,
-            "label": "DPSignSGD No repeats"
+            "label": "DPSignSGD 1"
         },
         {
             "type": "dpsignsgd",

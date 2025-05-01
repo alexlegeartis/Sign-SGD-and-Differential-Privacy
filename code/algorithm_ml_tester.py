@@ -28,10 +28,10 @@ LOG_PATH = os.path.join(BASE_PATH, 'logs')
 
 # Learning rate scheduler functions
 def lr_scheduler_1(t):
-    return 0.01 / (t + 1)**(1/3)
+    return min(1, (t+1)/200) * 0.01 / (t + 1)**(1/3)
 
 def lr_scheduler_2(t):
-    return min(1, (t+1)/500) * 0.0005 / (t+1)**(0.08)
+    return min(1, (t+1)/300) * 0.0005 / (t+1)**(0.08)
 
 def lr_scheduler_3(t):
     return min(1, (t+1)/1000) * 0.0005
@@ -333,6 +333,7 @@ def run_training(optimizer_type, workers, test_loader, device, num_epochs, itera
             metrics['test_losses'].append(test_loss)
             metrics['test_accuracies'].append(test_accuracy)
             metrics['times'].append(time.time() - start_time)
+            metrics['learning_rates'].append(learn_rate)
             
             logging.info(f"Test Loss: {test_loss:.4f}")
             logging.info(f"Test Accuracy: {test_accuracy:.2f}%")

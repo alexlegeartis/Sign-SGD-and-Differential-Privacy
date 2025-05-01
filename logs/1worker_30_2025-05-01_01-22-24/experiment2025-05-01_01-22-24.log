@@ -1,0 +1,65 @@
+2025-05-01 01:22:24,535 - Created experiment directory: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/1worker_30_2025-05-01_01-22-24
+2025-05-01 01:22:24,535 - Logs will be saved to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/1worker_30_2025-05-01_01-22-24/experiment2025-05-01_01-22-24.log
+2025-05-01 01:22:24,536 - Config file backed up to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/1worker_30_2025-05-01_01-22-24/config_2025-05-01_01-22-24.json
+2025-05-01 01:22:24,649 - Using device: cuda
+2025-05-01 01:22:24,649 - Loading mnist dataset
+2025-05-01 01:22:25,524 - Number of gradients per iteration: 8
+2025-05-01 01:22:25,524 - 
+Running DPSignSGD 1...
+2025-05-01 01:22:25,919 - Sigma for DPSignSGD 1: 0.8
+2025-05-01 01:22:26,971 - 
+Epoch 1/10
+2025-05-01 01:22:36,283 - Test Loss: 2.5525
+2025-05-01 01:22:36,284 - Test Accuracy: 7.56%
+2025-05-01 01:22:36,284 - Learning rate: 0.001074
+2025-05-01 01:22:36,284 - 
+Epoch 2/10
+2025-05-01 01:22:41,232 - Test Loss: 2.3919
+2025-05-01 01:22:41,232 - Test Accuracy: 12.28%
+2025-05-01 01:22:41,232 - Learning rate: 0.000854
+2025-05-01 01:22:41,232 - 
+Epoch 3/10
+2025-05-01 01:22:46,228 - Test Loss: 2.3816
+2025-05-01 01:22:46,228 - Test Accuracy: 13.04%
+2025-05-01 01:22:46,228 - Learning rate: 0.000746
+2025-05-01 01:22:46,228 - 
+Epoch 4/10
+2025-05-01 01:22:51,276 - Test Loss: 2.2571
+2025-05-01 01:22:51,276 - Test Accuracy: 21.11%
+2025-05-01 01:22:51,276 - Learning rate: 0.000678
+2025-05-01 01:22:51,276 - 
+Epoch 5/10
+2025-05-01 01:22:56,242 - Test Loss: 2.1889
+2025-05-01 01:22:56,242 - Test Accuracy: 24.17%
+2025-05-01 01:22:56,242 - Learning rate: 0.000630
+2025-05-01 01:22:56,242 - 
+Epoch 6/10
+2025-05-01 01:23:01,285 - Test Loss: 2.1397
+2025-05-01 01:23:01,285 - Test Accuracy: 24.38%
+2025-05-01 01:23:01,285 - Learning rate: 0.000592
+2025-05-01 01:23:01,285 - 
+Epoch 7/10
+2025-05-01 01:23:06,295 - Test Loss: 2.0904
+2025-05-01 01:23:06,295 - Test Accuracy: 27.72%
+2025-05-01 01:23:06,295 - Learning rate: 0.000563
+2025-05-01 01:23:06,295 - 
+Epoch 8/10
+2025-05-01 01:23:11,305 - Test Loss: 2.0810
+2025-05-01 01:23:11,305 - Test Accuracy: 26.47%
+2025-05-01 01:23:11,305 - Learning rate: 0.000538
+2025-05-01 01:23:11,305 - 
+Epoch 9/10
+2025-05-01 01:23:16,413 - Test Loss: 2.0427
+2025-05-01 01:23:16,414 - Test Accuracy: 25.08%
+2025-05-01 01:23:16,414 - Learning rate: 0.000518
+2025-05-01 01:23:16,414 - 
+Epoch 10/10
+2025-05-01 01:23:21,441 - Test Loss: 1.9893
+2025-05-01 01:23:21,441 - Test Accuracy: 28.53%
+2025-05-01 01:23:21,441 - Learning rate: 0.000500
+2025-05-01 01:23:22,493 - Plots saved in '/home/legeartis/Sign-SGD-and-Differential-Privacy/figs' directory
+2025-05-01 01:23:22,493 - 
+Final Results:
+2025-05-01 01:23:22,493 - DPSignSGD 1:
+2025-05-01 01:23:22,493 -   Final Test Accuracy: 28.53%
+2025-05-01 01:23:22,493 - Log file saved in '/home/legeartis/Sign-SGD-and-Differential-Privacy/logs/1worker_30_2025-05-01_01-22-24'
