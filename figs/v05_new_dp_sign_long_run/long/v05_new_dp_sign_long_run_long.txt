@@ -1,0 +1,1 @@
+Convex binary logistic regression. mu=0.001. 10 workers.                      Sending time is 0 ms per bit.
