@@ -12,6 +12,7 @@
 \usepackage{algorithm}
 \usepackage{subcaption} % for subfigures
 \usepackage[style=numeric-comp,sorting=none,maxnames=1,giveninits=true,doi=false,url=false,eprint=false]{biblatex} % for nice cites
+\usepackage{cleveref}
 \usepackage{etoolbox}
 
 \defbibheading{bibliography}{
@@ -153,7 +154,7 @@ To preserve privacy, earlier defined $\eps_R$ and $\sigma$ must satisfy:
 \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}
 \end{equation}
 
-To find the lowest $\sigma$, we perform grid search, like \ref{fig:grid_sigma}.
+To find the lowest $\sigma$, we perform grid search, like \cref{fig:grid_sigma}.
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.39\textwidth}
@@ -172,7 +173,7 @@ To find the lowest $\sigma$, we perform grid search, like \ref{fig:grid_sigma}.
     \caption{Experimental results}
 \end{figure}
 
-Thus, we derive a new dp-sign compressor \ref{dp-sign-precise}, which defines truly private DP-SignSGD. We test it on a regularized logistic regression problem for binary classification \ref{fig:logreg}.
+Thus, we derive a new DP-SIGN compressor (\cref{dp-sign-precise}), which defines truly private DP-SignSGD. We test it on a regularized logistic regression problem for binary classification \cref{fig:logreg}.
 
 
 \newcommand{\gradg}{\boldsymbol{g}}

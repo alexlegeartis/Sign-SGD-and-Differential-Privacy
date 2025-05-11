@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  11 MAY 2025 15:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  11 MAY 2025 15:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -761,6 +761,9 @@ Package: xparse 2024-08-16 L3 Experimental document command parser
 )
 Package: blx-case-expl3 2024/03/21 v3.20 expl3 case changing code for biblatex
 ))
+(C:\Users\Alex\AppData\Local\Programs\MiKTeX\tex/latex/cleveref\cleveref.sty
+Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+)
 
 Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (biblatex)                Loading 'csquotes' recommended.
@@ -770,23 +773,23 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (abstract.aux)
 \openout1 = `abstract.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Info: Redefining \th on input line 135.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 136.
+LaTeX Font Info:    ... okay on input line 136.
+LaTeX Info: Redefining \th on input line 136.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -870,23 +873,23 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'abstract.bbl' found.
  (abstract.bbl)
-Package biblatex Info: Reference section=0 on input line 135.
-Package biblatex Info: Reference segment=0 on input line 135.
+Package biblatex Info: Reference section=0 on input line 136.
+Package biblatex Info: Reference segment=0 on input line 136.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <15> not available
-(Font)              size <14.4> substituted on input line 139.
+(Font)              size <14.4> substituted on input line 140.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <15> not available
-(Font)              size <14.4> substituted on input line 139.
+(Font)              size <14.4> substituted on input line 140.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 140
+LaTeX Font Info:    Trying to load font information for U+msa on input line 141
 .
 (C:\Users\Alex\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 140
+LaTeX Font Info:    Trying to load font information for U+msb on input line 141
 .
 
 (C:\Users\Alex\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
@@ -895,12 +898,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 148.
+(amsmath)                 on input line 149.
 
 <../figs/grid_sigma_to_pres.pdf, id=1, 722.7pt x 433.62pt>
 File: ../figs/grid_sigma_to_pres.pdf Graphic file (type pdf)
 <use ../figs/grid_sigma_to_pres.pdf>
-Package pdftex.def Info: ../figs/grid_sigma_to_pres.pdf  used on input line 161
+Package pdftex.def Info: ../figs/grid_sigma_to_pres.pdf  used on input line 162
 .
 (pdftex.def)             Requested size: 177.54492pt x 106.52563pt.
 <../figs/v28_constant_step/short/v28_constant_step_short.pdf, id=2, 1017.41353p
@@ -909,7 +912,7 @@ File: ../figs/v28_constant_step/short/v28_constant_step_short.pdf Graphic file
 (type pdf)
 <use ../figs/v28_constant_step/short/v28_constant_step_short.pdf>
 Package pdftex.def Info: ../figs/v28_constant_step/short/v28_constant_step_shor
-t.pdf  used on input line 168.
+t.pdf  used on input line 169.
 (pdftex.def)             Requested size: 273.14923pt x 108.78471pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -936,10 +939,10 @@ Package logreq Info: Writing requests to 'abstract.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 15370 strings out of 473522
- 281861 string characters out of 5715094
- 1136102 words of memory out of 5000000
- 38418 multiletter control sequences out of 15000+600000
+ 16985 strings out of 473522
+ 319571 string characters out of 5715094
+ 1160402 words of memory out of 5000000
+ 40029 multiletter control sequences out of 15000+600000
  572263 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  67i,9n,81p,1284b,2028s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -964,7 +967,7 @@ s/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Alex/AppData/Local/Programs/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Alex/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Alex/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on abstract.pdf (2 pages, 348282 bytes).
+Output written on abstract.pdf (2 pages, 348324 bytes).
 PDF statistics:
  205 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
