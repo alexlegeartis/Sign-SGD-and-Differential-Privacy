@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  11 MAY 2025 18:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  11 MAY 2025 20:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -900,9 +900,6 @@ Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 151.
 
-! I can't write on file `abstract.pdf'.
-(Press Enter to retry, or Control-C to exit; default file extension is `.pdf')
-Please type another file name for output: abstract
 <../figs/grid_sigma_to_pres.pdf, id=1, 722.7pt x 433.62pt>
 File: ../figs/grid_sigma_to_pres.pdf Graphic file (type pdf)
 <use ../figs/grid_sigma_to_pres.pdf>
@@ -970,7 +967,7 @@ s/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Alex/AppData/Local/Programs/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Alex/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Alex/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on abstract.pdf (2 pages, 353146 bytes).
+Output written on abstract.pdf (2 pages, 353673 bytes).
 PDF statistics:
  212 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
