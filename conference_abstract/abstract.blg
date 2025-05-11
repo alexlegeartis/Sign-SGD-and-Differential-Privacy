@@ -1,0 +1,15 @@
+[0] Config.pm:308> INFO - This is Biber 2.20
+[0] Config.pm:311> INFO - Logfile is 'abstract.blg'
+[196] biber-MSWIN64:340> INFO - === 
+[286] Biber.pm:420> INFO - Reading 'abstract.bcf'
+[474] Biber.pm:994> INFO - Found 5 citekeys in bib section 0
+[495] Biber.pm:4463> INFO - Processing section 0
+[513] Biber.pm:4654> INFO - Looking for bibtex file '../article/draft_lib.bib' for section 0
+[651] bibtex.pm:1713> INFO - LaTeX decoding ...
+[712] bibtex.pm:1519> INFO - Found BibTeX data source '../article/draft_lib.bib'
+[801] UCollate.pm:68> INFO - Overriding locale 'ru-RU' defaults 'variable = shifted' with 'variable = non-ignorable'
+[802] UCollate.pm:68> INFO - Overriding locale 'ru-RU' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[802] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'ru-RU'
+[802] Biber.pm:4289> INFO - No sort tailoring available for locale 'ru-RU'
+[814] bbl.pm:676> INFO - Writing 'abstract.bbl' with encoding 'UTF-8'
+[820] bbl.pm:779> INFO - Output to abstract.bbl
