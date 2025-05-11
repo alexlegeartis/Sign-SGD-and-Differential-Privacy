@@ -66,7 +66,8 @@
 \renewcommand\Authfont{\small} % размер шрифта для авторов
 \renewcommand\Affilfont{\small} % размер шрифта для аффилиаций
 \renewcommand\Authsep{, } % разделитель между авторами
-\renewcommand\Authand{, } % разделитель между последним и предпоследним автором
+\renewcommand\Authands{, } % разделитель между последним и предпоследним автором
+\renewcommand\Authand{, } % для совместимости
 
 % Reduce title spacing
 \makeatletter
@@ -127,7 +128,7 @@
 \author[]{A.N.~Beznosikov}
 \affil[]{Moscow Institute of Physics and Technology}
 \date{} % убираем дату
-
+\renewcommand{\and}{\\} % for authors
 \newcommand{\eps}{\varepsilon}
 \newcommand{\renyi}{R\'enyi}
 
@@ -136,25 +137,27 @@
 \begin{document}
 
 \selectlanguage{english}
-\noindent\foreignlanguage{russian}{УДК ?}\vspace{-2em}
+\noindent\foreignlanguage{russian}{УДК 519.676, 519.688}\vspace{-0.5em}
 \maketitle
-Large models requiring more and more data for training, federating learning has become indispensable like never before. To use potentially sensitive user data for training the model, one has to guarantee its privacy. The gold standard for data privacy is $(\eps, \delta)$-differential privacy \cite{Dwork2014} of \emph{mechanism}, which guarantees that that probabilities $p_1$ and $p_2$ of any response of the mechanism on datasets $D_1$ and $D_2$ respectively that differ only in one entry satisfy the relations $\frac{p_1}{p_2} \leq e^{\eps} + \delta$ and $\frac{p_2}{p_1} \leq e^{\eps} + \delta$. In the case of federated learning, the mechanism is all the outputs from the user's side, i.e. all the gradient data that they send to the server. For neural networks, recommended $\eps = 1$, $\delta = 10^{-5}$. 
+With large models requiring more and more data for training, federated learning has become more indispensable than ever. To use potentially sensitive user data for training the model, one has to guarantee its privacy. The gold standard for data privacy is \emph{$(\eps, \delta)$-differential privacy} \cite{Dwork2014} of mechanism, which guarantees that probabilities $p_1$ and $p_2$ of any response of the mechanism on datasets $D_1$ and $D_2$ respectively that differ only in one entry satisfy the relations $\frac{p_1}{p_2} \leq e^{\eps} + \delta$ and $\frac{p_2}{p_1} \leq e^{\eps} + \delta$. In federated learning, the mechanism returns all the outputs from the user, i.e. all the gradient data that they send to the server. For neural networks, standard parameters are $\eps = 1$, $\delta = 10^{-5}$. 
 
-Another constraint of federated learning is a high communication cost. To reduce it, one may send not the whole gradient, but only signs of each coordinate, thus reducing the cost in $32/2 = 16$ times. The standard algorithm that utilizes this technique is Sign-SGD \cite{Bernstein2018}. This algorithm with \emph{majority voting} (amidst workers that participate in the learning process) is not only communication-efficient, but also has proved to be resistant to heavy-tailed noise and converge with high probability \cite{Kornilov2025}.
+Another constraint of federated learning is the high communication cost. To reduce it, one can send not the whole gradient, but only the sign of each coordinate, thereby reducing the cost by a factor of $32/2 = 16$. The standard algorithm that utilizes this technique is SignSGD \cite{Bernstein2018}. This algorithm, which employs \emph{majority voting} among the workers, not only is communication-efficient but has also been shown to be robust to heavy-tailed noise and to converge with high probability \cite{Kornilov2025}.
 
-Initially, we planned to provide theoretical guarantees of convergence, as in \cite{Kornilov2025}, for DPSignSGD, a differentially private modification of SignSGD \cite{Jin2020}. However, on closer inspection, it turned out that that the algorithm is not truly differentially private. The authors have shown $(\eps, \delta)$-privacy of a single use of DPSignSGD, which means only $(T\eps, T\delta)$-privacy for the whole procedure ($T$ iterations). Moreover, they did not prove the convergence of DPSignSGD.
+Initially, we aimed to provide theoretical guarantees of convergence for DP-SignSGD, a differentially private modification of SignSGD \cite{Jin2020}, following the approach in \cite{Kornilov2025}. However, upon closer examination, we found that the algorithm is not truly differentially private. The authors have shown $(\eps, \delta)$-privacy of a single iteration of DP-SignSGD, which means only $(T\eps, T\delta)$-privacy over $T$ iterations. Furthermore, they did not establish any convergence guarantees for DP-SignSGD.
 
-Thus, we had to construct our own DPSignSGD. We use the same Gaussian noise mechanism, adding $\mathcal{N}(0,\sigma^2\mathbb{I}^d)$ noise, to ensure differential privacy. However, to make the most out of composition of mechanisms (the single mechanism being a sign of the gradient sent) and to enhance privacy, we add Bernoulli subsampling mechanism (one samples each of the elements with probability $q$) with proved $(\alpha, \eps_R)$-\renyi\ differential privacy \cite{mironov2019SGM}, which is easily converted to $(\eps, \delta)$-privacy. We use the tighest proved bound for $\eps_R$, which can be computed only numerically:
+Consequently, we had to construct our own DP-SignSGD. Like in \cite{Jin2020}, we use \emph{Gaussian mechanism}, that ensures differential privacy by adding $\mathcal{N}(0,\sigma^2\mathbb{I}^d)$ noise. However, to make the most out of composition of mechanisms (a single mechanism returning a noised sign of the gradient) and to enhance privacy, we incorporate \emph{Bernoulli subsampling}. In this scheme, at each iteration of the alogirthm, each entry of the dataset is sampled with probability $q$ and the gradients are computed only for the subsampled data. The resulting mechanism satisfies $(\alpha, \eps_R)$-\renyi\ differential privacy \cite{mironov2019SGM}, which is readily converted to $(\eps, \delta)$-privacy. We use the tighest bound for $\eps_R$ from \cite{mironov2019SGM}, which has only numerical form:
+
 \begin{equation}\label{eq:renyi_eps_guarantee}
 \eps_R = \frac{1}{\alpha - 1} \log\left(\sum_{k=0}^{\alpha} {\alpha \choose k}  (1-q)^{\alpha-k}q^{k} \exp\left(\frac{k^2 - k}{2\sigma^2}\right)\right)
 \end{equation}
 
-To preserve privacy, earlier defined $\eps_R$ and $\sigma$ must satisfy:
+To ensure privacy, the previously defined $\eps_R(q, \alpha, \sigma)$ must satisfy the following condition:
 \begin{equation}\label{eq:renyi_eps_requirement}
 \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}
 \end{equation}
 
-To find the lowest $\sigma$, we perform grid search, like \cref{fig:grid_sigma}.
+With $q$ being fixed, we use a grid search to find the minimal $\sigma$, as shown in \cref{fig:grid_sigma}.
+
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.39\textwidth}
@@ -167,13 +170,13 @@ To find the lowest $\sigma$, we perform grid search, like \cref{fig:grid_sigma}.
     \begin{subfigure}[b]{0.6\textwidth}
         \centering
         \includegraphics[width=\textwidth]{v28_constant_step/short/v28_constant_step_short.pdf}
-        \caption{Logistic regression on UCI Mushroom Dataset with SGD, SignSGD, {\scriptsize DP-SIGN}SGD and different type of noises}
+        \caption{Logistic regression on UCI Mushroom Dataset with SGD, SignSGD, {\scriptsize DP-SIGN}SGD and different types of noise}
         \label{fig:logreg}
     \end{subfigure}
     \caption{Experimental results}
 \end{figure}
 
-Thus, we derive a new DP-SIGN compressor (\cref{dp-sign-precise}), which defines truly private DP-SignSGD. We test it on a regularized logistic regression problem for binary classification \cref{fig:logreg}.
+Thus, we propose a new DP-SIGN compressor (see \cref{dp-sign-precise}) that defines a truly private variant of DP-SignSGD. We test it on a regularized logistic regression problem for binary classification. The results are presented in \cref{fig:logreg}.
 
 
 \newcommand{\gradg}{\boldsymbol{g}}
@@ -192,11 +195,11 @@ Thus, we derive a new DP-SIGN compressor (\cref{dp-sign-precise}), which defines
     \end{algorithmic}
 \end{algorithm}
 
-Also we test it on MLP and CNN for hand-written digit classification from MNIST dataset. On a single worker, we reach 70\% accuracy when we run the algorithm for 30 000 iterations, and 40\% in 2 000 iterations. The main obstacle to reaching high accuracy is a Gaussian noise, inherent in private algorithms. Even with a skillful privacy accounting, it causes a tradeoff: precision vs max iteration number that still preserves privacy.
+We also test the algorithm on an MLP and CNN for handwritten digit classification using the MNIST dataset. On a single worker, we achieve 70\% accuracy after 30,000 iterations with large $\sigma$, and 40\% accuracy after 2,000 iterations with small $\sigma$. The main obstacle to higher accuracy is the Gaussian noise inherent in private algorithms. Even with careful privacy accounting, this introduces a tradeoff between precision of an iteration and the maximum number of iterations that still preserve privacy.
 
-That being said, DP-SignSGD promises to be far more private than we calculate. Indeed, the sign mechanism returns not all values in range [-1, 1], but only 1 and -1, which naturally should add more privacy guarantees. Moreover, even the gradients might be private to some extent in respect to the user dataset. Estimating the impact of these features of the mechanism might produce far more feasible algorithms.
+That being said, DP-SignSGD is likely more private than our calculations suggest. The sign mechanism, for instance, does not return all values in the range $[-1,1]$, but only 1 and -1, which inherently provides additional privacy guarantees. Furthermore, even the gradients may be partially private with respect to the user dataset. Estimating the impact of these aspects of the mechanism could lead to more feasible algorithms.
 
-Interestingly, DP-SignSGD can be easily adapted to any new tighter privacy guarante: lowering $\sigma$ or raising $T$ directly improves training results. At present, the pressing need concerning DP-SignSGD with $\sigma$ noise and sampling probability $q$ is to establish theoretical guarantees of its convergence. To the best of our knowledge, none of the existing works contain theoretical analysis of application of subsampling mechanism to optimization algorithms.
+Interestingly, DP-SignSGD can be easily adapted to any new, tighter privacy guarantee: lowering $\sigma$ or increasing $T$ directly improves training results. At present, the primary challenge concerning DP-SignSGD with $\sigma$-noise and sampling probability $q$ is establishing theoretical guarantees of its convergence. To the best of our knowledge, none of the existing works provide a theoretical analysis of the application of the subsampling mechanism to optimization algorithms.
 
 \vspace{-2em}
 \printbibliography[heading=bibliography]

@@ -2378,9 +2378,11 @@
     <bcf:citekey order="1" intorder="1">Dwork2014</bcf:citekey>
     <bcf:citekey order="2" intorder="1">Bernstein2018</bcf:citekey>
     <bcf:citekey order="3" intorder="1">Kornilov2025</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">Kornilov2025</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">Jin2020</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">mironov2019SGM</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">Jin2020</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">Kornilov2025</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">Jin2020</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">mironov2019SGM</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">mironov2019SGM</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
