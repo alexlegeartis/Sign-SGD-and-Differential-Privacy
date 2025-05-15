@@ -137,7 +137,7 @@ The natural simplification of the clipping is normalization of the gradient, whi
 
 As to guarantee the privacy is our priority, we opted to base our algorithm on \algname{SignSGD}. The convergence with high probability of \algname{SignSGD} for the heavy-tailed noise has been recently proved \parencite{Kornilov2025}, which makes \algname{SignSGD} a perfect candidate for federated learning. Simultaneously, \algname{SignSGD} has already been used as a base to create an allegedly differentially private algorithm \parencite{Jin2020} (the authors proved differential privacy of only one step of the algorithm). However, in both cases, no proofs for the convergence of the algorithm in the modern federated learning setting were provided.
 
-In this paper, based on the concept of Rényi differential privacy, we develop the idea from \cite{Jin2020} to derive truly differentially-private modification of \algname{SignSGD}, which we naturally call {\scriptsize DP-SIGN}SGD. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise. Finally, we test the algorithm on the training of LLMs.
+In this paper, based on the concept of Rényi differential privacy, we develop the idea from \cite{Jin2020} to derive truly differentially-private modification of \algname{SignSGD}, which we naturally call {\scriptsize DP-SIGN}SGD. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise. Finally, we test the algorithm on the training of MLP and CNN.
 
 \section{Problem statement.}
 First, we need to state that we work with stochastic optimization.

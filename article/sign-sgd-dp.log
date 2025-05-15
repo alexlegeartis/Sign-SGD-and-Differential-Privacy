@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  15 MAY 2025 19:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.2) (preloaded format=pdflatex 2025.3.4)  15 MAY 2025 19:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1156,17 +1156,8 @@ L3 programming layer <2025-01-18>
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `sign-sgd-dp.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `sign-sgd-dp.out':
-(rerunfilecheck)             Before: 78260BFA0C08CFB0521060F0BF45F911;1919
-(rerunfilecheck)             After:  A6BC0D2BA3B363C59E6373FD919AFF59;1911.
+Package rerunfilecheck Info: File `sign-sgd-dp.out' has not changed.
+(rerunfilecheck)             Checksum: A6BC0D2BA3B363C59E6373FD919AFF59;1911.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                sign-sgd-dp
@@ -1179,7 +1170,7 @@ Package logreq Info: Writing requests to 'sign-sgd-dp.run.xml'.
 Here is how much of TeX's memory you used:
  26690 strings out of 473522
  477418 string characters out of 5715094
- 1326416 words of memory out of 5000000
+ 1326415 words of memory out of 5000000
  49174 multiletter control sequences out of 15000+600000
  679325 words of font info for 262 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1207,7 +1198,7 @@ cal/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/Alex/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Alex/AppData/Local/
 Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb><C:/Users/Alex/AppData/Local/P
 rograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on sign-sgd-dp.pdf (14 pages, 853346 bytes).
+Output written on sign-sgd-dp.pdf (14 pages, 853366 bytes).
 PDF statistics:
  557 PDF objects out of 1000 (max. 8388607)
  96 named destinations out of 1000 (max. 500000)
