@@ -1,0 +1,67 @@
+2025-05-17 12:39:26,084 - Created experiment directory: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_speedrun_3_workers_2025-05-17_12-39-26
+2025-05-17 12:39:26,085 - Logs will be saved to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_speedrun_3_workers_2025-05-17_12-39-26/experiment2025-05-17_12-39-26.log
+2025-05-17 12:39:26,085 - Config file backed up to: /home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_speedrun_3_workers_2025-05-17_12-39-26/config_2025-05-17_12-39-26.json
+2025-05-17 12:39:26,221 - Using device: cuda
+2025-05-17 12:39:26,222 - Loading mnist dataset
+2025-05-17 12:39:26,436 - Number of gradients per iteration: 8
+2025-05-17 12:39:26,437 - 
+Running DPSignSGD Short...
+2025-05-17 12:39:26,909 - Sigma for DPSignSGD Short: 0.6
+2025-05-17 12:39:26,915 - Sigma for DPSignSGD Short: 0.6
+2025-05-17 12:39:26,920 - Sigma for DPSignSGD Short: 0.6
+2025-05-17 12:39:27,039 - 
+Epoch 1/10
+2025-05-17 12:39:40,359 - Test Loss: 2.3923
+2025-05-17 12:39:40,360 - Test Accuracy: 9.61%
+2025-05-17 12:39:40,360 - Learning rate: 0.000542
+2025-05-17 12:39:40,360 - 
+Epoch 2/10
+2025-05-17 12:39:50,553 - Test Loss: 2.3259
+2025-05-17 12:39:50,553 - Test Accuracy: 11.02%
+2025-05-17 12:39:50,553 - Learning rate: 0.000854
+2025-05-17 12:39:50,553 - 
+Epoch 3/10
+2025-05-17 12:40:00,474 - Test Loss: 2.3579
+2025-05-17 12:40:00,474 - Test Accuracy: 13.75%
+2025-05-17 12:40:00,474 - Learning rate: 0.000746
+2025-05-17 12:40:00,474 - 
+Epoch 4/10
+2025-05-17 12:40:10,596 - Test Loss: 2.3027
+2025-05-17 12:40:10,596 - Test Accuracy: 14.94%
+2025-05-17 12:40:10,596 - Learning rate: 0.000678
+2025-05-17 12:40:10,597 - 
+Epoch 5/10
+2025-05-17 12:40:20,533 - Test Loss: 2.3059
+2025-05-17 12:40:20,534 - Test Accuracy: 15.26%
+2025-05-17 12:40:20,534 - Learning rate: 0.000630
+2025-05-17 12:40:20,534 - 
+Epoch 6/10
+2025-05-17 12:40:30,600 - Test Loss: 2.3111
+2025-05-17 12:40:30,600 - Test Accuracy: 12.64%
+2025-05-17 12:40:30,601 - Learning rate: 0.000592
+2025-05-17 12:40:30,601 - 
+Epoch 7/10
+2025-05-17 12:40:40,747 - Test Loss: 2.3071
+2025-05-17 12:40:40,747 - Test Accuracy: 13.03%
+2025-05-17 12:40:40,747 - Learning rate: 0.000563
+2025-05-17 12:40:40,747 - 
+Epoch 8/10
+2025-05-17 12:40:50,674 - Test Loss: 2.3084
+2025-05-17 12:40:50,675 - Test Accuracy: 13.91%
+2025-05-17 12:40:50,675 - Learning rate: 0.000538
+2025-05-17 12:40:50,675 - 
+Epoch 9/10
+2025-05-17 12:41:00,866 - Test Loss: 2.3116
+2025-05-17 12:41:00,866 - Test Accuracy: 15.01%
+2025-05-17 12:41:00,866 - Learning rate: 0.000518
+2025-05-17 12:41:00,866 - 
+Epoch 10/10
+2025-05-17 12:41:10,943 - Test Loss: 2.3043
+2025-05-17 12:41:10,944 - Test Accuracy: 15.10%
+2025-05-17 12:41:10,944 - Learning rate: 0.000500
+2025-05-17 12:41:12,198 - Plots saved in '/home/legeartis/Sign-SGD-and-Differential-Privacy/figs' directory
+2025-05-17 12:41:12,198 - 
+Final Results:
+2025-05-17 12:41:12,198 - DPSignSGD Short:
+2025-05-17 12:41:12,198 -   Final Test Accuracy: 15.10%
+2025-05-17 12:41:12,198 - Log file saved in '/home/legeartis/Sign-SGD-and-Differential-Privacy/logs/cnn_speedrun_3_workers_2025-05-17_12-39-26'

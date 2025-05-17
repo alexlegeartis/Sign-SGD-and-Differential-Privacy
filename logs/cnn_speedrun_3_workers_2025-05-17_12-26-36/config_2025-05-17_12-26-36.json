@@ -12,7 +12,7 @@
     "algorithms": [
         {
             "type": "signsgd",
-            "enabled": false,
+            "enabled": true,
             "num_epochs": 30,
             "lr_scheduler": "lr_scheduler_1",
             "poisson_qn": 30,
@@ -33,9 +33,9 @@
         {
             "type": "dpsignsgd",
             "enabled": true,
-            "num_epochs": 10,
+            "num_epochs": 20,
             "lr_scheduler": "lr_scheduler_1",
-            "poisson_qn": 50,
+            "poisson_qn": 400,
             "repeat_num": 1,
             "clipping_level": "clipping_level_4",
             "final_epsilon": 10.0,

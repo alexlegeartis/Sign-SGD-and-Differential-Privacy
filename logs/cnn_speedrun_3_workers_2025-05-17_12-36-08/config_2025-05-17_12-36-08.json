@@ -35,7 +35,7 @@
             "enabled": true,
             "num_epochs": 10,
             "lr_scheduler": "lr_scheduler_1",
-            "poisson_qn": 50,
+            "poisson_qn": 200,
             "repeat_num": 1,
             "clipping_level": "clipping_level_4",
             "final_epsilon": 10.0,

@@ -1,7 +1,7 @@
 {
-    "code_version": "cnn_speedrun_3_workers",
+    "code_version": "1worker_30",
     "dataset": "mnist",
-    "num_workers": 3,
+    "num_workers": 1,
     "batch_size": 500,
     "iterations_per_epoch": 100,
     "alpha_min": 2,
@@ -33,26 +33,38 @@
         {
             "type": "dpsignsgd",
             "enabled": true,
-            "num_epochs": 10,
+            "num_epochs": 20,
             "lr_scheduler": "lr_scheduler_1",
+            "poisson_qn": 40,
+            "repeat_num": 16,
+            "clipping_level": "clipping_level_4",
+            "final_epsilon": 10.0,
+            "final_power_in_delta": 1.1,
+            "label": "DPSignSGD 15 repeats"
+        },
+        {
+            "type": "dpsignsgd",
+            "enabled": true,
+            "num_epochs": 20,
+            "lr_scheduler": "lr_scheduler_1",
+            "poisson_qn": 400,
+            "repeat_num": 1,
+            "clipping_level": "clipping_level_4",
+            "final_epsilon": 10.0,
+            "final_power_in_delta": 1.1,
+            "label": "DPSignSGD No repeats"
+        },
+        {
+            "type": "dpsignsgd",
+            "enabled": false,
+            "num_epochs": 500,
+            "lr_scheduler": "lr_scheduler_2",
             "poisson_qn": 50,
             "repeat_num": 1,
             "clipping_level": "clipping_level_4",
             "final_epsilon": 10.0,
             "final_power_in_delta": 1.1,
-            "label": "DPSignSGD Short"
-        },
-        {
-            "type": "dpsignsgd",
-            "enabled": false,
-            "num_epochs": 200,
-            "lr_scheduler": "lr_scheduler_2",
-            "poisson_qn": 20,
-            "repeat_num": 1,
-            "clipping_level": "clipping_level_4",
-            "final_epsilon": 10.0,
-            "final_power_in_delta": 1.1,
-            "label": "DPSignSGD Long"
+            "label": "DPSignSGD 2"
         },
 
         {

@@ -106,7 +106,7 @@ def plot_results(results, config, figs_path):
         plt.title(f'Federated Learning: {metric.replace("_", " ").title()} vs Epochs')
         plt.legend()
         plt.grid(True)
-        plt.savefig(os.path.join(figs_path, f'{metric}_vs_epochs_comparison.png'))
+        plt.savefig(os.path.join(figs_path, f'{metric}_vs_epochs_comparison.pdf'))
         plt.close()
     
     for metric in time_metrics:
@@ -125,7 +125,7 @@ def plot_results(results, config, figs_path):
         plt.title(f'Federated Learning: {metric.replace("_", " ").title()} vs Time')
         plt.legend()
         plt.grid(True)
-        plt.savefig(os.path.join(figs_path, f'{metric}_vs_time_comparison.png'))
+        plt.savefig(os.path.join(figs_path, f'{metric}_vs_time_comparison.pdf'))
         plt.close()
     
     # Learning Rate Schedule
@@ -140,7 +140,7 @@ def plot_results(results, config, figs_path):
     plt.title('Learning Rate Schedule')
     plt.legend()
     plt.grid(True)
-    plt.savefig(os.path.join(figs_path, 'learning_rate_schedule.png'))
+    plt.savefig(os.path.join(figs_path, 'learning_rate_schedule.pdf'))
     plt.close()
     
     logging.info(f"Plots saved in '{figs_path}' directory")
