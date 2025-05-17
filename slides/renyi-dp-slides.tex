@@ -58,7 +58,7 @@ A communication-efficient and private algorithm for distributed optimization con
 The only proposed private sign-based algorithm DP-SignSGD either is not private or does not converge.
 \end{block}
 \begin{block}{Solution}
-A new privacy accountant for DP-SignSGD that affords lower noise to ensure convergence.
+\renyi\ differential privacy and Bernoulli subsampling afford lower noise to ensure convergence.
 \end{block}
 \end{frame}
 %-----------------------------------------------------------------------------------------------------
@@ -171,17 +171,21 @@ $$ \eps_R \leq \eps/T - \frac{\log 1/\delta}{T(\alpha - 1)}$$.
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Our version of DP-SIGN compressor}
 \newcommand{\gradg}{\boldsymbol{g}}
-    %\caption{DP-SIGN compressor}
-    %\label{dp-sign-precise}
+
+%    \caption{DP-SIGN compressor}
+%    \label{dp-sign-precise}
     \begin{algorithmic}
-        \STATE \textbf{Input}: coordinate $w$, loss function $l$, user database $D$, $(\eps, \delta)$-privacy requirement, number of iterations $T$, sampling rate $q$, clipping level $C$.
+        \STATE \textbf{Input}: coordinate $w$, loss function $l$, user database $D$, $(\eps, \delta)$-privacy requirement, number of iterations $T$, sampling rate $q$.
         \STATE Prepare subsample $S$: add each element $(x, y) \in D$ with probability $q$.
-        \STATE Compute the gradient $\gradg$ of the subsample: $\frac{1}{|S|}\sum_{(x,y)\in S}l(w;(x,y))$. If $S$ is empty, let $\gradg = 0$.
-        \STATE If $||\gradg||_2 > C$: $\gradg = C\frac{\gradg}{||\gradg||_2}$.
-        \STATE Grid search $\sigma(q, T, \eps, \delta)$ that satisfies 2 expressions for $\eps_R$ stated earlier.
-        \STATE $\gradg_{priv}$ = $\gradg + \mathcal{N}(0,(C\sigma)^2\mathbb{I}^d)$
-        \STATE \textbf{Output}: $sign(\gradg_{priv})$
+        \STATE Compute the gradient $\gradg$ of the subsample for $\frac{1}{|S|}\sum_{(x,y)\in S}l(w;(x,y))$. If $S$ is empty, let $\gradg = 0$.
+        % \STATE If $||\gradg||_2 > C$: $\gradg = C\frac{\gradg}{||\gradg||_2}$.
+        \STATE Grid search $\sigma(q, T, \eps, \delta)$ to satisfy 2 expressions for $\eps_R$ stated earlier.
+        \STATE $sign_{noised} = sign(\gradg) + \mathcal{N}(0,(2\sqrt{d}\sigma)^2\mathbb{I}^d)$
+        % \STATE $\gradg_{priv}$ = $\gradg + \mathcal{N}(0,(C\sigma)^2\mathbb{I}^d)$
+        \STATE \textbf{Output}: $sign(sign_{noised})$
     \end{algorithmic}
+%\end{algorithm}
+
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{UCI Mushroom Dataset}
@@ -232,6 +236,7 @@ DP-SignSGD converges very slowly, but it depends on a dataset. Lower $q$ leads t
 DP-SignSGD converges better, when the learning rate is dynamic. $T^{-1/5}$ instead of $T^{-1/2}$ factor is required, because $\sigma$ depends on $T$.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
+\iffalse
 \begin{frame}{Our DP-SGD and DP-SignSGD are not feasible yet}
     \begin{figure}
         \centering
@@ -239,13 +244,41 @@ DP-SignSGD converges better, when the learning rate is dynamic. $T^{-1/5}$ inste
     \end{figure}
     The current approach to construct DP-SGD might be not optimal: currently, our DP-SGD fails to converge on MLP problem.
 \end{frame}
+\fi
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{Torch experiments}
+
+Effective simulation of federated learning via torch.multiprocessing (10x speedup: up to 10 workers in parallel).  
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+
+\begin{frame}{Kith and kin of DP-SignSGD}
+    \begin{itemize}
+        \item Add Top-k compressor
+        \item $\sigma$s depend on the importance of the coordinate
+        \item Several local steps \& send $sign(\Delta W)$
+    
+    \end{itemize}
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{Summer plans}
+  \begin{itemize}
+    \item Prove convergence of DP-SignSGD
+    \item Test CNN on CIFAR-10 (code is almost ready)
+    \item Test other modifications of the algoirthm
+    \item Try different compressor operators to tighten privacy accounting
+
+  \end{itemize}
+\end{frame}
+
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{DP-SignSGD with Bernoulli sampling $q = 1/n$}
     \begin{itemize}
-        \item $(10, 1/n^{1.1})$ differentially-private
+        \item $(\eps, 1/n^{1.1})$ differentially-private
+        \item communication-effective
         \item empirically converges on logistic regression problem even with heavy-tailed noise
+        \item trains MLP and CNN on MNIST to 70\% accuracy
         \item empirically converges with the same type of convergence like DP-SGD with Bernoulli subsampling
-        \item benefits from slowly decreasing learning rate
     \end{itemize}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------

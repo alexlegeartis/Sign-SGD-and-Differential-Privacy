@@ -139,7 +139,7 @@ As to guarantee the privacy is our priority, we opted to base our algorithm on \
 
 In this paper, based on the concept of Rényi differential privacy, we develop the idea from \cite{Jin2020} to derive truly differentially-private modification of \algname{SignSGD}, which we naturally call {\scriptsize DP-SIGN}SGD. We show that our algorithm converges with high probability, even in the presence of heavy-tailed noise. Finally, we test the algorithm on the training of MLP and CNN.
 
-\section{Problem statement.}
+\section{Problem statement}
 First, we need to state that we work with stochastic optimization.
 \paragraph{Stochastic optimization problem.} The stochastic optimization problem for a smooth non-convex function $f:\R^d \to \R$ is:
 \begin{eqnarray}
@@ -179,7 +179,7 @@ Now, let us introduce the requirements for the algorithm to solve the federated 
 %\paragraph{Heavy-tailed noise.}
 % Noise has bounded $\kappa$-th moment for some $\kappa \in (1,2]$, i.e. $\EE_\xi[\| \nabla f (x, \xi) - \nabla f(x)\|_2^\kappa] \leq \sigma^\kappa$. In % particular, the noise can have unbounded variance when $\kappa < 2$.
 
-\paragraph{Differential privacy.}
+\paragraph{Differential privacy}
 Additionally, the algorithm must be private. This is guaranteed by $(\epsilon,\delta)$-local differential privacy \cite{Dwork2014}:
 \begin{definition}
     Given a set of local datasets $\mathcal{D}$ provided with a notion of neighboring local datasets $\mathcal{N}_{\mathcal{D}}\subset \mathcal{D}\times \mathcal{D}$ that differ in only one data point. For a query function $f: \mathcal{D}\rightarrow \mathcal{X}$, a mechanism $\mathcal{M}:\mathcal{X}\rightarrow \mathcal{O}$ to release the answer of the query is defined to be $(\epsilon,\delta)$-locally differentially private if for any measurable subset $\mathcal{S}\subseteq\mathcal{O}$ and two neighboring local datasets $(D_1,D_2)\in \mathcal{N}_{\mathcal{D}}$,
