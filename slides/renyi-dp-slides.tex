@@ -246,9 +246,20 @@ DP-SignSGD converges better, when the learning rate is dynamic. $T^{-1/5}$ inste
 \end{frame}
 \fi
 %----------------------------------------------------------------------------------------------------------
-\begin{frame}{Torch experiments}
+\begin{frame}{Torch experiments: MLP on MNIST}
+\includegraphics[width=1.0\textwidth]{dpsign_vs_dp_untuned.png}
 
-Effective simulation of federated learning via torch.multiprocessing (10x speedup: up to 10 workers in parallel).  
+Tradeoff: number of iterations vs precision of a single iteration.
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+\begin{frame}{Torch experiments: CNN on MNIST}
+\includegraphics[width=1.0\textwidth]{test_accuracies_vs_epochs_comparison.pdf}
+
+Effective simulation of federated learning via torch.multiprocessing (10x speedup: up to 10 workers in parallel).
+
+Experiment setting: 3 workers, q = 0.25\%,
+
+lr = $min(1, \frac{t+1}{200}) \frac{0.01}{(t + 1)^{1/3}}$
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 
@@ -256,6 +267,7 @@ Effective simulation of federated learning via torch.multiprocessing (10x speedu
     \begin{itemize}
         \item Add Top-k compressor
         \item $\sigma$s depend on the importance of the coordinate
+        \item Repeat $n$ times and then send the average
         \item Several local steps \& send $sign(\Delta W)$
     
     \end{itemize}
@@ -265,7 +277,8 @@ Effective simulation of federated learning via torch.multiprocessing (10x speedu
   \begin{itemize}
     \item Prove convergence of DP-SignSGD
     \item Test CNN on CIFAR-10 (code is almost ready)
-    \item Test other modifications of the algoirthm
+    \item Research $\sigma(q, T)$ function: better understand noise
+    \item Try DPSignSGD based on other DPSGD
     \item Try different compressor operators to tighten privacy accounting
 
   \end{itemize}
@@ -279,6 +292,7 @@ Effective simulation of federated learning via torch.multiprocessing (10x speedu
         \item empirically converges on logistic regression problem even with heavy-tailed noise
         \item trains MLP and CNN on MNIST to 70\% accuracy
         \item empirically converges with the same type of convergence like DP-SGD with Bernoulli subsampling
+        \item does no require clipping
     \end{itemize}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
