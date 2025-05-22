@@ -67,7 +67,7 @@ The only proposed private sign-based algorithm DP-SignSGD either is not private 
 \includegraphics[width=1.0\textwidth]{v28_constant_step/short/v28_constant_step_short.pdf} 
 
 \bigskip
-DP-SignSGD with our DP-SIGN compressor is {\color{red} $(\eps, \delta)$-private and converges under heavy-tailed noise}. It behaves very much like DP-SGD with the same privacy mechanism.
+DP-SignSGD with our DP-SIGN compressor is {\color{red} $(\eps, \delta)$-private and converges under heavy-tailed noise}. Its observed convergence is similar to that of DP-SGD with the same privacy mechanism.
 \end{frame}
 
 %-----------------------------------------------------------------------------------------------------
@@ -251,6 +251,7 @@ DP-SignSGD converges better, when the learning rate is dynamic. $T^{-1/5}$ inste
 
 Tradeoff: number of iterations vs precision of a single iteration.
 \end{frame}
+\iffalse
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{Torch experiments: CNN on MNIST}
 \includegraphics[width=1.0\textwidth]{test_accuracies_vs_epochs_comparison.pdf}
@@ -283,7 +284,7 @@ lr = $min(1, \frac{t+1}{200}) \frac{0.01}{(t + 1)^{1/3}}$
 
   \end{itemize}
 \end{frame}
-
+\fi
 %----------------------------------------------------------------------------------------------------------
 \begin{frame}{DP-SignSGD with Bernoulli sampling $q = 1/n$}
     \begin{itemize}
